@@ -25,6 +25,7 @@ $base_url = admin_url( 'admin.php?page=chp-items' );
 		<table class="widefat striped chp-table">
 			<thead>
 				<tr>
+					<th>#</th>
 					<th><?php esc_html_e( 'Name', 'clubhouse-planner' ); ?></th>
 					<th><?php esc_html_e( 'Units', 'clubhouse-planner' ); ?></th>
 					<th><?php esc_html_e( 'Booking', 'clubhouse-planner' ); ?></th>
@@ -35,6 +36,7 @@ $base_url = admin_url( 'admin.php?page=chp-items' );
 			<tbody>
 				<?php foreach ( $items as $row ) : ?>
 					<tr>
+						<td><?php echo (int) $row->id; ?></td>
 						<td><a href="<?php echo esc_url( add_query_arg( 'item', (int) $row->id, $base_url ) ); ?>"><strong><?php echo esc_html( $row->name ); ?></strong></a></td>
 						<td>
 							<?php echo (int) $row->quantity; ?>
@@ -197,5 +199,17 @@ $base_url = admin_url( 'admin.php?page=chp-items' );
 			</table>
 			<?php submit_button( $item_id ? __( 'Save item', 'clubhouse-planner' ) : __( 'Add item', 'clubhouse-planner' ) ); ?>
 		</form>
+			<?php if ( $item_id ) : ?>
+				<h2><?php esc_html_e( 'Shortcodes for this item', 'clubhouse-planner' ); ?></h2>
+				<p><?php esc_html_e( 'Paste these into a page. The number is the item number shown in the item list.', 'clubhouse-planner' ); ?></p>
+				<p>
+					<?php esc_html_e( 'Booking form', 'clubhouse-planner' ); ?><br>
+					<input type="text" class="large-text code" readonly onfocus="this.select()" value="<?php echo esc_attr( '[clubhouse_booking_form item="' . $item_id . '"]' ); ?>">
+				</p>
+				<p>
+					<?php esc_html_e( 'Calendar', 'clubhouse-planner' ); ?><br>
+					<input type="text" class="large-text code" readonly onfocus="this.select()" value="<?php echo esc_attr( '[clubhouse_calendar item="' . $item_id . '"]' ); ?>">
+				</p>
+			<?php endif; ?>
 	<?php endif; ?>
 </div>

@@ -69,15 +69,26 @@ class CHP_Public {
 	}
 
 	/**
-	 * The item a shortcode shows: the one given by item="ID" if it exists and is active, otherwise the default item.
+	 * The item a shortcode shows: the one given by item="ID", or the default item when no item is given.
+	 * Null when an item is given but does not exist or is not active, so a wrong number never shows another item's form.
 	 */
 	private function shortcode_item( mixed $atts, string $tag ): ?object {
 		$atts = shortcode_atts( array( 'item' => 0 ), is_array( $atts ) ? $atts : array(), $tag );
-		$item = absint( $atts['item'] ) ? CHP_Items::get( absint( $atts['item'] ) ) : null;
-		if ( ! $item || ! (int) $item->active ) {
-			$item = CHP_Items::get( CHP_Items::default_id() );
+		$id   = absint( $atts['item'] );
+		if ( ! $id ) {
+			return CHP_Items::get( CHP_Items::default_id() );
 		}
-		return $item;
+		$item = CHP_Items::get( $id );
+		return $item && (int) $item->active ? $item : null;
+	}
+
+	/** Shown to administrators only when a shortcode names an item that does not exist or is inactive. */
+	private function missing_item_notice(): string {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return '';
+		}
+		wp_enqueue_style( 'chp-public' );
+		return '<p class="chp-notice chp-notice--error">' . esc_html__( 'ClubHouse Planner: the item in this shortcode does not exist or is not active. Check the item number under Club House → Items. Only administrators see this message.', 'clubhouse-planner' ) . '</p>';
 	}
 
 	public function render_calendar( mixed $atts = array() ): string {
@@ -85,6 +96,9 @@ class CHP_Public {
 		wp_enqueue_script( 'chp-calendar' );
 
 		$item = $this->shortcode_item( $atts, 'clubhouse_calendar' );
+		if ( ! $item ) {
+			return $this->missing_item_notice();
+		}
 
 		ob_start();
 		include CHP_DIR . 'templates/calendar.php';
@@ -95,7 +109,10 @@ class CHP_Public {
 		wp_enqueue_style( 'chp-public' );
 		wp_enqueue_script( 'chp-booking-form' );
 
-		$item   = $this->shortcode_item( $atts, 'clubhouse_booking_form' );
+		$item = $this->shortcode_item( $atts, 'clubhouse_booking_form' );
+		if ( ! $item ) {
+			return $this->missing_item_notice();
+		}
 		$result = isset( $_GET['chp_result'] ) ? sanitize_key( wp_unslash( $_GET['chp_result'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		ob_start();
