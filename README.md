@@ -1,8 +1,8 @@
 # ClubHousePlanner
-Booking and planning system for a ClubHouse, built as a WordPress plugin.
+Booking and planning system for a Club House, built as a WordPress plugin. Plugin is primary written for Swedish language and payment resources as Swish.
 
 ## Requirements
-- WordPress 6.5 or newer
+- WordPress 7.1 or newer
 - PHP 8.3 or newer
 
 ## Installation
