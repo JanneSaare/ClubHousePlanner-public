@@ -87,3 +87,12 @@
 .chp-row--street > .chp-grow { flex: 1 1 12em; }
 .chp-row--street > p:not(.chp-grow) { flex: 0 0 6.5em; }
 .chp-row--street.chp-row--other > .chp-grow:first-child { flex-basis: 100%; }
+
+/* Compact spacing inside the booking form (themes often add a lot of white space). */
+.chp-form p { margin: 0 0 .55em; }
+.chp-form label, .chp-form .chp-label { margin-bottom: .1em; line-height: 1.3; }
+.chp-form input:not([type="checkbox"]):not([type="radio"]), .chp-form select, .chp-form textarea { padding: .4em .6em; line-height: 1.3; margin: 0; }
+.chp-form .chp-fieldset { padding: .4em .9em .2em; margin-bottom: .8em; }
+.chp-form .chp-slot { margin-top: .1em; margin-bottom: .1em; }
+.chp-form .chp-error { margin-top: .15em; }
+.chp-form .chp-rules { margin-bottom: .6em; }
