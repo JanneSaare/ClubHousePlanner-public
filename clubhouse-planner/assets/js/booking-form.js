@@ -12,6 +12,9 @@
 		wrap.hidden = !other;
 		input.required = other;
 		if (!other) input.value = '';
+		// With "Other street" the street list gets its own line (see the stylesheet).
+		var row = wrap.closest('.chp-row');
+		if (row) row.classList.toggle('chp-row--other', other);
 	}
 
 	if (select && wrap && input) {
