@@ -34,20 +34,20 @@
 		});
 	}
 
-	// Pre-fill the booking form (if present on the page) when a future day is clicked.
-	function selectDay(date) {
-		var input = document.getElementById('chp_date');
-		if (!input) {
+	// Pre-fill the booking form of the same item (if present on the page) when a future day is clicked.
+	function selectDay(date, item) {
+		var form = item ? document.querySelector('.chp-form[data-item="' + item + '"]') : null;
+		var scope = form || document;
+		var input = scope.querySelector('[name="chp_date"]');
+		if (input) {
+			input.value = ymd(date);
+		} else {
 			// Free-time form: set the date and keep a time that was already chosen.
-			input = document.getElementById('chp_start');
+			input = scope.querySelector('[name="chp_start"]');
 			if (!input) return;
 			input.value = ymd(date) + 'T' + (input.value.slice(11, 16) || '10:00');
-			input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-			input.focus();
 			input.dispatchEvent(new Event('change', { bubbles: true }));
-			return;
 		}
-		input.value = ymd(date);
 		input.scrollIntoView({ behavior: 'smooth', block: 'center' });
 		input.focus();
 	}
@@ -157,12 +157,12 @@
 						cell.setAttribute('role', 'button');
 						(function (date) {
 							cell.addEventListener('click', function () {
-								selectDay(date);
+								selectDay(date, root.dataset.item);
 							});
 							cell.addEventListener('keydown', function (e) {
 								if (e.key === 'Enter' || e.key === ' ') {
 									e.preventDefault();
-									selectDay(date);
+									selectDay(date, root.dataset.item);
 								}
 							});
 						})(dayStart);

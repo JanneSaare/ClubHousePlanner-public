@@ -82,6 +82,7 @@ $base_url = admin_url( 'admin.php?page=chp-items' );
 							<option value="free" <?php selected( $item->booking_mode, 'free' ); ?>><?php esc_html_e( 'The customer chooses start and end', 'clubhouse-planner' ); ?></option>
 						</select>
 						<p class="description"><?php esc_html_e( 'The price, weekend and length settings below are used when the customer chooses start and end.', 'clubhouse-planner' ); ?></p>
+						<p class="description"><strong><?php esc_html_e( 'Fixed booking types use the types, times and prices set under Settings, shared with the club house.', 'clubhouse-planner' ); ?></strong> <?php esc_html_e( 'Choose "The customer chooses start and end" for any other item that needs its own price.', 'clubhouse-planner' ); ?></p>
 					</td>
 				</tr>
 				<tr>

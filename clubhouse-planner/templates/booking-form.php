@@ -15,7 +15,7 @@ $free     = CHP_Pricing::is_priced( $item );
 		</div>
 	<?php endif; ?>
 
-	<form class="chp-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+	<form class="chp-form" data-item="<?php echo (int) $item->id; ?>" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 		<input type="hidden" name="action" value="chp_submit_booking">
 		<input type="hidden" name="chp_item" value="<?php echo (int) $item->id; ?>">
 		<?php wp_nonce_field( 'chp_submit_booking', 'chp_nonce' ); ?>
