@@ -17,6 +17,9 @@ class CHP_Items {
 	/** @var int|null Cached id of the default item. */
 	private static ?int $default_id = null;
 
+	/** @var array<int, object|null> Items looked up by booking_label(), per request. */
+	private static array $cache = array();
+
 	public static function table(): string {
 		global $wpdb;
 		return $wpdb->prefix . 'chp_items';
@@ -114,5 +117,156 @@ class CHP_Items {
 
 		self::$default_id = null;
 		return $id;
+	}
+
+	/** Forget cached lookups after items were changed. */
+	public static function flush(): void {
+		self::$default_id = null;
+		self::$cache      = array();
+	}
+
+	/** @return object[] Items in display order. */
+	public static function all( bool $only_active = false ): array {
+		global $wpdb;
+		$table = self::table();
+		$where = $only_active ? 'WHERE active = 1' : '';
+		return (array) $wpdb->get_results( "SELECT * FROM $table $where ORDER BY sort_order ASC, id ASC" );
+	}
+
+	public static function count_active(): int {
+		global $wpdb;
+		$table = self::table();
+		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM $table WHERE active = 1" );
+	}
+
+	/** True once there is more than one item, so item names are worth showing. */
+	public static function has_multiple(): bool {
+		global $wpdb;
+		$table = self::table();
+		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM $table" ) > 1;
+	}
+
+	/** Item name, with the unit letter when the item has more than one unit, e.g. "Surfboard B". */
+	public static function label( object $item, string $unit = '' ): string {
+		return self::show_unit( $item ) && '' !== $unit ? $item->name . ' ' . $unit : $item->name;
+	}
+
+	/** Item and unit of a booking as text; empty when the item no longer exists. */
+	public static function booking_label( object $booking ): string {
+		$id = (int) ( $booking->item_id ?? 0 );
+		if ( ! isset( self::$cache[ $id ] ) ) {
+			self::$cache[ $id ] = self::get( $id );
+		}
+		return self::$cache[ $id ] ? self::label( self::$cache[ $id ], (string) ( $booking->unit ?? '' ) ) : '';
+	}
+
+	/** Zero-based index of a unit letter: A = 0, Z = 25, AA = 26. */
+	public static function unit_index( string $label ): int {
+		$n = 0;
+		foreach ( str_split( strtoupper( $label ) ) as $char ) {
+			$n = $n * 26 + ( ord( $char ) - 64 );
+		}
+		return $n - 1;
+	}
+
+	/**
+	 * Highest unit index held by a booking that has not ended and is still in play, or -1 if there is none.
+	 * The quantity cannot be lowered below this plus one.
+	 */
+	public static function highest_unit_in_use( int $item_id ): int {
+		global $wpdb;
+
+		$bookings     = CHP_Bookings::table();
+		$statuses     = CHP_Bookings::active_statuses();
+		$placeholders = implode( ',', array_fill( 0, count( $statuses ), '%s' ) );
+		$params       = array_merge( array( $item_id ), $statuses, array( current_time( 'mysql' ) ) );
+
+		$units = (array) $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT DISTINCT unit FROM $bookings WHERE item_id = %d AND status IN ($placeholders) AND end_at >= %s",
+				$params
+			)
+		);
+		return $units ? max( array_map( array( self::class, 'unit_index' ), $units ) ) : -1;
+	}
+
+	/** Dropdown values for an item with a purpose list. */
+	public static function purposes( object $item ): array {
+		$list = json_decode( (string) $item->purposes, true );
+		return is_array( $list ) ? array_values( array_filter( array_map( 'strval', $list ) ) ) : array();
+	}
+
+	/**
+	 * Validate submitted item fields.
+	 *
+	 * @param int $id Id of the item being edited, 0 for a new one.
+	 * @return array|WP_Error Row data to save, or an error whose code is a key of CHP_Admin::item_errors().
+	 */
+	public static function sanitize( array $input, int $id = 0 ): array|WP_Error {
+		$name = mb_substr( sanitize_text_field( $input['name'] ?? '' ), 0, 190 );
+		if ( '' === $name ) {
+			return new WP_Error( 'name' );
+		}
+
+		$quantity = absint( $input['quantity'] ?? 1 );
+		if ( $quantity < 1 || $quantity > self::MAX_QUANTITY ) {
+			return new WP_Error( 'quantity' );
+		}
+		if ( $id && $quantity - 1 < self::highest_unit_in_use( $id ) ) {
+			return new WP_Error( 'quantity_in_use' );
+		}
+
+		$active = empty( $input['active'] ) ? 0 : 1;
+		if ( $id && ! $active ) {
+			$item = self::get( $id );
+			if ( $item && (int) $item->active && self::count_active() < 2 ) {
+				return new WP_Error( 'last_active' );
+			}
+		}
+
+		$mode = (string) ( $input['purpose_mode'] ?? 'none' );
+		if ( ! in_array( $mode, array( 'none', 'list', 'text' ), true ) ) {
+			$mode = 'none';
+		}
+		$purposes = array_slice( array_values( array_unique( array_filter( array_map( 'trim', array_map( 'sanitize_text_field', explode( "\n", sanitize_textarea_field( $input['purposes'] ?? '' ) ) ) ) ) ) ), 0, 30 );
+		if ( 'list' === $mode && ! $purposes ) {
+			return new WP_Error( 'purposes' );
+		}
+
+		$key_box = mb_substr( sanitize_text_field( $input['key_box_code'] ?? '' ), 0, 100 );
+
+		return array(
+			'name'         => $name,
+			'description'  => sanitize_textarea_field( $input['description'] ?? '' ),
+			'active'       => $active,
+			'sort_order'   => (int) ( $input['sort_order'] ?? 0 ),
+			'quantity'     => $quantity,
+			'purpose_mode' => $mode,
+			'purposes'     => $purposes ? wp_json_encode( array_map( fn( string $p ): string => mb_substr( $p, 0, 190 ), $purposes ) ) : null,
+			'key_box_code' => '' === $key_box ? null : $key_box,
+		);
+	}
+
+	/**
+	 * Insert a new item ($id = 0) or update one.
+	 *
+	 * @param array $data Result of sanitize().
+	 * @return int Item id, or 0 on failure.
+	 */
+	public static function save( array $data, int $id = 0 ): int {
+		global $wpdb;
+
+		$data['updated_at'] = current_time( 'mysql' );
+		if ( $id ) {
+			$ok = false !== $wpdb->update( self::table(), $data, array( 'id' => $id ) );
+		} else {
+			$data['created_at'] = $data['updated_at'];
+			$data['booking_mode'] = self::MODE_SLOTS;
+			$ok = (bool) $wpdb->insert( self::table(), $data );
+			$id = (int) $wpdb->insert_id;
+		}
+
+		self::flush();
+		return $ok ? $id : 0;
 	}
 }

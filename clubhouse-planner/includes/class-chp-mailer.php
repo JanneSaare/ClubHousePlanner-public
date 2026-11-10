@@ -46,7 +46,7 @@ class CHP_Mailer {
 	 * placeholders available in the body. Subject placeholders: {site}, {booking_id}, {name}, {date}.
 	 */
 	public static function email_defaults(): array {
-		$common = array( '{name}', '{booking_id}', '{site}', '{date}', '{summary}' );
+		$common = array( '{name}', '{booking_id}', '{site}', '{date}', '{item}', '{unit}', '{summary}' );
 		$greet  = '<p>' . __( 'Hi {name},', 'clubhouse-planner' ) . '</p>';
 
 		return array(
@@ -139,7 +139,12 @@ class CHP_Mailer {
 	/** HTML-safe values for all body placeholders. */
 	private static function body_values( object $booking, string $note, bool $with_swish = false ): array {
 		$fee     = CHP_Bookings::format_fee( (int) $booking->fee );
-		$key_box = trim( (string) CHP_Settings::get( 'key_box_code' ) );
+		$item    = CHP_Items::get( (int) $booking->item_id );
+		// An item can have its own key box code; otherwise the general one is used.
+		$key_box = trim( (string) ( $item->key_box_code ?? '' ) );
+		if ( '' === $key_box ) {
+			$key_box = trim( (string) CHP_Settings::get( 'key_box_code' ) );
+		}
 
 		if ( CHP_Bookings::is_local( $booking ) ) {
 			/* translators: %s: formatted fee */
@@ -163,6 +168,8 @@ class CHP_Mailer {
 			'{booking_id}'           => (int) $booking->id,
 			'{site}'                 => esc_html( wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) ),
 			'{date}'                 => esc_html( mysql2date( get_option( 'date_format' ), $booking->start_at ) ),
+			'{item}'                 => esc_html( CHP_Items::booking_label( $booking ) ),
+			'{unit}'                 => esc_html( $item && CHP_Items::show_unit( $item ) ? (string) $booking->unit : '' ),
 			'{fee}'                  => esc_html( $fee ),
 			'{email}'                => esc_html( $booking->email ),
 			'{phone}'                => esc_html( $booking->phone ),
@@ -206,6 +213,7 @@ class CHP_Mailer {
 				'{booking_id}' => $booking->id,
 				'{name}'       => $booking->name,
 				'{date}'       => mysql2date( get_option( 'date_format' ), $booking->start_at ),
+				'{item}'       => CHP_Items::booking_label( $booking ),
 			)
 		);
 	}
@@ -219,6 +227,10 @@ class CHP_Mailer {
 			__( 'Purpose', 'clubhouse-planner' )        => $booking->purpose,
 			__( 'Status', 'clubhouse-planner' )         => CHP_Bookings::status_label( $booking->status ),
 		);
+		if ( CHP_Items::has_multiple() ) {
+			// Right after the booking number; single-item sites keep the summary as it was.
+			$lines = array_slice( $lines, 0, 1, true ) + array( __( 'Item', 'clubhouse-planner' ) => CHP_Items::booking_label( $booking ) ) + array_slice( $lines, 1, null, true );
+		}
 		if ( null !== $booking->fee ) {
 			$lines[ __( 'Fee', 'clubhouse-planner' ) ] = CHP_Bookings::format_fee( (int) $booking->fee );
 		}

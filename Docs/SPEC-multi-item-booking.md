@@ -173,7 +173,7 @@ For `slots` mode: same as today (valid slot, not in the past), plus rules 3 and 
 Each phase is shippable and keeps the clubhouse working.
 
 1. **Items and units (no visible change).** `CHP_Items`, tables, migration, `item_id` / `unit` on bookings, `free_units()` replacing `has_overlap()`, unit assignment, per-item `in_range()`. Single-item install behaves exactly as before. Tests for migration and concurrency.
-2. **Admin for items.** Items page, slot editor moved to the item, booking list item/unit display and reassign, mail placeholders.
+2. **Admin for items.** Items page, booking list item/unit display and reassign, mail placeholders. *Built (not yet tested on a live site):* name, description, quantity, purpose field (none/list/text), per-item key box code, order and active; unit reassignment on the booking; `{item}` and `{unit}` placeholders; item shown in the list, detail and mail summary only when it adds information. *Moved to a later phase:* the slot editor stays in Settings (global) until a second slots-mode item needs its own slots, and pricing, weekend and duration fields arrive with Phase 4 where they take effect. Items other than the first cannot be booked from the public form until Phase 5.
 3. **Blackouts.** Table, admin page, enforcement in validation and calendar, yearly repeat, warning over existing bookings.
 4. **Free-time mode and pricing.** `CHP_Pricing`, weekend days, max/min length, form inputs, live price, REST `price` and `items`.
 5. **Front-end polish.** Item picker, per-item calendar, "x of N available", per-item purpose field, translations (`.pot`, `sv_SE`), docs, `readme.txt`, CHANGELOG.

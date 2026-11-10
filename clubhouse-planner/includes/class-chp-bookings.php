@@ -143,15 +143,15 @@ class CHP_Bookings {
 		$statuses     = self::active_statuses();
 		$placeholders = implode( ',', array_fill( 0, count( $statuses ), '%s' ) );
 		$params       = array_merge(
-			array( (int) $booking->id ),
+			array( (int) $booking->id, (int) $booking->item_id ),
 			$statuses,
 			array( $date->modify( '-1 day' )->format( 'Y-m-d 00:00:00' ), $date->modify( '+2 days' )->format( 'Y-m-d 00:00:00' ) )
 		);
 
 		$rows = (array) $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT id, status, slot, name, start_at, end_at FROM $table
-				 WHERE id <> %d AND status IN ($placeholders) AND start_at >= %s AND start_at < %s
+				"SELECT id, item_id, unit, status, slot, name, start_at, end_at FROM $table
+				 WHERE id <> %d AND item_id = %d AND status IN ($placeholders) AND start_at >= %s AND start_at < %s
 				 ORDER BY start_at ASC",
 				$params
 			)
@@ -164,7 +164,8 @@ class CHP_Bookings {
 		);
 		foreach ( $rows as $row ) {
 			$offset         = (int) $date->diff( new DateTimeImmutable( substr( $row->start_at, 0, 10 ) ) )->format( '%r%a' );
-			$row->overlaps  = $row->start_at < $booking->end_at && $row->end_at > $booking->start_at;
+			// Overlapping times only conflict when both bookings hold the same unit.
+			$row->overlaps  = $row->unit === $booking->unit && $row->start_at < $booking->end_at && $row->end_at > $booking->start_at;
 			$groups[ $offset ][] = $row;
 		}
 		return $groups;
@@ -440,6 +441,43 @@ class CHP_Bookings {
 			);
 		}
 
+		$wpdb->query( 'COMMIT' );
+		return true;
+	}
+
+	/**
+	 * Move a booking to another unit of its item. A booking that blocks its period can only move to a free unit.
+	 *
+	 * @return bool False when the unit does not exist for the item or is taken.
+	 */
+	public static function reassign_unit( object $booking, string $unit ): bool {
+		global $wpdb;
+
+		$item = CHP_Items::get( (int) $booking->item_id );
+		if ( ! $item || ! in_array( $unit, CHP_Items::unit_labels( (int) $item->quantity ), true ) ) {
+			return false;
+		}
+		if ( $unit === $booking->unit ) {
+			return true;
+		}
+
+		$wpdb->query( 'START TRANSACTION' );
+		self::lock_item( (int) $booking->item_id );
+
+		$free = self::free_units( (int) $booking->item_id, $booking->start_at, $booking->end_at, (int) $booking->id );
+		if ( in_array( $booking->status, self::blocking_statuses(), true ) && ! in_array( $unit, $free, true ) ) {
+			$wpdb->query( 'ROLLBACK' );
+			return false;
+		}
+
+		$wpdb->update( self::table(), array( 'unit' => $unit ), array( 'id' => (int) $booking->id ), array( '%s' ), array( '%d' ) );
+		self::log(
+			(int) $booking->id,
+			$booking->status,
+			/* translators: 1: previous unit letter, 2: new unit letter */
+			sprintf( __( 'Unit changed from %1$s to %2$s.', 'clubhouse-planner' ), $booking->unit, $unit ),
+			get_current_user_id()
+		);
 		$wpdb->query( 'COMMIT' );
 		return true;
 	}

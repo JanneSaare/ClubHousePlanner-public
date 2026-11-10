@@ -15,6 +15,8 @@ class CHP_Admin {
 		add_action( 'admin_post_chp_booking_action', array( $this, 'handle_action' ) );
 		add_action( 'admin_post_chp_add_booking', array( $this, 'handle_add_booking' ) );
 		add_action( 'admin_post_chp_resend_payment', array( $this, 'handle_resend_payment' ) );
+		add_action( 'admin_post_chp_reassign_unit', array( $this, 'handle_reassign_unit' ) );
+		add_action( 'admin_post_chp_save_item', array( $this, 'handle_save_item' ) );
 		add_filter( 'gettext_with_context_default', array( $this, 'translate_role_name' ), 10, 3 );
 	}
 
@@ -44,6 +46,7 @@ class CHP_Admin {
 		);
 		add_submenu_page( 'chp-bookings', __( 'Bookings', 'clubhouse-planner' ), __( 'Bookings', 'clubhouse-planner' ), self::CAP, 'chp-bookings', array( $this, 'render_bookings' ) );
 		add_submenu_page( 'chp-bookings', __( 'Add booking', 'clubhouse-planner' ), __( 'Add booking', 'clubhouse-planner' ), self::CAP, 'chp-add-booking', array( $this, 'render_add_booking' ) );
+		add_submenu_page( 'chp-bookings', __( 'Items', 'clubhouse-planner' ), __( 'Items', 'clubhouse-planner' ), 'manage_options', 'chp-items', array( $this, 'render_items' ) );
 		add_submenu_page( 'chp-bookings', __( 'Instructions', 'clubhouse-planner' ), __( 'Instructions', 'clubhouse-planner' ), self::CAP, 'chp-help', array( $this, 'render_help' ) );
 		add_submenu_page( 'chp-bookings', __( 'Settings', 'clubhouse-planner' ), __( 'Settings', 'clubhouse-planner' ), 'manage_options', 'chp-settings', array( $this, 'render_settings' ) );
 	}
@@ -145,7 +148,96 @@ class CHP_Admin {
 			'failed'  => array( 'error', __( 'The booking could not be updated.', 'clubhouse-planner' ) ),
 			'added'   => array( 'success', __( 'Booking added. No email was sent.', 'clubhouse-planner' ) ),
 			'fee'     => array( 'error', __( 'Enter the fee before approving a booking from an address that is not on the standard-fee list.', 'clubhouse-planner' ) ),
+			'unit'    => array( 'success', __( 'The unit was changed.', 'clubhouse-planner' ) ),
+			'unit_taken' => array( 'error', __( 'That unit is already booked during this period.', 'clubhouse-planner' ) ),
 		);
+	}
+
+	/** Messages for the items page, keyed by notice or error code. */
+	public static function item_notices(): array {
+		return array(
+			'saved'           => array( 'success', __( 'The item was saved.', 'clubhouse-planner' ) ),
+			'name'            => array( 'error', __( 'Enter a name for the item.', 'clubhouse-planner' ) ),
+			/* translators: %d: highest number of units */
+			'quantity'        => array( 'error', sprintf( __( 'The quantity must be a whole number from 1 to %d.', 'clubhouse-planner' ), CHP_Items::MAX_QUANTITY ) ),
+			'quantity_in_use' => array( 'error', __( 'The quantity cannot be lowered that far: a unit that would be removed has a booking that has not ended. Move or cancel the booking first.', 'clubhouse-planner' ) ),
+			'last_active'     => array( 'error', __( 'At least one item must stay active.', 'clubhouse-planner' ) ),
+			'purposes'        => array( 'error', __( 'Enter at least one purpose, one per line, or choose another purpose setting.', 'clubhouse-planner' ) ),
+			'failed'          => array( 'error', __( 'The item could not be saved.', 'clubhouse-planner' ) ),
+		);
+	}
+
+	public function render_items(): void {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You are not allowed to access this page.', 'clubhouse-planner' ), 403 );
+		}
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- read-only view parameters.
+		$notice   = isset( $_GET['chp_notice'] ) ? sanitize_key( wp_unslash( $_GET['chp_notice'] ) ) : '';
+		$edit     = isset( $_GET['item'] ) ? sanitize_key( wp_unslash( $_GET['item'] ) ) : '';
+		// phpcs:enable
+
+		$item = null;
+		if ( 'new' === $edit ) {
+			$item = (object) array(
+				'id'           => 0,
+				'name'         => '',
+				'description'  => '',
+				'active'       => 1,
+				'sort_order'   => 0,
+				'quantity'     => 1,
+				'purpose_mode' => 'none',
+				'purposes'     => null,
+				'key_box_code' => null,
+			);
+		} elseif ( '' !== $edit ) {
+			$item = CHP_Items::get( absint( $edit ) );
+			if ( ! $item ) {
+				wp_die( esc_html__( 'Item not found.', 'clubhouse-planner' ), 404 );
+			}
+		}
+
+		$items = CHP_Items::all();
+		include CHP_DIR . 'templates/admin/items.php';
+	}
+
+	public function handle_save_item(): void {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You are not allowed to do this.', 'clubhouse-planner' ), 403 );
+		}
+
+		$id = isset( $_POST['item_id'] ) ? absint( $_POST['item_id'] ) : 0;
+		check_admin_referer( 'chp_save_item_' . $id );
+
+		$base = admin_url( 'admin.php?page=chp-items' );
+		$data = CHP_Items::sanitize( wp_unslash( $_POST ), $id );
+		if ( is_wp_error( $data ) ) {
+			wp_safe_redirect( add_query_arg( array( 'item' => $id ? $id : 'new', 'chp_notice' => $data->get_error_code() ), $base ) );
+			exit;
+		}
+
+		$saved = CHP_Items::save( $data, $id );
+		wp_safe_redirect( $saved ? add_query_arg( 'chp_notice', 'saved', $base ) : add_query_arg( array( 'item' => $id ? $id : 'new', 'chp_notice' => 'failed' ), $base ) );
+		exit;
+	}
+
+	/** Move a booking to another unit of its item. */
+	public function handle_reassign_unit(): void {
+		if ( ! current_user_can( self::CAP ) ) {
+			wp_die( esc_html__( 'You are not allowed to do this.', 'clubhouse-planner' ), 403 );
+		}
+
+		$id = isset( $_POST['booking_id'] ) ? absint( $_POST['booking_id'] ) : 0;
+		check_admin_referer( 'chp_reassign_unit_' . $id );
+
+		$booking = CHP_Bookings::get( $id );
+		if ( ! $booking ) {
+			wp_die( esc_html__( 'Booking not found.', 'clubhouse-planner' ), 404 );
+		}
+
+		$unit = isset( $_POST['unit'] ) ? strtoupper( sanitize_text_field( wp_unslash( $_POST['unit'] ) ) ) : '';
+		$url  = admin_url( 'admin.php?page=chp-bookings&booking=' . $id );
+		$this->redirect( $url, CHP_Bookings::reassign_unit( $booking, $unit ) ? 'unit' : 'unit_taken' );
 	}
 
 	public function render_bookings(): void {

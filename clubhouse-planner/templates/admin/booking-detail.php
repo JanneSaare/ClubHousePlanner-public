@@ -20,6 +20,7 @@ foreach ( $neighbours as $rows ) {
 }
 $badge = CHP_Admin::slot_badge( $booking, 'large' );
 $local = CHP_Bookings::is_local( $booking );
+$item  = CHP_Items::get( (int) $booking->item_id );
 ?>
 <div class="wrap">
 	<h1>
@@ -72,6 +73,9 @@ $local = CHP_Bookings::is_local( $booking );
 		<div class="chp-card">
 			<h2><?php esc_html_e( 'Request', 'clubhouse-planner' ); ?></h2>
 			<table class="form-table" role="presentation">
+				<?php if ( $item && ( CHP_Items::has_multiple() || CHP_Items::show_unit( $item ) ) ) : ?>
+					<tr><th><?php esc_html_e( 'Item', 'clubhouse-planner' ); ?></th><td><strong><?php echo esc_html( CHP_Items::label( $item, (string) $booking->unit ) ); ?></strong></td></tr>
+				<?php endif; ?>
 				<tr><th><?php esc_html_e( 'Period', 'clubhouse-planner' ); ?></th><td><strong><?php echo esc_html( CHP_Bookings::format_period( $booking ) ); ?></strong></td></tr>
 				<tr><th><?php esc_html_e( 'Name', 'clubhouse-planner' ); ?></th><td><?php echo esc_html( $booking->name ); ?></td></tr>
 				<tr><th><?php esc_html_e( 'Email', 'clubhouse-planner' ); ?></th><td><?php if ( '' !== (string) $booking->email ) : ?><a href="<?php echo esc_url( 'mailto:' . $booking->email ); ?>"><?php echo esc_html( $booking->email ); ?></a><?php endif; ?></td></tr>
@@ -143,6 +147,20 @@ $local = CHP_Bookings::is_local( $booking );
 					<button type="submit" class="button <?php echo esc_attr( $actions[ $to ]['button'] ); ?>" data-label="<?php echo esc_attr( $actions[ $to ]['label'] ); ?>" data-label-free="<?php esc_attr_e( 'Free of charge – confirm booking', 'clubhouse-planner' ); ?>"><?php echo esc_html( $actions[ $to ]['label'] ); ?></button>
 				</form>
 			<?php endforeach; ?>
+			<?php if ( $item && CHP_Items::show_unit( $item ) && in_array( $booking->status, CHP_Bookings::active_statuses(), true ) ) : ?>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="chp-action">
+					<input type="hidden" name="action" value="chp_reassign_unit">
+					<input type="hidden" name="booking_id" value="<?php echo (int) $booking->id; ?>">
+					<?php wp_nonce_field( 'chp_reassign_unit_' . (int) $booking->id ); ?>
+					<label for="chp-unit"><?php esc_html_e( 'Unit', 'clubhouse-planner' ); ?></label>
+					<select id="chp-unit" name="unit">
+						<?php foreach ( CHP_Items::unit_labels( (int) $item->quantity ) as $unit_label ) : ?>
+							<option value="<?php echo esc_attr( $unit_label ); ?>" <?php selected( $booking->unit, $unit_label ); ?>><?php echo esc_html( $unit_label ); ?></option>
+						<?php endforeach; ?>
+					</select>
+					<button type="submit" class="button button-secondary"><?php esc_html_e( 'Change unit', 'clubhouse-planner' ); ?></button>
+				</form>
+			<?php endif; ?>
 			<?php if ( CHP_Bookings::AWAITING_PAYMENT === $booking->status ) : ?>
 				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="chp-action">
 					<input type="hidden" name="action" value="chp_resend_payment">

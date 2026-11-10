@@ -89,6 +89,9 @@ $period_url = $status ? add_query_arg( 'status', $status, $base_url ) : $base_ur
 						<?php endif; ?>
 					</td>
 					<td>
+						<?php if ( CHP_Items::has_multiple() ) : ?>
+							<div><strong><?php echo esc_html( CHP_Items::booking_label( $b ) ); ?></strong></div>
+						<?php endif; ?>
 						<?php $badge = CHP_Admin::slot_badge( $b ); ?>
 						<?php if ( $badge ) : ?>
 							<?php echo $badge; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in slot_badge(). ?>
