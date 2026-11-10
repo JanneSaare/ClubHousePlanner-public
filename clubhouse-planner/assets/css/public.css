@@ -96,3 +96,7 @@
 .chp-form .chp-slot { margin-top: .1em; margin-bottom: .1em; }
 .chp-form .chp-error { margin-top: .15em; }
 .chp-form .chp-rules { margin-bottom: .6em; }
+
+/* Items with several units: free units per day. Red when nothing is left at some point of the day. */
+.chp-cal__event--availability { background: #e9f3ef; color: #1d4e44; border: 1px solid #2f8577; }
+.chp-cal__event--full-day { background: #fcf0f1; color: #8a1f21; border-color: #d63638; }

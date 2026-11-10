@@ -16,6 +16,7 @@ $can_settings = current_user_can( 'manage_options' );
 		<li><a href="#chp-help-statuses"><?php esc_html_e( 'Statuses', 'clubhouse-planner' ); ?></a></li>
 		<li><a href="#chp-help-emails"><?php esc_html_e( 'Emails', 'clubhouse-planner' ); ?></a></li>
 		<li><a href="#chp-help-addresses"><?php esc_html_e( 'Addresses and fees', 'clubhouse-planner' ); ?></a></li>
+		<li><a href="#chp-help-items"><?php esc_html_e( 'Items, blocked periods and prices', 'clubhouse-planner' ); ?></a></li>
 		<li><a href="#chp-help-other"><?php esc_html_e( 'Other settings', 'clubhouse-planner' ); ?></a></li>
 	</ul>
 
@@ -175,6 +176,29 @@ $can_settings = current_user_can( 'manage_options' );
 		<li><?php esc_html_e( 'Standard-fee address: the fee field is filled in with the standard fee. You may change it for this booking.', 'clubhouse-planner' ); ?></li>
 		<li><?php esc_html_e( 'Other address: the booking is marked "Other address" and the fee field is empty. You must enter the agreed fee before you can approve. Contact the requester first; the email to the housekeepers states this.', 'clubhouse-planner' ); ?></li>
 		<li><?php esc_html_e( 'The fee is saved on the booking when you approve. Changing the standard fee later does not change existing bookings.', 'clubhouse-planner' ); ?></li>
+	</ul>
+
+	<h2 id="chp-help-items"><?php esc_html_e( 'Items, blocked periods and prices', 'clubhouse-planner' ); ?></h2>
+
+	<h3><?php esc_html_e( 'Items', 'clubhouse-planner' ); ?></h3>
+	<ul class="chp-help-list">
+		<li><?php esc_html_e( 'Administrators add things that can be booked besides the club house, for example a boule court or surfboards, under Club House → Items. Each item has its own name, description, number of units, price and rules.', 'clubhouse-planner' ); ?></li>
+		<li><?php esc_html_e( 'An item can have several units, which are identical copies such as three surfboards. The units are named A, B, C and so on. A request gets the first free unit, and you can move a booking to another unit on the booking page. The letter is only shown when an item has more than one unit.', 'clubhouse-planner' ); ?></li>
+		<li><?php esc_html_e( '"Fixed booking types" uses the whole day, day and evening types from the settings. "The customer chooses start and end" lets the customer enter their own start and end, with a price per booking, hour or day, an optional weekend price and an optional shortest and longest booking.', 'clubhouse-planner' ); ?></li>
+		<li><?php esc_html_e( 'The price is calculated when the request is made and becomes the fee when you approve it. You can change it. A booking of 24 hours or less counts as one day, also when it crosses midnight.', 'clubhouse-planner' ); ?></li>
+		<li><?php esc_html_e( 'When you add a booking yourself you choose the item first. You can also choose a unit.', 'clubhouse-planner' ); ?></li>
+	</ul>
+
+	<h3><?php esc_html_e( 'Blocked periods', 'clubhouse-planner' ); ?></h3>
+	<ul class="chp-help-list">
+		<li><?php esc_html_e( 'Under Club House → Blocked periods you block times when an item cannot be booked, for example repairs or a closed season. Customers see the days as "Not available", or the text you enter. Tick "Repeat every year" for a seasonal closure.', 'clubhouse-planner' ); ?></li>
+		<li><?php esc_html_e( 'Bookings that already fall inside a new blocked period are not changed. They are listed after you save, so that you can deny or cancel them.', 'clubhouse-planner' ); ?></li>
+	</ul>
+
+	<h3><?php esc_html_e( 'On the website', 'clubhouse-planner' ); ?></h3>
+	<ul class="chp-help-list">
+		<li><?php esc_html_e( '[clubhouse_calendar item="2"] and [clubhouse_booking_form item="2"] show the calendar and the booking form of another item. The item number is shown in the item list, together with ready-made shortcodes.', 'clubhouse-planner' ); ?></li>
+		<li><?php esc_html_e( '[clubhouse_calendars] shows the calendars of all active items side by side. Use [clubhouse_calendars items="1,2"] to choose which ones. For an item with several units the calendar shows how many units are free.', 'clubhouse-planner' ); ?></li>
 	</ul>
 
 	<h2 id="chp-help-other"><?php esc_html_e( 'Other settings', 'clubhouse-planner' ); ?></h2>

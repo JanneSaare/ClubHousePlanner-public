@@ -1,5 +1,5 @@
 # ClubHousePlanner
-Booking and planning system for a Club House, built as a WordPress plugin. Plugin is primary written for Swedish language and payment resources as Swish.
+Booking and planning system for a Club House and other bookable items (a boule court, surfboards ...), built as a WordPress plugin. Plugin is primary written for Swedish language and payment resources as Swish.
 
 ## Requirements
 - WordPress 7.1 or newer
@@ -25,6 +25,16 @@ Copy (or symlink) the `clubhouse-planner` folder to `wp-content/plugins/` and ac
 | Deny / cancel | `denied` / `cancelled` | Denied / cancelled with reason |
 
 `awaiting_payment` and `confirmed` block the period; new requests overlapping them are rejected.
+
+## Items and units
+Administrators add things to book under **Club House → Items**. The club house is item 1 and exists from the start.
+- **Units:** an item can have several identical units (A, B, C ...). A request gets the first free unit; a housekeeper can move a booking to another unit. The letter is only shown when there is more than one unit.
+- **Booking:** *Fixed booking types* uses the whole day / day / evening types from Settings. *The customer chooses start and end* lets the customer enter their own times.
+- **Price (free-choice items):** per booking, hour or day, with an optional weekend price and a choice of which days count as weekend. A booking of 24 hours or less counts as one day, also across midnight; longer bookings are counted in blocks of 24 hours. Optional shortest and longest booking and notice needed.
+- **Purpose, address and key box code** can be set per item. An item can also be deactivated; its bookings are kept.
+
+## Blocked periods
+Under **Club House → Blocked periods** an item (or one unit, or all items) can be blocked for an interval, for example repairs or a closed season. Tick *Repeat every year* for seasonal closures. Customers see "Not available" or your public text. Bookings already inside a new period are listed after saving but not changed.
 
 ## Key box code
 Set **Key box code** (Swedish: *Nyckelboxkod*) under **Club House → Settings**. The code is added to the Confirmed email (sent once payment is registered, or straight away for free bookings) through the `{key_box}` placeholder. Leave the setting empty to leave it out. If the Confirmed email text has been customised, add `{key_box}` to it or use "Reset to default".

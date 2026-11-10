@@ -1304,3 +1304,39 @@ msgstr ""
 
 msgid "Automatic (first free unit)"
 msgstr ""
+
+msgid "{free} of {total} free"
+msgstr ""
+
+msgid "Items, blocked periods and prices"
+msgstr ""
+
+msgid "Administrators add things that can be booked besides the club house, for example a boule court or surfboards, under Club House → Items. Each item has its own name, description, number of units, price and rules."
+msgstr ""
+
+msgid "An item can have several units, which are identical copies such as three surfboards. The units are named A, B, C and so on. A request gets the first free unit, and you can move a booking to another unit on the booking page. The letter is only shown when an item has more than one unit."
+msgstr ""
+
+msgid "\"Fixed booking types\" uses the whole day, day and evening types from the settings. \"The customer chooses start and end\" lets the customer enter their own start and end, with a price per booking, hour or day, an optional weekend price and an optional shortest and longest booking."
+msgstr ""
+
+msgid "The price is calculated when the request is made and becomes the fee when you approve it. You can change it. A booking of 24 hours or less counts as one day, also when it crosses midnight."
+msgstr ""
+
+msgid "When you add a booking yourself you choose the item first. You can also choose a unit."
+msgstr ""
+
+msgid "Under Club House → Blocked periods you block times when an item cannot be booked, for example repairs or a closed season. Customers see the days as \"Not available\", or the text you enter. Tick \"Repeat every year\" for a seasonal closure."
+msgstr ""
+
+msgid "Bookings that already fall inside a new blocked period are not changed. They are listed after you save, so that you can deny or cancel them."
+msgstr ""
+
+msgid "On the website"
+msgstr ""
+
+msgid "[clubhouse_calendar item=\"2\"] and [clubhouse_booking_form item=\"2\"] show the calendar and the booking form of another item. The item number is shown in the item list, together with ready-made shortcodes."
+msgstr ""
+
+msgid "[clubhouse_calendars] shows the calendars of all active items side by side. Use [clubhouse_calendars items=\"1,2\"] to choose which ones. For an item with several units the calendar shows how many units are free."
+msgstr ""

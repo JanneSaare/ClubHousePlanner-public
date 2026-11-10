@@ -63,6 +63,8 @@ class CHP_Public {
 					'booked'      => __( 'Booked', 'clubhouse-planner' ),
 					'preliminary' => __( 'Preliminary', 'clubhouse-planner' ),
 					'unavailable' => __( 'Not available', 'clubhouse-planner' ),
+									/* translators: {free} and {total} are replaced by numbers, e.g. "2 of 3 free" */
+									'free'        => __( '{free} of {total} free', 'clubhouse-planner' ),
 					'loadError'   => __( 'Could not load the calendar.', 'clubhouse-planner' ),
 				),
 			)
@@ -360,6 +362,10 @@ class CHP_Public {
 			CHP_Blackouts::calendar_days( $item_id, $start, $end )
 		);
 
+		// An item with several units also shows how many units are still free on each day.
+		$availability = (int) $item->quantity > 1 ? $this->availability_entries( $rows, $start, $end, (int) $item->quantity ) : array();
+		$blocked      = array_merge( $blocked, $availability );
+
 		// Free-time bookings can span several days, so they are listed on every day they cover.
 		if ( CHP_Pricing::is_priced( $item ) ) {
 			return rest_ensure_response( array_merge( $blocked, $this->free_entries( $rows, $start, $end ) ) );
@@ -379,6 +385,56 @@ class CHP_Public {
 				$rows
 			) )
 		);
+	}
+
+	/**
+	 * For an item with several units: per day with bookings, how many units are free at the busiest moment of the day
+	 * ("at least this many are free all day"). Days without bookings get no entry.
+	 *
+	 * @param object[] $rows  Bookings overlapping the range.
+	 * @param string   $start Range start (Y-m-d H:i:s).
+	 * @param string   $end   Range end (Y-m-d H:i:s).
+	 * @param int      $total Number of units.
+	 */
+	private function availability_entries( array $rows, string $start, string $end, int $total ): array {
+		$tz      = wp_timezone();
+		$day     = ( new DateTimeImmutable( $start, $tz ) )->setTime( 0, 0 );
+		$last    = new DateTimeImmutable( $end, $tz );
+		$entries = array();
+
+		for ( $i = 0; $i < CHP_Blackouts::MAX_CALENDAR_DAYS && $day <= $last; $i++ ) {
+			$next   = $day->modify( '+1 day' );
+			$events = array();
+			foreach ( $rows as $b ) {
+				$from = max( new DateTimeImmutable( $b->start_at, $tz ), $day );
+				$to   = min( new DateTimeImmutable( $b->end_at, $tz ), $next );
+				if ( $from < $to ) {
+					$events[] = array( $from->getTimestamp(), 1 );
+					$events[] = array( $to->getTimestamp(), -1 );
+				}
+			}
+			if ( $events ) {
+				// Ends sort before starts at the same moment, so back-to-back bookings do not count as overlapping.
+				usort( $events, static fn( array $a, array $b ): int => $a[0] <=> $b[0] ?: $a[1] <=> $b[1] );
+				$now  = 0;
+				$peak = 0;
+				foreach ( $events as $event ) {
+					$now += $event[1];
+					$peak = max( $peak, $now );
+				}
+				$entries[] = array(
+					'date'   => $day->format( 'Y-m-d' ),
+					'slot'   => 'availability',
+					'start'  => '',
+					'end'    => '',
+					'status' => 'availability',
+					'free'   => max( 0, $total - $peak ),
+					'total'  => $total,
+				);
+			}
+			$day = $next;
+		}
+		return $entries;
 	}
 
 	/**

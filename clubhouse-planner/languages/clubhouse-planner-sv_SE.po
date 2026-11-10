@@ -1305,3 +1305,39 @@ msgstr "Lämna tomt för kostnadsfritt, eller för priset från prislistan för 
 
 msgid "Automatic (first free unit)"
 msgstr "Automatiskt (första lediga enhet)"
+
+msgid "{free} of {total} free"
+msgstr "{free} av {total} lediga"
+
+msgid "Items, blocked periods and prices"
+msgstr "Objekt, spärrade perioder och priser"
+
+msgid "Administrators add things that can be booked besides the club house, for example a boule court or surfboards, under Club House → Items. Each item has its own name, description, number of units, price and rules."
+msgstr "Administratörer lägger till saker som kan bokas utöver stugan, till exempel en boulebana eller surfbrädor, under Stugan → Objekt. Varje objekt har eget namn, egen beskrivning, eget antal enheter, eget pris och egna regler."
+
+msgid "An item can have several units, which are identical copies such as three surfboards. The units are named A, B, C and so on. A request gets the first free unit, and you can move a booking to another unit on the booking page. The letter is only shown when an item has more than one unit."
+msgstr "Ett objekt kan ha flera enheter, det vill säga identiska exemplar som till exempel tre surfbrädor. Enheterna heter A, B, C och så vidare. En förfrågan får den första lediga enheten, och du kan flytta en bokning till en annan enhet på bokningssidan. Bokstaven visas bara när ett objekt har fler än en enhet."
+
+msgid "\"Fixed booking types\" uses the whole day, day and evening types from the settings. \"The customer chooses start and end\" lets the customer enter their own start and end, with a price per booking, hour or day, an optional weekend price and an optional shortest and longest booking."
+msgstr "\"Fasta bokningstyper\" använder typerna heldag, dag och kväll från inställningarna. \"Kunden väljer start och slut\" låter kunden ange egen start och eget slut, med pris per bokning, timme eller dag, ett valfritt helgpris och en valfri kortaste och längsta bokning."
+
+msgid "The price is calculated when the request is made and becomes the fee when you approve it. You can change it. A booking of 24 hours or less counts as one day, also when it crosses midnight."
+msgstr "Priset beräknas när förfrågan görs och blir avgiften när du godkänner den. Du kan ändra det. En bokning på 24 timmar eller mindre räknas som en dag, även när den passerar midnatt."
+
+msgid "When you add a booking yourself you choose the item first. You can also choose a unit."
+msgstr "När du lägger till en bokning själv väljer du först objekt. Du kan också välja enhet."
+
+msgid "Under Club House → Blocked periods you block times when an item cannot be booked, for example repairs or a closed season. Customers see the days as \"Not available\", or the text you enter. Tick \"Repeat every year\" for a seasonal closure."
+msgstr "Under Stugan → Spärrade perioder spärrar du tider då ett objekt inte kan bokas, till exempel vid reparationer eller en stängd säsong. Kunderna ser dagarna som \"Ej tillgänglig\", eller den text du anger. Kryssa i \"Upprepa varje år\" för en säsongsstängning."
+
+msgid "Bookings that already fall inside a new blocked period are not changed. They are listed after you save, so that you can deny or cancel them."
+msgstr "Bokningar som redan ligger inom en ny spärrad period ändras inte. De listas när du har sparat, så att du kan avslå eller avboka dem."
+
+msgid "On the website"
+msgstr "På webbplatsen"
+
+msgid "[clubhouse_calendar item=\"2\"] and [clubhouse_booking_form item=\"2\"] show the calendar and the booking form of another item. The item number is shown in the item list, together with ready-made shortcodes."
+msgstr "[clubhouse_calendar item=\"2\"] och [clubhouse_booking_form item=\"2\"] visar kalendern och bokningsformuläret för ett annat objekt. Objektnumret visas i objektlistan, tillsammans med färdiga kortkoder."
+
+msgid "[clubhouse_calendars] shows the calendars of all active items side by side. Use [clubhouse_calendars items=\"1,2\"] to choose which ones. For an item with several units the calendar shows how many units are free."
+msgstr "[clubhouse_calendars] visar kalendrarna för alla aktiva objekt sida vid sida. Använd [clubhouse_calendars items=\"1,2\"] för att välja vilka. För ett objekt med flera enheter visar kalendern hur många enheter som är lediga."

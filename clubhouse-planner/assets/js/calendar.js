@@ -112,10 +112,11 @@
 				});
 				Object.keys(byDate).forEach(function (d) {
 					byDate[d].sort(function (a, b) {
-						// Blocked days are listed first.
-						if (a.status === 'unavailable' || b.status === 'unavailable') {
-							return (b.status === 'unavailable') - (a.status === 'unavailable');
-						}
+						// Blocked days first, then the free-unit count, then the bookings.
+						var rank = { unavailable: 0, availability: 1 };
+						var ra = rank[a.status] === undefined ? 2 : rank[a.status];
+						var rb = rank[b.status] === undefined ? 2 : rank[b.status];
+						if (ra !== rb) return ra - rb;
 						return slotOrder.indexOf(a.slot) - slotOrder.indexOf(b.slot);
 					});
 				});
@@ -142,6 +143,14 @@
 					if (dayStart.getTime() === today.getTime()) cell.classList.add('chp-cal__day--today');
 
 					(byDate[ymd(dayStart)] || []).forEach(function (b) {
+						if (b.status === 'availability') {
+							// Items with several units: how many are free at the busiest moment of the day.
+							var label = (i18n.free || '{free}/{total}').replace('{free}', b.free).replace('{total}', b.total);
+							var avail = el('span', 'chp-cal__event chp-cal__event--availability' + (b.free === 0 ? ' chp-cal__event--full-day' : ''), label);
+							avail.title = label;
+							cell.append(avail);
+							return;
+						}
 						if (b.status === 'unavailable') {
 							var text = b.text || i18n.unavailable || 'Not available';
 							var blocked = el('span', 'chp-cal__event chp-cal__event--unavailable', text);
