@@ -1,0 +1,929 @@
+# Swedish translation for ClubHouse Planner.
+# After editing, regenerate the PHP file with: wp i18n make-php languages
+msgid ""
+msgstr ""
+"Project-Id-Version: ClubHouse Planner 0.1.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv_SE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: clubhouse-planner\n"
+
+#. Description of the plugin
+msgid "Booking and scheduling for a club house. Public calendar, booking requests and housekeeper approval workflow."
+msgstr "Bokning och schemaläggning för en klubbstuga. Offentlig kalender, bokningsförfrågningar och godkännande av klubbstugevärd."
+
+msgid "Club House Housekeeper"
+msgstr "Stugvärd"
+
+msgid "Club House"
+msgstr "Stugan"
+
+msgid "Bookings"
+msgstr "Bokningar"
+
+msgid "Settings"
+msgstr "Inställningar"
+
+msgid "Approve – send payment information"
+msgstr "Godkänn – skicka betalningsinformation"
+
+msgid "Additional message to the requester (optional)"
+msgstr "Extra meddelande till den som bokat (valfritt)"
+
+msgid "Payment received – confirm booking"
+msgstr "Betalning mottagen – bekräfta bokningen"
+
+msgid "Deny request"
+msgstr "Avslå förfrågan"
+
+msgid "Reason (sent to the requester)"
+msgstr "Anledning (skickas till den som bokat)"
+
+msgid "Cancel booking"
+msgstr "Avboka"
+
+msgid "Booking updated and email sent to the requester."
+msgstr "Bokningen har uppdaterats och e-post har skickats till den som bokat."
+
+msgid "Booking updated, but the email could not be sent."
+msgstr "Bokningen har uppdaterats, men e-postmeddelandet kunde inte skickas."
+
+msgid "Booking updated. No email was sent."
+msgstr "Bokningen har uppdaterats. Inget e-postmeddelande skickades."
+
+msgid "Don't send email confirmation"
+msgstr "Skicka inte e-postbekräftelse"
+
+msgid "That action is not allowed for the current status."
+msgstr "Den åtgärden är inte tillåten för nuvarande status."
+
+msgid "Another approved booking overlaps this period. Deny this request or cancel the other booking first."
+msgstr "En annan godkänd bokning överlappar denna period. Avslå denna förfrågan eller avboka den andra bokningen först."
+
+msgid "The booking could not be updated."
+msgstr "Bokningen kunde inte uppdateras."
+
+msgid "You are not allowed to access this page."
+msgstr "Du har inte behörighet till denna sida."
+
+msgid "Booking not found."
+msgstr "Bokningen hittades inte."
+
+msgid "You are not allowed to do this."
+msgstr "Du har inte behörighet att göra detta."
+
+msgid "Request received"
+msgstr "Förfrågan mottagen"
+
+msgid "Awaiting payment"
+msgstr "Väntar på betalning"
+
+msgid "Confirmed"
+msgstr "Bekräftad"
+
+msgid "Denied"
+msgstr "Avslagen"
+
+msgid "Cancelled"
+msgstr "Avbokad"
+
+msgid "Booking request submitted."
+msgstr "Bokningsförfrågan skickad."
+
+msgid "Please pay the rent to bank account XXXX-XXXX within 10 days.\nMark the payment with booking number {booking_id}."
+msgstr "Betala hyran till bankgiro XXXX-XXXX inom 10 dagar.\nMärk betalningen med bokningsnummer {booking_id}."
+
+msgid "Hi {name},"
+msgstr "Hej {name},"
+
+msgid "Thank you for your booking request. We have received it and a housekeeper will review it shortly. You will get another email when it has been reviewed."
+msgstr "Tack för din bokningsförfrågan. Vi har tagit emot den och en klubbstugevärd kommer att gå igenom den inom kort. Du får ett nytt e-postmeddelande när den har behandlats."
+
+#. translators: default email subject; keep the placeholders {site} and {booking_id}
+msgid "Stugan Booking request received (#{booking_id})"
+msgstr "Stugan Bokningsförfrågan mottagen (#{booking_id})"
+
+msgid "A new booking request has been submitted."
+msgstr "En ny bokningsförfrågan har kommit in."
+
+msgid "Email"
+msgstr "E-post"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Message"
+msgstr "Meddelande"
+
+msgid "Review the request here:"
+msgstr "Granska förfrågan här:"
+
+#. translators: default email subject; keep the placeholders {site} and {booking_id}
+msgid "Stugan New booking request (#{booking_id})"
+msgstr "Stugan Ny bokningsförfrågan (#{booking_id})"
+
+msgid "Your booking request can be accepted. The booking is preliminary until payment has been received."
+msgstr "Din bokningsförfrågan kan godkännas. Bokningen är preliminär tills betalningen har kommit in."
+
+msgid "How to pay"
+msgstr "Så här betalar du"
+
+#. translators: default email subject; keep the placeholders {site} and {booking_id}
+msgid "Stugan Booking approved – payment information (#{booking_id})"
+msgstr "Stugan Bokning godkänd – betalningsinformation (#{booking_id})"
+
+msgid "We have received your payment and your booking is now confirmed. Welcome!"
+msgstr "Vi har tagit emot din betalning och din bokning är nu bekräftad. Välkommen!"
+
+#. translators: default email subject; keep the placeholders {site} and {booking_id}
+msgid "Stugan Booking confirmed (#{booking_id})"
+msgstr "Stugan Bokning bekräftad (#{booking_id})"
+
+msgid "Unfortunately we cannot accept your booking request."
+msgstr "Tyvärr kan vi inte godkänna din bokningsförfrågan."
+
+#. translators: default email subject; keep the placeholders {site} and {booking_id}
+msgid "Stugan Booking request denied (#{booking_id})"
+msgstr "Stugan Bokningsförfrågan avslagen (#{booking_id})"
+
+msgid "Your booking has been cancelled."
+msgstr "Din bokning har avbokats."
+
+#. translators: default email subject; keep the placeholders {site} and {booking_id}
+msgid "Stugan Booking cancelled (#{booking_id})"
+msgstr "Stugan Bokning avbokad (#{booking_id})"
+
+msgid "Booking number"
+msgstr "Bokningsnummer"
+
+msgid "Name"
+msgstr "Namn"
+
+msgid "Period"
+msgstr "Period"
+
+msgid "Guests"
+msgstr "Gäster"
+
+msgid "Purpose"
+msgstr "Syfte"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Message from the housekeeper"
+msgstr "Meddelande från klubbstugevärden"
+
+msgid "Previous month"
+msgstr "Föregående månad"
+
+msgid "Next month"
+msgstr "Nästa månad"
+
+msgid "Booked"
+msgstr "Bokad"
+
+msgid "Preliminary"
+msgstr "Preliminär"
+
+msgid "Could not load the calendar."
+msgstr "Kunde inte ladda kalendern."
+
+msgid "Thank you! Your booking request has been received. A confirmation has been sent to your email."
+msgstr "Tack! Din bokningsförfrågan har tagits emot. En bekräftelse har skickats till din e-post."
+
+msgid "The form has expired. Please reload the page and try again."
+msgstr "Formuläret har gått ut. Ladda om sidan och försök igen."
+
+msgid "Please fill in all required fields with valid values."
+msgstr "Fyll i alla obligatoriska fält med giltiga värden."
+
+msgid "The requested time has already passed."
+msgstr "Den begärda tiden har redan passerat."
+
+msgid "The club house is already booked during the requested time."
+msgstr "Klubbstugan är redan bokad under den begärda tiden."
+
+msgid "Something went wrong. Please try again later."
+msgstr "Något gick fel. Försök igen senare."
+
+msgid "Invalid date range."
+msgstr "Ogiltigt datumintervall."
+
+#. translators: %d: booking id
+msgid "Booking #%d"
+msgstr "Bokning #%d"
+
+msgid "Back to all bookings"
+msgstr "Tillbaka till alla bokningar"
+
+msgid "Request"
+msgstr "Förfrågan"
+
+msgid "Received"
+msgstr "Mottagen"
+
+msgid "Actions"
+msgstr "Åtgärder"
+
+msgid "No further actions available for this booking."
+msgstr "Inga fler åtgärder finns för denna bokning."
+
+msgid "History"
+msgstr "Historik"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "By"
+msgstr "Av"
+
+msgid "Note"
+msgstr "Anteckning"
+
+msgid "Requester"
+msgstr "Bokare"
+
+msgid "Club House bookings"
+msgstr "Klubbstugans bokningar"
+
+msgid "Open"
+msgstr "Pågående"
+
+msgid "All"
+msgstr "Alla"
+
+msgid "Requested by"
+msgstr "Bokad av"
+
+msgid "No bookings found."
+msgstr "Inga bokningar hittades."
+
+msgid "Club House settings"
+msgstr "Inställningar för klubbstugan"
+
+msgid "Notification emails"
+msgstr "E-postadresser för aviseringar"
+
+msgid "Comma separated. Users with the \"Club House Housekeeper\" role are always notified as well."
+msgstr "Kommaseparerade. Användare med rollen \"Klubbstugevärd\" aviseras alltid också."
+
+msgid "Sender address"
+msgstr "Avsändaradress"
+
+msgid "Sender name"
+msgstr "Avsändarnamn"
+
+msgid "Address and name shown as the sender (\"From\") of booking emails, e.g. Svinningeudd Stugan <stugan@example.com>. Leave the address empty to use the site default. Replies still go to the housekeepers. Your mail server must allow sending from this address."
+msgstr "Adress och namn som visas som avsändare (\"Från\") i bokningsmejlen, t.ex. Svinningeudd Stugan <stugan@example.com>. Lämna adressen tom för att använda webbplatsens standard. Svar går fortfarande till stugvärdarna. Din e-postserver måste tillåta utskick från denna adress."
+
+msgid "Payment instructions"
+msgstr "Betalningsinstruktioner"
+
+msgid "Sent when a request is approved. Placeholders: {booking_id}, {name}, {fee}, {date}"
+msgstr "Skickas när en förfrågan godkänns. Platshållare: {booking_id}, {name}, {fee}, {date}"
+
+msgid "Public calendar"
+msgstr "Offentlig kalender"
+
+msgid "Show unhandled requests as preliminary"
+msgstr "Visa obehandlade förfrågningar som preliminära"
+
+msgid "Number of guests"
+msgstr "Antal gäster"
+
+msgid "Purpose (e.g. birthday party, meeting)"
+msgstr "Syfte (t.ex. födelsedagsfest, möte)"
+
+msgid "Send booking request"
+msgstr "Skicka bokningsförfrågan"
+
+msgid "Contact details"
+msgstr "Kontaktuppgifter"
+
+msgid "Date and time"
+msgstr "Datum och tid"
+
+msgid "Additional information"
+msgstr "Övrig information"
+
+msgid "Day"
+msgstr "Dag"
+
+msgid "Evening"
+msgstr "Kväll"
+
+msgid "Whole day"
+msgstr "Heldag"
+
+msgid "Booking type"
+msgstr "Bokningstyp"
+
+msgid "Day before"
+msgstr "Dagen före"
+
+msgid "Same day"
+msgstr "Samma dag"
+
+msgid "Day after"
+msgstr "Dagen efter"
+
+msgid "Other bookings around this date"
+msgstr "Andra bokningar runt detta datum"
+
+msgid "No other bookings the day before, the same day or the day after."
+msgstr "Inga andra bokningar dagen före, samma dag eller dagen efter."
+
+msgid "Overlaps"
+msgstr "Överlappar"
+
+msgid "Address"
+msgstr "Adress"
+
+msgid "Fee"
+msgstr "Avgift"
+
+#. translators: %s: amount in Swedish kronor
+msgid "%s kr"
+msgstr "%s kr"
+
+#. translators: %s: formatted fee
+msgid "Fee: standard fee (%s)."
+msgstr "Avgift: standardavgift (%s)."
+
+msgid "Fee: the address is not on the standard-fee lists – agree a fee with the requester."
+msgstr "Avgift: adressen finns inte bland gatorna eller adresserna med standardavgift – kom överens om en avgift med den som bokat."
+
+msgid "Fee to pay: {fee}"
+msgstr "Avgift att betala: {fee}"
+
+msgid "Enter the fee before approving a booking from an address that is not on the standard-fee list."
+msgstr "Ange avgiften innan du godkänner en bokning från en adress som inte finns i listan med standardavgift."
+
+msgid "Standard fee"
+msgstr "Standardavgift"
+
+msgid "Other address"
+msgstr "Annan adress"
+
+msgid "Fee (SEK)"
+msgstr "Avgift (kr)"
+
+msgid "Standard fee for the listed streets and addresses. You can change it if needed."
+msgstr "Standardavgift för gatorna och adresserna i listorna. Du kan ändra den vid behov."
+
+msgid "The address is not on the standard-fee lists. Enter the agreed fee."
+msgstr "Adressen finns inte bland gatorna eller adresserna med standardavgift. Ange den överenskomna avgiften."
+
+msgid "Normal price (SEK)"
+msgstr "Normalpris (kr)"
+
+msgid "Standard-fee streets"
+msgstr "Gator med standardavgift"
+
+msgid "One street name per line. These streets are listed in the booking form and get the standard fee. Other streets need a fee agreed by the housekeeper."
+msgstr "Ett gatunamn per rad. Dessa gator visas i bokningsformuläret och får standardavgiften. Övriga gator behöver en avgift som klubbstugevärden kommer överens om."
+
+msgid "Standard-fee addresses"
+msgstr "Adresser med standardavgift"
+
+msgid "One address per line, e.g. Storgatan 12B. Single addresses on other streets that also get the standard fee."
+msgstr "En adress per rad, t.ex. Storgatan 12B. Enstaka adresser på övriga gator som också får standardavgiften."
+
+msgid "Street"
+msgstr "Gata"
+
+msgid "— Choose street —"
+msgstr "— Välj gata —"
+
+msgid "Other street"
+msgstr "Annan gata"
+
+msgid "Street number"
+msgstr "Gatunummer"
+
+msgid "For example 6 or 6a"
+msgstr "Till exempel 6 eller 6a"
+
+msgid "Please enter a street and a valid street number (for example 6 or 6a)."
+msgstr "Ange gata och ett giltigt gatunummer (till exempel 6 eller 6a)."
+
+#. translators: 1: date, 2: booking type, 3: start time, 4: end time
+msgid "%1$s, %2$s (%3$s–%4$s)"
+msgstr "%1$s, %2$s (%3$s–%4$s)"
+
+#. translators: 1: email subject, 2: recipients, 3: error message
+msgid "Email \"%1$s\" to %2$s could not be sent: %3$s"
+msgstr "E-postmeddelandet \"%1$s\" till %2$s kunde inte skickas: %3$s"
+
+msgid "Booking types"
+msgstr "Bokningstyper"
+
+msgid "Enabled"
+msgstr "Aktiv"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Start time"
+msgstr "Starttid"
+
+msgid "End time"
+msgstr "Sluttid"
+
+msgid "An end time that is not after the start time means the next day, e.g. 00:00 is midnight. Changed times apply to new requests only; existing bookings keep their times."
+msgstr "En sluttid som inte är efter starttiden avser nästa dag, t.ex. 00:00 är midnatt. Ändrade tider gäller bara nya förfrågningar; befintliga bokningar behåller sina tider."
+
+#. translators: %s: booking type, e.g. Evening
+msgid "Invalid time for %s. The previous time was kept."
+msgstr "Ogiltig tid för %s. Den tidigare tiden behölls."
+
+msgid "At least one booking type must be enabled."
+msgstr "Minst en bokningstyp måste vara aktiv."
+
+msgid "Maximum number of guests"
+msgstr "Högsta antal gäster"
+
+#. translators: %d: number of days
+msgid "Upcoming and last %d days"
+msgstr "Kommande och senaste %d dagarna"
+
+msgid "All dates"
+msgstr "Alla datum"
+
+msgid "New request to housekeepers"
+msgstr "Ny förfrågan till klubbstugevärdar"
+
+msgid "Approved – payment information"
+msgstr "Godkänd – betalningsinformation"
+
+msgid "Emails"
+msgstr "E-post"
+
+msgid "Reset to default"
+msgstr "Återställ standard"
+
+msgid "Subject"
+msgstr "Ämne"
+
+msgid "Subject placeholders: {site}, {booking_id}, {name}, {date}. Leave the subject empty to use the default."
+msgstr "Platshållare i ämnet: {site}, {booking_id}, {name}, {date}. Lämna ämnet tomt för att använda standardtexten."
+
+msgid "Body placeholders for this email:"
+msgstr "Platshållare i texten för detta e-postmeddelande:"
+
+msgid "Instructions"
+msgstr "Instruktioner"
+
+msgid "Club House instructions"
+msgstr "Instruktioner för Stugan"
+
+msgid "This page explains how a booking request is handled, which emails are sent and how the settings work."
+msgstr "Den här sidan förklarar hur en bokningsförfrågan hanteras, vilka e-postmeddelanden som skickas och hur inställningarna fungerar."
+
+msgid "Handling a booking"
+msgstr "Hantera en bokning"
+
+msgid "Statuses"
+msgstr "Statusar"
+
+msgid "Addresses and fees"
+msgstr "Adresser och avgifter"
+
+msgid "Other settings"
+msgstr "Övriga inställningar"
+
+msgid "Someone fills in the booking form on the website. They get a confirmation email and the housekeepers get a notification."
+msgstr "Någon fyller i bokningsformuläret på webbplatsen. Personen får ett bekräftelsemejl och stugvärdarna får en avisering."
+
+msgid "Open the request under %s. The page shows the requester, the period, the fee and other bookings the day before, the same day and the day after."
+msgstr "Öppna förfrågan under %s. Sidan visar den som bokat, perioden, avgiften och andra bokningar dagen före, samma dag och dagen efter."
+
+msgid "Club House → Bookings"
+msgstr "Stugan → Bokningar"
+
+msgid "Approve the request (the requester gets payment instructions) or deny it (the requester gets your reason)."
+msgstr "Godkänn förfrågan (den som bokat får betalningsinformation) eller avslå den (den som bokat får din motivering)."
+
+msgid "When the payment has arrived, press \"Payment received – confirm booking\". The requester gets a confirmation."
+msgstr "När betalningen har kommit in, klicka på \"Betalning mottagen – bekräfta bokningen\". Den som bokat får en bekräftelse."
+
+msgid "If the booking has to be called off later, press \"Cancel booking\". The period becomes free again and the requester is told."
+msgstr "Om bokningen senare behöver ställas in, klicka på \"Avboka\". Perioden blir ledig igen och den som bokat får besked."
+
+msgid "Every action has an optional message that is included in the email to the requester. Every change is saved in the history of the booking."
+msgstr "Varje åtgärd har ett valfritt meddelande som tas med i e-postmeddelandet till den som bokat. Varje ändring sparas i bokningens historik."
+
+msgid "The bookings list shows the open bookings (request received and awaiting payment) by default. Use the tabs to see all bookings or one status, and the date filter to include older bookings."
+msgstr "Bokningslistan visar som standard de pågående bokningarna (förfrågan mottagen och väntar på betalning). Använd flikarna för att se alla bokningar eller en enskild status, och datumfiltret för att ta med äldre bokningar."
+
+msgid "Meaning"
+msgstr "Betydelse"
+
+msgid "Blocks the period?"
+msgstr "Blockerar perioden?"
+
+msgid "Possible next step"
+msgstr "Möjligt nästa steg"
+
+msgid "A new request that nobody has handled yet."
+msgstr "En ny förfrågan som ingen har hanterat än."
+
+msgid "No. Shown as preliminary in the public calendar if that is enabled in the settings."
+msgstr "Nej. Visas som preliminär i den publika kalendern om det är aktiverat i inställningarna."
+
+msgid "Approve or deny."
+msgstr "Godkänn eller avslå."
+
+msgid "Approved and the fee has been set. The booking is preliminary until the payment has been received."
+msgstr "Godkänd och avgiften är satt. Bokningen är preliminär tills betalningen har kommit in."
+
+msgid "Yes. New requests for the same time are rejected."
+msgstr "Ja. Nya förfrågningar för samma tid avvisas."
+
+msgid "Confirm when paid, deny or cancel."
+msgstr "Bekräfta när betalt, avslå eller avboka."
+
+msgid "The payment has been received and the booking is fully confirmed."
+msgstr "Betalningen har kommit in och bokningen är helt bekräftad."
+
+msgid "Yes."
+msgstr "Ja."
+
+msgid "Cancel."
+msgstr "Avboka."
+
+msgid "The request was not accepted."
+msgstr "Förfrågan godkändes inte."
+
+msgid "No."
+msgstr "Nej."
+
+msgid "None. The status is final."
+msgstr "Inget. Statusen är slutgiltig."
+
+msgid "A booking that was approved or confirmed has been called off."
+msgstr "En bokning som var godkänd eller bekräftad har ställts in."
+
+msgid "No. The period is free again."
+msgstr "Nej. Perioden är ledig igen."
+
+msgid "A request cannot be approved if an approved or confirmed booking already overlaps the period. Deny the request or cancel the other booking first."
+msgstr "En förfrågan kan inte godkännas om en godkänd eller bekräftad bokning redan överlappar perioden. Avslå förfrågan eller avboka den andra bokningen först."
+
+msgid "When"
+msgstr "När"
+
+msgid "Sent to"
+msgstr "Skickas till"
+
+msgid "A request is submitted"
+msgstr "En förfrågan skickas in"
+
+msgid "The requester"
+msgstr "Den som bokat"
+
+msgid "The housekeepers"
+msgstr "Stugvärdarna"
+
+msgid "You approve the request"
+msgstr "Du godkänner förfrågan"
+
+msgid "You confirm the payment"
+msgstr "Du bekräftar betalningen"
+
+msgid "You deny the request"
+msgstr "Du avslår förfrågan"
+
+msgid "You cancel the booking"
+msgstr "Du avbokar bokningen"
+
+msgid "The housekeepers are the addresses entered as notification emails in the settings plus all users with the \"Club House Housekeeper\" role. The notification email is sent with the requester as reply-to, so you can answer directly."
+msgstr "Stugvärdarna är adresserna som anges som aviseringsadresser i inställningarna samt alla användare med rollen \"Stugvärd\". Aviseringen skickas med den som bokat som svarsadress, så du kan svara direkt."
+
+msgid "If an email to a requester cannot be sent, the booking is still updated. You are told on the booking page and the error is written to the history."
+msgstr "Om ett e-postmeddelande till den som bokat inte kan skickas uppdateras bokningen ändå. Du får besked på bokningssidan och felet skrivs i historiken."
+
+msgid "Editing the emails"
+msgstr "Redigera e-postmeddelandena"
+
+msgid "Go to %s and find \"Emails\". Choose which email to edit in the list; subject and text are shown in the editor."
+msgstr "Gå till %s och hitta \"E-post\". Välj vilket e-postmeddelande som ska redigeras i listan; ämne och text visas i editorn."
+
+msgid "Club House → Settings"
+msgstr "Stugan → Inställningar"
+
+msgid "Administrators edit the emails under Club House → Settings → Emails. Choose which email to edit in the list; subject and text are shown in the editor."
+msgstr "Administratörer redigerar e-postmeddelandena under Stugan → Inställningar → E-post. Välj vilket e-postmeddelande som ska redigeras i listan; ämne och text visas i editorn."
+
+msgid "Emails are sent as HTML. Use the editor to format the text and add links."
+msgstr "E-postmeddelandena skickas som HTML. Använd editorn för att formatera texten och lägga till länkar."
+
+msgid "Placeholders in curly brackets, for example {name}, are replaced with the real values when the email is sent. The available placeholders are listed under the editor and differ between the emails."
+msgstr "Platshållare inom klammerparenteser, till exempel {name}, ersätts med de riktiga värdena när e-postmeddelandet skickas. De tillgängliga platshållarna visas under editorn och skiljer sig mellan meddelandena."
+
+msgid "{summary} is a table with the booking number, name, address, period, guests, purpose, status and fee. {note} is the optional message you write when handling the booking and is left out when empty."
+msgstr "{summary} är en tabell med bokningsnummer, namn, adress, period, gäster, syfte, status och avgift. {note} är det valfria meddelande du skriver när du hanterar bokningen och utelämnas när det är tomt."
+
+msgid "\"Reset to default\" restores the original subject and text of the email shown. Nothing is saved until you press Save changes."
+msgstr "\"Återställ standard\" återställer ursprungligt ämne och ursprunglig text för det visade e-postmeddelandet. Inget sparas förrän du klickar på Spara ändringar."
+
+msgid "Leaving the subject empty uses the default subject."
+msgstr "Lämnas ämnet tomt används standardämnet."
+
+msgid "The text for how to pay is written separately in the setting \"Payment instructions\" and is inserted where the approved email contains {payment_instructions}. It can use {booking_id}, {name}, {fee} and {date}."
+msgstr "Texten om hur man betalar skrivs separat i inställningen \"Betalningsinstruktioner\" och infogas där godkännandemeddelandet innehåller {payment_instructions}. Den kan använda {booking_id}, {name}, {fee} och {date}."
+
+msgid "If a Swish number is entered in the setting \"Swish number\", a \"Pay with Swish\" button is added after the payment instructions in the approved email. It opens Swish with the number, the fee and the booking number already filled in. Below the button is a QR code with the same details, for people reading the email on a computer who can scan it with the Swish app on their phone. The button and QR code are left out when no number is set or the booking has no fee."
+msgstr "Om ett Swish-nummer anges i inställningen \"Swish-nummer\" läggs en knapp \"Betala direkt med Swish\" till efter betalningsinstruktionerna i godkännandemeddelandet. Den öppnar Swish med nummer, avgift och bokningsnummer redan ifyllda. Under knappen finns en QR-kod med samma uppgifter, för den som läser mejlet på en dator och kan skanna den med Swish-appen i mobilen. Knappen och QR-koden utelämnas när inget nummer är angivet eller bokningen saknar avgift."
+
+msgid "Swish number"
+msgstr "Swish-nummer"
+
+msgid "Optional. When set, the approval email gets a \"Pay with Swish\" link with this number, the fee and the booking number already filled in. Leave empty to skip the link."
+msgstr "Valfritt. När det anges får godkännandemeddelandet en länk \"Betala direkt med Swish\" med detta nummer, avgiften och bokningsnumret redan ifyllda. Lämna tomt för att utesluta länken."
+
+msgid "Pay with Swish"
+msgstr "Betala direkt med Swish"
+
+msgid "Free of charge"
+msgstr "Kostnadsfritt"
+
+msgid "Free of charge – confirm booking"
+msgstr "Kostnadsfritt – bekräfta bokning"
+
+msgid "Free of charge – booking confirmed without payment."
+msgstr "Kostnadsfritt – bokningen bekräftad utan betalning."
+
+msgid "If the booking is free, tick \"Free of charge\" next to the fee before approving. The payment email is skipped and the booking is confirmed directly, so the requester gets the confirmation email straight away."
+msgstr "Om bokningen är kostnadsfri, kryssa i \"Kostnadsfritt\" bredvid avgiften innan du godkänner. Betalningsmejlet hoppas över och bokningen bekräftas direkt, så den som bokat får bekräftelsemejlet med en gång."
+
+msgid "Choose purpose"
+msgstr "Välj syfte"
+
+msgid "Private (up to 10 people)"
+msgstr "Privat (upp till 10 personer)"
+
+msgid "Private (up to 25 people)"
+msgstr "Privat (upp till 25 personer)"
+
+msgid "Private (more than 25 people)"
+msgstr "Privat (fler än 25 personer)"
+
+msgid "Association meeting"
+msgstr "Föreningsmöte"
+
+msgid "Pub"
+msgstr "Pub"
+
+msgid "Board meeting"
+msgstr "Styrelsemöte"
+
+msgid "Reading this on a computer? Scan the QR code with the Swish app on your phone."
+msgstr "Läser du detta på en dator? Skanna QR-koden med Swish-appen i din mobil."
+
+msgid "Swish QR code"
+msgstr "Swish QR-kod"
+
+#. translators: 1: booking date, 2: booking number. Swish messages are limited to 50 characters.
+msgid "Booking %1$s, %2$d"
+msgstr "Bokning stugan %1$s, %2$d"
+
+msgid "The fee depends on where the requester lives. Residents of the listed streets and addresses pay the standard fee. For everyone else the housekeeper agrees a fee."
+msgstr "Avgiften beror på var den som bokar bor. De som bor på de listade gatorna och adresserna betalar standardavgiften. För alla andra kommer stugvärden överens om en avgift."
+
+msgid "The booking form"
+msgstr "Bokningsformuläret"
+
+msgid "The requester chooses a street from the list \"Standard-fee streets\", or \"Other street\" and types the street name. If no streets are listed, the street is always typed."
+msgstr "Den som bokar väljer en gata ur listan \"Gator med standardavgift\", eller \"Annan gata\" och skriver gatunamnet. Om inga gator är listade skrivs gatan alltid in."
+
+msgid "The street number is entered separately, for example 6 or 6a. A number that does not look like that is rejected. The address is saved as street, number and capital letter, for example \"Storgatan 6A\"."
+msgstr "Gatunumret anges separat, till exempel 6 eller 6a. Ett nummer som inte ser ut så avvisas. Adressen sparas som gata, nummer och versal bokstav, till exempel \"Storgatan 6A\"."
+
+msgid "What gets the standard fee"
+msgstr "Vad som får standardavgiften"
+
+msgid "Standard-fee streets: one street name per line. Every address that starts with one of these street names gets the standard fee, whatever the number. \"Storgatan\" matches \"Storgatan 6\" and \"Storgatan 12B\", but not \"Storgatsvägen 3\"."
+msgstr "Gator med standardavgift: ett gatunamn per rad. Varje adress som börjar med något av dessa gatunamn får standardavgiften, oavsett nummer. \"Storgatan\" matchar \"Storgatan 6\" och \"Storgatan 12B\", men inte \"Storgatsvägen 3\"."
+
+msgid "Standard-fee addresses: one full address per line, for single houses on other streets, for example \"Parkvägen 12B\". Capital letters and spaces do not matter, so \"parkvägen 12 b\" is the same address."
+msgstr "Adresser med standardavgift: en fullständig adress per rad, för enstaka hus på andra gator, till exempel \"Parkvägen 12B\". Versaler och mellanslag spelar ingen roll, så \"parkvägen 12 b\" är samma adress."
+
+msgid "Standard fee: the amount in SEK that is used for those addresses."
+msgstr "Standardavgift: beloppet i kronor som gäller för dessa adresser."
+
+msgid "When you approve a request"
+msgstr "När du godkänner en förfrågan"
+
+msgid "Standard-fee address: the fee field is filled in with the standard fee. You may change it for this booking."
+msgstr "Adress med standardavgift: avgiftsfältet är ifyllt med standardavgiften. Du kan ändra den för just den här bokningen."
+
+msgid "Other address: the booking is marked \"Other address\" and the fee field is empty. You must enter the agreed fee before you can approve. Contact the requester first; the email to the housekeepers states this."
+msgstr "Annan adress: bokningen är märkt \"Annan adress\" och avgiftsfältet är tomt. Du måste ange den överenskomna avgiften innan du kan godkänna. Kontakta den som bokat först; e-postmeddelandet till stugvärdarna anger detta."
+
+msgid "The fee is saved on the booking when you approve. Changing the standard fee later does not change existing bookings."
+msgstr "Avgiften sparas på bokningen när du godkänner. Om standardavgiften ändras senare påverkas inte befintliga bokningar."
+
+msgid "Who gets the email about new requests, in addition to the users with the housekeeper role. Separate addresses with commas."
+msgstr "Vem som får e-postmeddelandet om nya förfrågningar, utöver användarna med rollen stugvärd. Separera adresser med kommatecken."
+
+msgid "The whole day, day and evening bookings. Each type can be switched off, and its start and end time changed. An end time that is not after the start time means the next day, so 00:00 is midnight. At least one type must be enabled. Changed times apply to new requests only; existing bookings keep their times."
+msgstr "Hela dagen, dag och kväll. Varje typ kan stängas av och dess start- och sluttid ändras. En sluttid som inte är efter starttiden betyder nästa dag, så 00:00 är midnatt. Minst en typ måste vara aktiverad. Ändrade tider gäller bara nya förfrågningar; befintliga bokningar behåller sina tider."
+
+msgid "The highest number of guests the requester can enter in the form."
+msgstr "Det högsta antal gäster som den som bokar kan ange i formuläret."
+
+msgid "If enabled, requests that nobody has handled yet are shown as preliminary. Approved and confirmed bookings are always shown as booked. No personal data is shown in the calendar."
+msgstr "Om det är aktiverat visas förfrågningar som ingen har hanterat än som preliminära. Godkända och bekräftade bokningar visas alltid som bokade. Inga personuppgifter visas i kalendern."
+
+msgid "On the website, the calendar is added with the shortcode [clubhouse_calendar] and the booking form with [clubhouse_booking_form]."
+msgstr "På webbplatsen läggs kalendern till med kortkoden [clubhouse_calendar] och bokningsformuläret med [clubhouse_booking_form]."
+
+msgid "Past booking"
+msgstr "Passerad bokning"
+
+msgid "Payment information sent again."
+msgstr "Betalningsinformationen har skickats igen."
+
+msgid "Payment information resend failed – the email could not be sent."
+msgstr "Omsändning av betalningsinformation misslyckades – e-postmeddelandet kunde inte skickas."
+
+msgid "Send payment information again"
+msgstr "Skicka betalningsinformation igen"
+
+msgid "Payment reminder to treasurer"
+msgstr "Betalningspåminnelse till kassör"
+
+msgid "Stugan Payment not received (#{booking_id}, {date})"
+msgstr "Stugan Betalning ej mottagen (#{booking_id}, {date})"
+
+msgid "Heads up: the booking below is coming up soon and payment has not been registered yet."
+msgstr "Observera: bokningen nedan närmar sig och ingen betalning har registrerats ännu."
+
+msgid "Open the booking here:"
+msgstr "Öppna bokningen här:"
+
+msgid "Payment reminder sent to the treasurer (%s)."
+msgstr "Betalningspåminnelse skickad till kassören (%s)."
+
+msgid "System"
+msgstr "System"
+
+msgid "Treasurer"
+msgstr "Kassör"
+
+msgid "Comma separated. Leave empty to turn payment reminders off."
+msgstr "Kommaseparerad. Lämna tomt för att stänga av betalningspåminnelser."
+
+msgid "Send the reminder"
+msgstr "Skicka påminnelsen"
+
+msgid "days before the stay"
+msgstr "dagar före vistelsen"
+
+msgid "The treasurer gets one email per booking that is still awaiting payment when the stay is this close. It is logged in the booking history."
+msgstr "Kassören får ett e-postmeddelande per bokning som fortfarande väntar på betalning när vistelsen är så nära. Det loggas i bokningens historik."
+
+msgid "Add booking"
+msgstr "Lägg till bokning"
+
+msgid "Booking added. No email was sent."
+msgstr "Bokningen har lagts till. Inget e-postmeddelande skickades."
+
+msgid "Enter a name and choose a valid date and booking type."
+msgstr "Ange ett namn och välj ett giltigt datum och bokningstyp."
+
+msgid "The email address is not valid."
+msgstr "E-postadressen är inte giltig."
+
+msgid "The club house is already booked during that time."
+msgstr "Stugan är redan bokad under den tiden."
+
+msgid "The booking could not be saved."
+msgstr "Bokningen kunde inte sparas."
+
+msgid "Booking added by a housekeeper. No email was sent."
+msgstr "Bokningen lades till av en stugvärd. Inget e-postmeddelande skickades."
+
+msgid "Use this to register a booking yourself. It is confirmed immediately and no email is sent to anyone."
+msgstr "Använd detta för att registrera en bokning själv. Den bekräftas direkt och inget e-postmeddelande skickas till någon."
+
+msgid "Optional. Nothing is sent to this address."
+msgstr "Valfritt. Inget skickas till den här adressen."
+
+msgid "0 means free of charge."
+msgstr "0 betyder kostnadsfritt."
+
+msgid "Adding a booking yourself"
+msgstr "Lägga till en bokning själv"
+
+msgid "Use this when the booking was agreed outside the website, for example by phone or in person, or to block the house for your own use. Nothing is sent to anyone."
+msgstr "Använd detta när bokningen har avtalats utanför webbplatsen, till exempel per telefon eller på plats, eller för att blockera stugan för eget bruk. Inget skickas till någon."
+
+msgid "Press \"Add booking\" on the bookings page, or choose Club House → Add booking in the menu."
+msgstr "Tryck på \"Lägg till bokning\" på bokningssidan, eller välj Stugan → Lägg till bokning i menyn."
+
+msgid "Choose the date and booking type and enter the name. Email, phone, address, purpose and message are optional. The fee is 0 (free of charge) unless you enter an amount."
+msgstr "Välj datum och bokningstyp och ange namn. E-post, telefon, adress, ändamål och meddelande är valfria. Avgiften är 0 (kostnadsfritt) om du inte anger ett belopp."
+
+msgid "The booking is confirmed immediately and blocks the period in the public calendar. No email is sent, not to the booker, the housekeepers or the treasurer."
+msgstr "Bokningen bekräftas direkt och blockerar perioden i den publika kalendern. Inget e-postmeddelande skickas, varken till den som bokat, stugvärdarna eller kassören."
+
+msgid "The booking cannot be saved if it overlaps an approved or confirmed booking. Past dates are allowed, so you can register earlier bookings."
+msgstr "Bokningen kan inte sparas om den överlappar en godkänd eller bekräftad bokning. Tidigare datum är tillåtna, så du kan registrera äldre bokningar."
+
+msgid "Bookings you add are marked in the history with your name. They can be cancelled like any other booking; if no email address was entered, no email is sent."
+msgstr "Bokningar du lägger till markeras i historiken med ditt namn. De kan avbokas som vilken annan bokning som helst; om ingen e-postadress angavs skickas inget e-postmeddelande."
+
+msgid "Calendar width"
+msgstr "Kalenderns bredd"
+
+msgid "Maximum width of the public calendar as a percentage of the available width (30–100). The calendar is centered."
+msgstr "Största bredd för den publika kalendern i procent av tillgänglig bredd (30–100). Kalendern centreras."
+
+msgid "Booking form width"
+msgstr "Bokningsformulärets bredd"
+
+msgid "Maximum width of the booking form as a percentage of the available width (30–100). The form is centered."
+msgstr "Största bredd för bokningsformuläret i procent av tillgänglig bredd (30–100). Formuläret centreras."
+
+msgid "Contact the housekeeper"
+msgstr "Kontakta stugvärden"
+
+msgid "If a code is entered in the setting \"Key box code\", it is shown in the Confirmed email, which is sent after the payment has been received (or straight away for free bookings). It is inserted where the email contains {key_box} and left out when no code is set. If you have edited the Confirmed email, add {key_box} to the text yourself or use \"Reset to default\"."
+msgstr "Om en kod anges i inställningen \"Nyckelboxkod\" visas den i mejlet Bekräftad, som skickas när betalningen har kommit in (eller direkt för kostnadsfria bokningar). Den infogas där mejlet innehåller {key_box} och utelämnas när ingen kod är angiven. Om du har redigerat mejlet Bekräftad, lägg till {key_box} i texten själv eller använd \"Återställ standard\"."
+
+msgid "{key_box} inserts the key box code from the setting above. It is only available in the Confirmed email and is left out when no code is set."
+msgstr "{key_box} infogar nyckelboxkoden från inställningen ovan. Den finns bara i mejlet Bekräftad och utelämnas när ingen kod är angiven."
+
+msgid "Key box code"
+msgstr "Nyckelboxkod"
+
+msgid "Optional. The code to the key box. It is included in the Confirmed email (after payment has been received) through the {key_box} placeholder. Leave empty to skip it."
+msgstr "Valfritt. Koden till nyckelboxen. Den tas med i mejlet Bekräftad (när betalningen har kommit in) via platshållaren {key_box}. Lämna tomt för att utesluta den."
+
+msgid "Too many booking requests. Please try again later."
+msgstr "För många bokningsförfrågningar. Försök igen senare."
+
+msgid "House rules page"
+msgstr "Sida med ordningsregler"
+
+msgid "— None —"
+msgstr "— Ingen —"
+
+msgid "The page with the house rules. The booking form then requires the requester to confirm that they have read and understood them, and shows the page in a pop-up window. Choose \"None\" to leave the confirmation out."
+msgstr "Sidan med ordningsreglerna. Bokningsformuläret kräver då att den som bokar intygar att de har läst och förstått dem, och visar sidan i ett popup-fönster. Välj \"Ingen\" för att ta bort bekräftelsen."
+
+msgid "Loading…"
+msgstr "Laddar…"
+
+msgid "Close"
+msgstr "Stäng"
+
+msgid "Could not load the house rules."
+msgstr "Kunde inte ladda ordningsreglerna."
+
+msgid "Please confirm that you have read and understood the house rules."
+msgstr "Bekräfta att du har läst och förstått ordningsreglerna."
+
+msgid "I have read and understood the %s"
+msgstr "Jag har läst och förstått %s"
+
+msgid "house rules"
+msgstr "ordningsreglerna"
+
+msgid "Choose the page with the house rules. The booking form then has a mandatory checkbox \"I have read and understood the house rules\" and the link opens the page in a pop-up window. Without a page the checkbox is not shown."
+msgstr "Välj sidan med ordningsreglerna. Bokningsformuläret får då en obligatorisk kryssruta \"Jag har läst och förstått ordningsreglerna\" och länken öppnar sidan i ett popup-fönster. Utan vald sida visas ingen kryssruta."
+
+msgid "Please correct the following before sending:"
+msgstr "Rätta till följande innan du skickar:"
+
+msgid "Please fill in this field."
+msgstr "Fyll i det här fältet."
+
+msgid "Please choose an option."
+msgstr "Välj ett alternativ."
+
+msgid "Please choose a booking type."
+msgstr "Välj en bokningstyp."
+
+msgid "You must accept the house rules to continue."
+msgstr "Du måste godkänna ordningsreglerna för att fortsätta."
+
+msgid "Please enter a valid email address, for example name@example.com."
+msgstr "Ange en giltig e-postadress, till exempel namn@exempel.se."
+
+msgid "Please check the format."
+msgstr "Kontrollera formatet."
+
+msgid "Please choose a date that is today or later."
+msgstr "Välj dagens datum eller ett senare datum."
+
+msgid "Caption"
+msgstr "Rubrik"
+
+msgid "The caption is the name shown together with the hours, e.g. \"Whole day 11:00–11:00\". Leave it empty to use the default name."
+msgstr "Rubriken är namnet som visas tillsammans med tiderna, t.ex. \"Heldag 11:00–11:00\". Lämna tomt för att använda standardnamnet."

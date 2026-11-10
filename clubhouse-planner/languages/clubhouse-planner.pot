@@ -1,0 +1,928 @@
+# Translation template for ClubHouse Planner.
+# Regenerate with: wp i18n make-pot . languages/clubhouse-planner.pot
+msgid ""
+msgstr ""
+"Project-Id-Version: ClubHouse Planner 0.1.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"X-Domain: clubhouse-planner\n"
+
+#. Description of the plugin
+msgid "Booking and scheduling for a club house. Public calendar, booking requests and housekeeper approval workflow."
+msgstr ""
+
+msgid "Club House Housekeeper"
+msgstr ""
+
+msgid "Club House"
+msgstr ""
+
+msgid "Bookings"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Approve – send payment information"
+msgstr ""
+
+msgid "Additional message to the requester (optional)"
+msgstr ""
+
+msgid "Payment received – confirm booking"
+msgstr ""
+
+msgid "Deny request"
+msgstr ""
+
+msgid "Reason (sent to the requester)"
+msgstr ""
+
+msgid "Cancel booking"
+msgstr ""
+
+msgid "Booking updated and email sent to the requester."
+msgstr ""
+
+msgid "Booking updated, but the email could not be sent."
+msgstr ""
+
+msgid "Booking updated. No email was sent."
+msgstr ""
+
+msgid "Don't send email confirmation"
+msgstr ""
+
+msgid "That action is not allowed for the current status."
+msgstr ""
+
+msgid "Another approved booking overlaps this period. Deny this request or cancel the other booking first."
+msgstr ""
+
+msgid "The booking could not be updated."
+msgstr ""
+
+msgid "You are not allowed to access this page."
+msgstr ""
+
+msgid "Booking not found."
+msgstr ""
+
+msgid "You are not allowed to do this."
+msgstr ""
+
+msgid "Request received"
+msgstr ""
+
+msgid "Awaiting payment"
+msgstr ""
+
+msgid "Confirmed"
+msgstr ""
+
+msgid "Denied"
+msgstr ""
+
+msgid "Cancelled"
+msgstr ""
+
+msgid "Booking request submitted."
+msgstr ""
+
+msgid "Please pay the rent to bank account XXXX-XXXX within 10 days.\nMark the payment with booking number {booking_id}."
+msgstr ""
+
+msgid "Hi {name},"
+msgstr ""
+
+msgid "Thank you for your booking request. We have received it and a housekeeper will review it shortly. You will get another email when it has been reviewed."
+msgstr ""
+
+#. translators: default email subject; keep the placeholders {site} and {booking_id}
+msgid "Stugan Booking request received (#{booking_id})"
+msgstr ""
+
+msgid "A new booking request has been submitted."
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Review the request here:"
+msgstr ""
+
+#. translators: default email subject; keep the placeholders {site} and {booking_id}
+msgid "Stugan New booking request (#{booking_id})"
+msgstr ""
+
+msgid "Your booking request can be accepted. The booking is preliminary until payment has been received."
+msgstr ""
+
+msgid "How to pay"
+msgstr ""
+
+#. translators: default email subject; keep the placeholders {site} and {booking_id}
+msgid "Stugan Booking approved – payment information (#{booking_id})"
+msgstr ""
+
+msgid "We have received your payment and your booking is now confirmed. Welcome!"
+msgstr ""
+
+#. translators: default email subject; keep the placeholders {site} and {booking_id}
+msgid "Stugan Booking confirmed (#{booking_id})"
+msgstr ""
+
+msgid "Unfortunately we cannot accept your booking request."
+msgstr ""
+
+#. translators: default email subject; keep the placeholders {site} and {booking_id}
+msgid "Stugan Booking request denied (#{booking_id})"
+msgstr ""
+
+msgid "Your booking has been cancelled."
+msgstr ""
+
+#. translators: default email subject; keep the placeholders {site} and {booking_id}
+msgid "Stugan Booking cancelled (#{booking_id})"
+msgstr ""
+
+msgid "Booking number"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Period"
+msgstr ""
+
+msgid "Guests"
+msgstr ""
+
+msgid "Purpose"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Message from the housekeeper"
+msgstr ""
+
+msgid "Previous month"
+msgstr ""
+
+msgid "Next month"
+msgstr ""
+
+msgid "Booked"
+msgstr ""
+
+msgid "Preliminary"
+msgstr ""
+
+msgid "Could not load the calendar."
+msgstr ""
+
+msgid "Thank you! Your booking request has been received. A confirmation has been sent to your email."
+msgstr ""
+
+msgid "The form has expired. Please reload the page and try again."
+msgstr ""
+
+msgid "Please fill in all required fields with valid values."
+msgstr ""
+
+msgid "The requested time has already passed."
+msgstr ""
+
+msgid "The club house is already booked during the requested time."
+msgstr ""
+
+msgid "Too many booking requests. Please try again later."
+msgstr ""
+
+msgid "Something went wrong. Please try again later."
+msgstr ""
+
+msgid "Invalid date range."
+msgstr ""
+
+#. translators: %d: booking id
+msgid "Booking #%d"
+msgstr ""
+
+msgid "Back to all bookings"
+msgstr ""
+
+msgid "Request"
+msgstr ""
+
+msgid "Received"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "No further actions available for this booking."
+msgstr ""
+
+msgid "History"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "By"
+msgstr ""
+
+msgid "Note"
+msgstr ""
+
+msgid "Requester"
+msgstr ""
+
+msgid "Club House bookings"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Requested by"
+msgstr ""
+
+msgid "No bookings found."
+msgstr ""
+
+msgid "Club House settings"
+msgstr ""
+
+msgid "Notification emails"
+msgstr ""
+
+msgid "Comma separated. Users with the \"Club House Housekeeper\" role are always notified as well."
+msgstr ""
+
+msgid "Sender address"
+msgstr ""
+
+msgid "Sender name"
+msgstr ""
+
+msgid "Address and name shown as the sender (\"From\") of booking emails, e.g. Svinningeudd Stugan <stugan@example.com>. Leave the address empty to use the site default. Replies still go to the housekeepers. Your mail server must allow sending from this address."
+msgstr ""
+
+msgid "Payment instructions"
+msgstr ""
+
+msgid "Sent when a request is approved. Placeholders: {booking_id}, {name}, {fee}, {date}"
+msgstr ""
+
+msgid "Public calendar"
+msgstr ""
+
+msgid "Show unhandled requests as preliminary"
+msgstr ""
+
+msgid "Number of guests"
+msgstr ""
+
+msgid "Purpose (e.g. birthday party, meeting)"
+msgstr ""
+
+msgid "Send booking request"
+msgstr ""
+
+msgid "Contact details"
+msgstr ""
+
+msgid "Date and time"
+msgstr ""
+
+msgid "Additional information"
+msgstr ""
+
+msgid "Day"
+msgstr ""
+
+msgid "Evening"
+msgstr ""
+
+msgid "Whole day"
+msgstr ""
+
+msgid "Booking type"
+msgstr ""
+
+msgid "Day before"
+msgstr ""
+
+msgid "Same day"
+msgstr ""
+
+msgid "Day after"
+msgstr ""
+
+msgid "Other bookings around this date"
+msgstr ""
+
+msgid "No other bookings the day before, the same day or the day after."
+msgstr ""
+
+msgid "Overlaps"
+msgstr ""
+
+msgid "Address"
+msgstr ""
+
+msgid "Fee"
+msgstr ""
+
+#. translators: %s: amount in Swedish kronor
+msgid "%s kr"
+msgstr ""
+
+#. translators: %s: formatted fee
+msgid "Fee: standard fee (%s)."
+msgstr ""
+
+msgid "Fee: the address is not on the standard-fee lists – agree a fee with the requester."
+msgstr ""
+
+msgid "Fee to pay: {fee}"
+msgstr ""
+
+msgid "Enter the fee before approving a booking from an address that is not on the standard-fee list."
+msgstr ""
+
+msgid "Standard fee"
+msgstr ""
+
+msgid "Other address"
+msgstr ""
+
+msgid "Fee (SEK)"
+msgstr ""
+
+msgid "Standard fee for the listed streets and addresses. You can change it if needed."
+msgstr ""
+
+msgid "The address is not on the standard-fee lists. Enter the agreed fee."
+msgstr ""
+
+msgid "Standard fee (SEK)"
+msgstr ""
+
+msgid "Standard-fee streets"
+msgstr ""
+
+msgid "One street name per line. These streets are listed in the booking form and get the standard fee. Other streets need a fee agreed by the housekeeper."
+msgstr ""
+
+msgid "Standard-fee addresses"
+msgstr ""
+
+msgid "One address per line, e.g. Storgatan 12B. Single addresses on other streets that also get the standard fee."
+msgstr ""
+
+msgid "Street"
+msgstr ""
+
+msgid "— Choose street —"
+msgstr ""
+
+msgid "Other street"
+msgstr ""
+
+msgid "Street number"
+msgstr ""
+
+msgid "For example 6 or 6a"
+msgstr ""
+
+msgid "Please enter a street and a valid street number (for example 6 or 6a)."
+msgstr ""
+
+#. translators: 1: date, 2: booking type, 3: start time, 4: end time
+msgid "%1$s, %2$s (%3$s–%4$s)"
+msgstr ""
+
+#. translators: 1: email subject, 2: recipients, 3: error message
+msgid "Email \"%1$s\" to %2$s could not be sent: %3$s"
+msgstr ""
+
+msgid "Booking types"
+msgstr ""
+
+msgid "Enabled"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Start time"
+msgstr ""
+
+msgid "End time"
+msgstr ""
+
+msgid "An end time that is not after the start time means the next day, e.g. 00:00 is midnight. Changed times apply to new requests only; existing bookings keep their times."
+msgstr ""
+
+#. translators: %s: booking type, e.g. Evening
+msgid "Invalid time for %s. The previous time was kept."
+msgstr ""
+
+msgid "At least one booking type must be enabled."
+msgstr ""
+
+msgid "Maximum number of guests"
+msgstr ""
+
+#. translators: %d: number of days
+msgid "Upcoming and last %d days"
+msgstr ""
+
+msgid "All dates"
+msgstr ""
+
+msgid "New request to housekeepers"
+msgstr ""
+
+msgid "Approved – payment information"
+msgstr ""
+
+msgid "Emails"
+msgstr ""
+
+msgid "Reset to default"
+msgstr ""
+
+msgid "Subject"
+msgstr ""
+
+msgid "Subject placeholders: {site}, {booking_id}, {name}, {date}. Leave the subject empty to use the default."
+msgstr ""
+
+msgid "Body placeholders for this email:"
+msgstr ""
+
+msgid "Instructions"
+msgstr ""
+
+msgid "Club House instructions"
+msgstr ""
+
+msgid "This page explains how a booking request is handled, which emails are sent and how the settings work."
+msgstr ""
+
+msgid "Handling a booking"
+msgstr ""
+
+msgid "Statuses"
+msgstr ""
+
+msgid "Addresses and fees"
+msgstr ""
+
+msgid "Other settings"
+msgstr ""
+
+msgid "Someone fills in the booking form on the website. They get a confirmation email and the housekeepers get a notification."
+msgstr ""
+
+msgid "Open the request under %s. The page shows the requester, the period, the fee and other bookings the day before, the same day and the day after."
+msgstr ""
+
+msgid "Club House → Bookings"
+msgstr ""
+
+msgid "Approve the request (the requester gets payment instructions) or deny it (the requester gets your reason)."
+msgstr ""
+
+msgid "When the payment has arrived, press \"Payment received – confirm booking\". The requester gets a confirmation."
+msgstr ""
+
+msgid "If the booking has to be called off later, press \"Cancel booking\". The period becomes free again and the requester is told."
+msgstr ""
+
+msgid "Every action has an optional message that is included in the email to the requester. Every change is saved in the history of the booking."
+msgstr ""
+
+msgid "The bookings list shows the open bookings (request received and awaiting payment) by default. Use the tabs to see all bookings or one status, and the date filter to include older bookings."
+msgstr ""
+
+msgid "Meaning"
+msgstr ""
+
+msgid "Blocks the period?"
+msgstr ""
+
+msgid "Possible next step"
+msgstr ""
+
+msgid "A new request that nobody has handled yet."
+msgstr ""
+
+msgid "No. Shown as preliminary in the public calendar if that is enabled in the settings."
+msgstr ""
+
+msgid "Approve or deny."
+msgstr ""
+
+msgid "Approved and the fee has been set. The booking is preliminary until the payment has been received."
+msgstr ""
+
+msgid "Yes. New requests for the same time are rejected."
+msgstr ""
+
+msgid "Confirm when paid, deny or cancel."
+msgstr ""
+
+msgid "The payment has been received and the booking is fully confirmed."
+msgstr ""
+
+msgid "Yes."
+msgstr ""
+
+msgid "Cancel."
+msgstr ""
+
+msgid "The request was not accepted."
+msgstr ""
+
+msgid "No."
+msgstr ""
+
+msgid "None. The status is final."
+msgstr ""
+
+msgid "A booking that was approved or confirmed has been called off."
+msgstr ""
+
+msgid "No. The period is free again."
+msgstr ""
+
+msgid "A request cannot be approved if an approved or confirmed booking already overlaps the period. Deny the request or cancel the other booking first."
+msgstr ""
+
+msgid "When"
+msgstr ""
+
+msgid "Sent to"
+msgstr ""
+
+msgid "A request is submitted"
+msgstr ""
+
+msgid "The requester"
+msgstr ""
+
+msgid "The housekeepers"
+msgstr ""
+
+msgid "You approve the request"
+msgstr ""
+
+msgid "You confirm the payment"
+msgstr ""
+
+msgid "You deny the request"
+msgstr ""
+
+msgid "You cancel the booking"
+msgstr ""
+
+msgid "The housekeepers are the addresses entered as notification emails in the settings plus all users with the \"Club House Housekeeper\" role. The notification email is sent with the requester as reply-to, so you can answer directly."
+msgstr ""
+
+msgid "If an email to a requester cannot be sent, the booking is still updated. You are told on the booking page and the error is written to the history."
+msgstr ""
+
+msgid "Editing the emails"
+msgstr ""
+
+msgid "Go to %s and find \"Emails\". Choose which email to edit in the list; subject and text are shown in the editor."
+msgstr ""
+
+msgid "Club House → Settings"
+msgstr ""
+
+msgid "Administrators edit the emails under Club House → Settings → Emails. Choose which email to edit in the list; subject and text are shown in the editor."
+msgstr ""
+
+msgid "Emails are sent as HTML. Use the editor to format the text and add links."
+msgstr ""
+
+msgid "Placeholders in curly brackets, for example {name}, are replaced with the real values when the email is sent. The available placeholders are listed under the editor and differ between the emails."
+msgstr ""
+
+msgid "{summary} is a table with the booking number, name, address, period, guests, purpose, status and fee. {note} is the optional message you write when handling the booking and is left out when empty."
+msgstr ""
+
+msgid "\"Reset to default\" restores the original subject and text of the email shown. Nothing is saved until you press Save changes."
+msgstr ""
+
+msgid "Leaving the subject empty uses the default subject."
+msgstr ""
+
+msgid "The text for how to pay is written separately in the setting \"Payment instructions\" and is inserted where the approved email contains {payment_instructions}. It can use {booking_id}, {name}, {fee} and {date}."
+msgstr ""
+
+msgid "If a Swish number is entered in the setting \"Swish number\", a \"Pay with Swish\" button is added after the payment instructions in the approved email. It opens Swish with the number, the fee and the booking number already filled in. Below the button is a QR code with the same details, for people reading the email on a computer who can scan it with the Swish app on their phone. The button and QR code are left out when no number is set or the booking has no fee."
+msgstr ""
+
+msgid "Swish number"
+msgstr ""
+
+msgid "Optional. When set, the approval email gets a \"Pay with Swish\" link with this number, the fee and the booking number already filled in. Leave empty to skip the link."
+msgstr ""
+
+msgid "Pay with Swish"
+msgstr ""
+
+msgid "Free of charge"
+msgstr ""
+
+msgid "Free of charge – confirm booking"
+msgstr ""
+
+msgid "Free of charge – booking confirmed without payment."
+msgstr ""
+
+msgid "If the booking is free, tick \"Free of charge\" next to the fee before approving. The payment email is skipped and the booking is confirmed directly, so the requester gets the confirmation email straight away."
+msgstr ""
+
+msgid "Choose purpose"
+msgstr ""
+
+msgid "Private (up to 10 people)"
+msgstr ""
+
+msgid "Private (up to 25 people)"
+msgstr ""
+
+msgid "Private (more than 25 people)"
+msgstr ""
+
+msgid "Association meeting"
+msgstr ""
+
+msgid "Pub"
+msgstr ""
+
+msgid "Board meeting"
+msgstr ""
+
+msgid "Reading this on a computer? Scan the QR code with the Swish app on your phone."
+msgstr ""
+
+msgid "Swish QR code"
+msgstr ""
+
+#. translators: 1: booking date, 2: booking number. Swish messages are limited to 50 characters.
+msgid "Booking %1$s, %2$d"
+msgstr ""
+
+msgid "The fee depends on where the requester lives. Residents of the listed streets and addresses pay the standard fee. For everyone else the housekeeper agrees a fee."
+msgstr ""
+
+msgid "The booking form"
+msgstr ""
+
+msgid "The requester chooses a street from the list \"Standard-fee streets\", or \"Other street\" and types the street name. If no streets are listed, the street is always typed."
+msgstr ""
+
+msgid "The street number is entered separately, for example 6 or 6a. A number that does not look like that is rejected. The address is saved as street, number and capital letter, for example \"Storgatan 6A\"."
+msgstr ""
+
+msgid "What gets the standard fee"
+msgstr ""
+
+msgid "Standard-fee streets: one street name per line. Every address that starts with one of these street names gets the standard fee, whatever the number. \"Storgatan\" matches \"Storgatan 6\" and \"Storgatan 12B\", but not \"Storgatsvägen 3\"."
+msgstr ""
+
+msgid "Standard-fee addresses: one full address per line, for single houses on other streets, for example \"Parkvägen 12B\". Capital letters and spaces do not matter, so \"parkvägen 12 b\" is the same address."
+msgstr ""
+
+msgid "Standard fee: the amount in SEK that is used for those addresses."
+msgstr ""
+
+msgid "When you approve a request"
+msgstr ""
+
+msgid "Standard-fee address: the fee field is filled in with the standard fee. You may change it for this booking."
+msgstr ""
+
+msgid "Other address: the booking is marked \"Other address\" and the fee field is empty. You must enter the agreed fee before you can approve. Contact the requester first; the email to the housekeepers states this."
+msgstr ""
+
+msgid "The fee is saved on the booking when you approve. Changing the standard fee later does not change existing bookings."
+msgstr ""
+
+msgid "Who gets the email about new requests, in addition to the users with the housekeeper role. Separate addresses with commas."
+msgstr ""
+
+msgid "The whole day, day and evening bookings. Each type can be switched off, and its start and end time changed. An end time that is not after the start time means the next day, so 00:00 is midnight. At least one type must be enabled. Changed times apply to new requests only; existing bookings keep their times."
+msgstr ""
+
+msgid "The highest number of guests the requester can enter in the form."
+msgstr ""
+
+msgid "If enabled, requests that nobody has handled yet are shown as preliminary. Approved and confirmed bookings are always shown as booked. No personal data is shown in the calendar."
+msgstr ""
+
+msgid "On the website, the calendar is added with the shortcode [clubhouse_calendar] and the booking form with [clubhouse_booking_form]."
+msgstr ""
+
+msgid "Key box code"
+msgstr ""
+
+msgid "Optional. The code to the key box. It is included in the Confirmed email (after payment has been received) through the {key_box} placeholder. Leave empty to skip it."
+msgstr ""
+
+msgid "If a code is entered in the setting \"Key box code\", it is shown in the Confirmed email, which is sent after the payment has been received (or straight away for free bookings). It is inserted where the email contains {key_box} and left out when no code is set. If you have edited the Confirmed email, add {key_box} to the text yourself or use \"Reset to default\"."
+msgstr ""
+
+msgid "{key_box} inserts the key box code from the setting above. It is only available in the Confirmed email and is left out when no code is set."
+msgstr ""
+
+msgid "Past booking"
+msgstr ""
+
+msgid "Payment information sent again."
+msgstr ""
+
+msgid "Payment information resend failed – the email could not be sent."
+msgstr ""
+
+msgid "Send payment information again"
+msgstr ""
+
+msgid "Payment reminder to treasurer"
+msgstr ""
+
+msgid "Stugan Payment not received (#{booking_id}, {date})"
+msgstr ""
+
+msgid "Heads up: the booking below is coming up soon and payment has not been registered yet."
+msgstr ""
+
+msgid "Open the booking here:"
+msgstr ""
+
+msgid "Payment reminder sent to the treasurer (%s)."
+msgstr ""
+
+msgid "System"
+msgstr ""
+
+msgid "Treasurer"
+msgstr ""
+
+msgid "Comma separated. Leave empty to turn payment reminders off."
+msgstr ""
+
+msgid "Send the reminder"
+msgstr ""
+
+msgid "days before the stay"
+msgstr ""
+
+msgid "The treasurer gets one email per booking that is still awaiting payment when the stay is this close. It is logged in the booking history."
+msgstr ""
+
+msgid "Add booking"
+msgstr ""
+
+msgid "Booking added. No email was sent."
+msgstr ""
+
+msgid "Enter a name and choose a valid date and booking type."
+msgstr ""
+
+msgid "The email address is not valid."
+msgstr ""
+
+msgid "The club house is already booked during that time."
+msgstr ""
+
+msgid "The booking could not be saved."
+msgstr ""
+
+msgid "Booking added by a housekeeper. No email was sent."
+msgstr ""
+
+msgid "Use this to register a booking yourself. It is confirmed immediately and no email is sent to anyone."
+msgstr ""
+
+msgid "Optional. Nothing is sent to this address."
+msgstr ""
+
+msgid "0 means free of charge."
+msgstr ""
+
+msgid "Adding a booking yourself"
+msgstr ""
+
+msgid "Use this when the booking was agreed outside the website, for example by phone or in person, or to block the house for your own use. Nothing is sent to anyone."
+msgstr ""
+
+msgid "Press \"Add booking\" on the bookings page, or choose Club House → Add booking in the menu."
+msgstr ""
+
+msgid "Choose the date and booking type and enter the name. Email, phone, address, purpose and message are optional. The fee is 0 (free of charge) unless you enter an amount."
+msgstr ""
+
+msgid "The booking is confirmed immediately and blocks the period in the public calendar. No email is sent, not to the booker, the housekeepers or the treasurer."
+msgstr ""
+
+msgid "The booking cannot be saved if it overlaps an approved or confirmed booking. Past dates are allowed, so you can register earlier bookings."
+msgstr ""
+
+msgid "Bookings you add are marked in the history with your name. They can be cancelled like any other booking; if no email address was entered, no email is sent."
+msgstr ""
+
+msgid "Calendar width"
+msgstr ""
+
+msgid "Maximum width of the public calendar as a percentage of the available width (30–100). The calendar is centered."
+msgstr ""
+
+msgid "Booking form width"
+msgstr ""
+
+msgid "Maximum width of the booking form as a percentage of the available width (30–100). The form is centered."
+msgstr ""
+
+msgid "Contact the housekeeper"
+msgstr ""
+
+msgid "House rules page"
+msgstr ""
+
+msgid "— None —"
+msgstr ""
+
+msgid "The page with the house rules. The booking form then requires the requester to confirm that they have read and understood them, and shows the page in a pop-up window. Choose \"None\" to leave the confirmation out."
+msgstr ""
+
+msgid "Loading…"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Could not load the house rules."
+msgstr ""
+
+msgid "Please confirm that you have read and understood the house rules."
+msgstr ""
+
+msgid "I have read and understood the %s"
+msgstr ""
+
+msgid "house rules"
+msgstr ""
+
+msgid "Choose the page with the house rules. The booking form then has a mandatory checkbox \"I have read and understood the house rules\" and the link opens the page in a pop-up window. Without a page the checkbox is not shown."
+msgstr ""
+
+msgid "Please correct the following before sending:"
+msgstr ""
+
+msgid "Please fill in this field."
+msgstr ""
+
+msgid "Please choose an option."
+msgstr ""
+
+msgid "Please choose a booking type."
+msgstr ""
+
+msgid "You must accept the house rules to continue."
+msgstr ""
+
+msgid "Please enter a valid email address, for example name@example.com."
+msgstr ""
+
+msgid "Please check the format."
+msgstr ""
+
+msgid "Please choose a date that is today or later."
+msgstr ""
+
+msgid "Caption"
+msgstr ""
+
+msgid "The caption is the name shown together with the hours, e.g. \"Whole day 11:00–11:00\". Leave it empty to use the default name."
+msgstr ""

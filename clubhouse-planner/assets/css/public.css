@@ -1,0 +1,54 @@
+/* Calendar */
+.chp-calendar-wrap { margin: 1.5em auto; }
+.chp-cal__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .5em; }
+.chp-cal__title { margin: 0; text-transform: capitalize; }
+.chp-cal__nav { font-size: 1.4em; line-height: 1; padding: .2em .6em; cursor: pointer; }
+.chp-cal__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.chp-cal__weekday { text-align: center; font-weight: 600; font-size: .85em; padding: .3em 0; }
+.chp-cal__day { min-height: 4.5em; padding: .25em; border: 1px solid #ddd; background: #fff; display: flex; flex-direction: column; gap: 2px; font-size: .85em; }
+.chp-cal__day[role="button"] { cursor: pointer; }
+.chp-cal__day[role="button"]:hover, .chp-cal__day[role="button"]:focus { outline: 2px solid #2271b1; outline-offset: -2px; }
+.chp-cal__day--empty { background: transparent; border-color: transparent; }
+.chp-cal__day--past { background: #f3f3f3; color: #888; }
+.chp-cal__day--today .chp-cal__date { font-weight: 700; text-decoration: underline; }
+.chp-cal__event { display: block; border-radius: 3px; padding: 0 .3em; font-size: .85em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chp-cal__event--day, .chp-legend__item--day::before { background: #f0b849; color: #1d2327; }
+.chp-cal__event--evening, .chp-legend__item--evening::before { background: #2271b1; color: #fff; }
+.chp-cal__event--full, .chp-legend__item--full::before { background: #2f8577; color: #fff; }
+/* Preliminary = not yet confirmed: same slot color but striped and faded. */
+.chp-cal__event--preliminary, .chp-legend__item--preliminary::before { opacity: .7; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.5) 0 3px, transparent 3px 7px); }
+.chp-legend__item--preliminary::before { background-color: #8c8f94; }
+.chp-cal__status { color: #d63638; }
+.chp-legend { display: flex; flex-wrap: wrap; gap: .4em 1.2em; font-size: .85em; }
+.chp-legend__item::before { content: ""; display: inline-block; width: .9em; height: .9em; margin-right: .35em; vertical-align: middle; border-radius: 2px; }
+
+/* Form */
+.chp-fieldset { border: 1px solid #ccc; border-radius: 4px; padding: .5em 1em .25em; margin: 0 0 1.2em; }
+.chp-fieldset legend { font-weight: 500; padding: 0 .4em; }
+.chp-form-wrap { margin: 1.5em auto; }
+.chp-form label, .chp-form .chp-label { display: block; font-weight: 400; margin-bottom: .2em; }
+.chp-form input, .chp-form textarea, .chp-form select { width: 100%; box-sizing: border-box; }
+.chp-form .chp-slot { display: inline-flex; align-items: center; gap: .35em; font-weight: normal; margin: .25em 1.2em .25em 0; padding-left: .4em; border-left: 4px solid; cursor: pointer; }
+.chp-form .chp-slot input { width: auto; margin: 0; }
+.chp-slot--day { border-color: #f0b849; }
+.chp-slot--evening { border-color: #2271b1; }
+.chp-slot--full { border-color: #2f8577; }
+.chp-slot__time { color: #666; font-size: .9em; }
+.chp-row { display: flex; flex-wrap: wrap; gap: 0 1em; }
+.chp-row > p { flex: 1 1 10em; }
+.chp-row > .chp-grow { flex: 3 1 16em; }
+.chp-hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.chp-notice { padding: .8em 1em; margin-bottom: 1em; border-left: 4px solid; }
+.chp-notice--success { background: #edfaef; border-color: #00a32a; }
+.chp-notice--error { background: #fcf0f1; border-color: #d63638; }
+.chp-error { display: block; color: #b32d2e; font-size: .9em; margin-top: .25em; }
+.chp-error::before { content: "\26A0\FE0E "; }
+.chp-invalid input:not([type="radio"]):not([type="checkbox"]), .chp-invalid select, .chp-invalid textarea { border-color: #d63638; box-shadow: 0 0 0 1px #d63638; }
+.chp-error-summary ul { margin: .4em 0 0 1.2em; padding: 0; }
+.chp-error-summary a { color: inherit; text-decoration: underline; }
+.chp-rules label { display: flex; align-items: flex-start; gap: .5em; font-weight: normal; }
+.chp-rules input { width: auto; margin-top: .3em; }
+.chp-modal { width: min(46em, 92vw); max-height: 85vh; padding: 1.5em 1.8em; border: 0; border-radius: 6px; box-shadow: 0 10px 40px rgba(0, 0, 0, .35); overflow-y: auto; }
+.chp-modal::backdrop { background: rgba(0, 0, 0, .55); }
+.chp-modal__title { margin: 0 2em .6em 0; }
+.chp-modal__close { position: absolute; top: .4em; right: .6em; border: 0; background: none; font-size: 2em; line-height: 1; cursor: pointer; }

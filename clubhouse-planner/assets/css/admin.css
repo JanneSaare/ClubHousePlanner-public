@@ -1,0 +1,63 @@
+.chp-columns { display: flex; flex-wrap: wrap; gap: 20px; }
+.chp-columns > .chp-card { flex: 1 1 420px; }
+.chp-card { background: #fff; border: 1px solid #c3c4c7; padding: 0 16px 16px; margin-top: 20px; }
+.chp-card .form-table th { width: 120px; padding: 8px 10px 8px 0; }
+.chp-card .form-table td { padding: 8px 10px; }
+.chp-action { margin: 0 0 12px; padding: 12px 14px; background: #f6f7f7; border: 1px solid #dcdcde; border-left: 4px solid #2271b1; border-radius: 3px; }
+.chp-action:last-child { margin-bottom: 0; }
+.chp-action label { display: block; margin-bottom: 4px; }
+.chp-action textarea { margin-bottom: 6px; }
+
+.chp-status { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; vertical-align: middle; }
+.chp-status--pending { background: #dbe9f6; color: #0a4b78; }
+.chp-status--awaiting_payment { background: #fcf0d6; color: #7a5200; }
+.chp-status--confirmed { background: #d7f2dc; color: #00611a; }
+.chp-status--denied, .chp-status--cancelled { background: #f0f0f1; color: #50575e; }
+
+/* Booking type badges – same colors as the public calendar. */
+.chp-slot-badge { display: inline-block; padding: 2px 8px; border-radius: 3px; font-weight: 700; color: #fff; vertical-align: middle; }
+.chp-slot-badge small { font-weight: 400; margin-left: 4px; }
+.chp-slot-badge--day { background: #f0b849; color: #1d2327; }
+.chp-slot-badge--evening { background: #2271b1; }
+.chp-slot-badge--full { background: #2f8577; }
+.chp-slot-badge--small { padding: 0 6px; font-size: 11px; }
+.chp-slot-badge--large { padding: 6px 16px; font-size: 18px; }
+.chp-slot-line { display: flex; align-items: center; gap: 12px; font-size: 16px; margin: 12px 0; }
+
+.chp-nearby { background: #fff; border: 1px solid #c3c4c7; border-left: 4px solid #00a32a; padding: 4px 16px 10px; margin-top: 12px; }
+.chp-nearby--info { border-left-color: #dba617; background: #fcf9e8; }
+.chp-nearby--conflict { border-left-color: #e0905a; background: #fdf3ea; }
+.chp-nearby h2 { font-size: 14px; margin: 10px 0 6px; }
+.chp-nearby h3 { font-size: 13px; margin: 10px 0 4px; }
+.chp-nearby ul { margin: 0; }
+.chp-nearby li { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+.chp-overlap { color: #b8590f; text-transform: uppercase; }
+.chp-nearby-mini { margin-top: 4px; font-size: 12px; color: #996800; }
+.chp-nearby-mini--conflict { color: #b8590f; font-weight: 600; }
+.chp-nearby-mini .dashicons { font-size: 14px; width: 14px; height: 14px; vertical-align: text-bottom; }
+
+.chp-fee-tag { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; }
+.chp-fee-tag--standard { background: #d7f2dc; color: #00611a; }
+.chp-fee-tag--other { background: #fcf0d6; color: #7a5200; }
+.chp-fee-field { margin: 0 0 10px; }
+.chp-fee-field label { display: inline; margin-right: 6px; font-weight: 600; }
+.chp-fee-field .chp-free-label { margin: 0 0 0 12px; font-weight: 400; }
+.chp-fee-field .description { display: block; margin-top: 4px; }
+.chp-fee-field--other { padding: 8px; background: #fcf9e8; border-left: 4px solid #dba617; }
+.chp-slot-settings th, .chp-slot-settings td { padding: 4px 12px 4px 0; text-align: left; vertical-align: middle; }
+.chp-period-filter { clear: left; margin-top: 0; }
+.chp-table { clear: both; }
+
+.chp-mail-editor { max-width: 800px; }
+.chp-mail-editor .wp-editor-wrap { margin-bottom: 8px; }
+
+.chp-help { max-width: 900px; }
+.chp-help h2 { margin-top: 2em; }
+.chp-help-toc { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.chp-help-table { margin: 8px 0; }
+.chp-help-list { list-style: disc; margin-left: 20px; }
+.chp-help-list li, .chp-help ol li { margin-bottom: 6px; }
+
+.chp-row--past td { opacity: .65; }
+.chp-past-tag { color: #646970; font-style: italic; margin-top: 2px; }
+.chp-past-tag .dashicons { font-size: 16px; width: 16px; height: 16px; vertical-align: text-bottom; }
