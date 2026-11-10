@@ -163,9 +163,6 @@ msgstr ""
 msgid "Period"
 msgstr ""
 
-msgid "Guests"
-msgstr ""
-
 msgid "Purpose"
 msgstr ""
 
@@ -203,9 +200,6 @@ msgid "The requested time has already passed."
 msgstr ""
 
 msgid "The club house is already booked during the requested time."
-msgstr ""
-
-msgid "Too many booking requests. Please try again later."
 msgstr ""
 
 msgid "Something went wrong. Please try again later."
@@ -293,12 +287,6 @@ msgstr ""
 msgid "Show unhandled requests as preliminary"
 msgstr ""
 
-msgid "Number of guests"
-msgstr ""
-
-msgid "Purpose (e.g. birthday party, meeting)"
-msgstr ""
-
 msgid "Send booking request"
 msgstr ""
 
@@ -379,7 +367,7 @@ msgstr ""
 msgid "The address is not on the standard-fee lists. Enter the agreed fee."
 msgstr ""
 
-msgid "Standard fee (SEK)"
+msgid "Normal price (SEK)"
 msgstr ""
 
 msgid "Standard-fee streets"
@@ -443,9 +431,6 @@ msgid "Invalid time for %s. The previous time was kept."
 msgstr ""
 
 msgid "At least one booking type must be enabled."
-msgstr ""
-
-msgid "Maximum number of guests"
 msgstr ""
 
 #. translators: %d: number of days
@@ -626,9 +611,6 @@ msgstr ""
 msgid "Placeholders in curly brackets, for example {name}, are replaced with the real values when the email is sent. The available placeholders are listed under the editor and differ between the emails."
 msgstr ""
 
-msgid "{summary} is a table with the booking number, name, address, period, guests, purpose, status and fee. {note} is the optional message you write when handling the booking and is left out when empty."
-msgstr ""
-
 msgid "\"Reset to default\" restores the original subject and text of the email shown. Nothing is saved until you press Save changes."
 msgstr ""
 
@@ -714,9 +696,6 @@ msgstr ""
 msgid "Standard-fee addresses: one full address per line, for single houses on other streets, for example \"Parkvägen 12B\". Capital letters and spaces do not matter, so \"parkvägen 12 b\" is the same address."
 msgstr ""
 
-msgid "Standard fee: the amount in SEK that is used for those addresses."
-msgstr ""
-
 msgid "When you approve a request"
 msgstr ""
 
@@ -735,25 +714,10 @@ msgstr ""
 msgid "The whole day, day and evening bookings. Each type can be switched off, and its start and end time changed. An end time that is not after the start time means the next day, so 00:00 is midnight. At least one type must be enabled. Changed times apply to new requests only; existing bookings keep their times."
 msgstr ""
 
-msgid "The highest number of guests the requester can enter in the form."
-msgstr ""
-
 msgid "If enabled, requests that nobody has handled yet are shown as preliminary. Approved and confirmed bookings are always shown as booked. No personal data is shown in the calendar."
 msgstr ""
 
 msgid "On the website, the calendar is added with the shortcode [clubhouse_calendar] and the booking form with [clubhouse_booking_form]."
-msgstr ""
-
-msgid "Key box code"
-msgstr ""
-
-msgid "Optional. The code to the key box. It is included in the Confirmed email (after payment has been received) through the {key_box} placeholder. Leave empty to skip it."
-msgstr ""
-
-msgid "If a code is entered in the setting \"Key box code\", it is shown in the Confirmed email, which is sent after the payment has been received (or straight away for free bookings). It is inserted where the email contains {key_box} and left out when no code is set. If you have edited the Confirmed email, add {key_box} to the text yourself or use \"Reset to default\"."
-msgstr ""
-
-msgid "{key_box} inserts the key box code from the setting above. It is only available in the Confirmed email and is left out when no code is set."
 msgstr ""
 
 msgid "Past booking"
@@ -867,6 +831,21 @@ msgstr ""
 msgid "Contact the housekeeper"
 msgstr ""
 
+msgid "If a code is entered in the setting \"Key box code\", it is shown in the Confirmed email, which is sent after the payment has been received (or straight away for free bookings). It is inserted where the email contains {key_box} and left out when no code is set. If you have edited the Confirmed email, add {key_box} to the text yourself or use \"Reset to default\"."
+msgstr ""
+
+msgid "{key_box} inserts the key box code from the setting above. It is only available in the Confirmed email and is left out when no code is set."
+msgstr ""
+
+msgid "Key box code"
+msgstr ""
+
+msgid "Optional. The code to the key box. It is included in the Confirmed email (after payment has been received) through the {key_box} placeholder. Leave empty to skip it."
+msgstr ""
+
+msgid "Too many booking requests. Please try again later."
+msgstr ""
+
 msgid "House rules page"
 msgstr ""
 
@@ -925,4 +904,400 @@ msgid "Caption"
 msgstr ""
 
 msgid "The caption is the name shown together with the hours, e.g. \"Whole day 11:00–11:00\". Leave it empty to use the default name."
+msgstr ""
+
+msgid "Blocked periods"
+msgstr ""
+
+msgid "Items"
+msgstr ""
+
+msgid "This period is in a blocked period, so the booking cannot be approved. Deny the request or remove the blocked period first."
+msgstr ""
+
+msgid "The unit was changed."
+msgstr ""
+
+msgid "That unit is already booked during this period."
+msgstr ""
+
+msgid "The blocked period was saved."
+msgstr ""
+
+msgid "The blocked period was removed."
+msgstr ""
+
+msgid "Choose an item from the list."
+msgstr ""
+
+msgid "That unit does not exist for the chosen item."
+msgstr ""
+
+msgid "Enter a valid start and end date and time."
+msgstr ""
+
+msgid "The end must be after the start."
+msgstr ""
+
+msgid "A period that repeats every year must be shorter than one year."
+msgstr ""
+
+msgid "The blocked period could not be saved."
+msgstr ""
+
+msgid "Blocked period not found."
+msgstr ""
+
+msgid "The item was saved."
+msgstr ""
+
+msgid "Enter a name for the item."
+msgstr ""
+
+msgid "The quantity must be a whole number from 1 to %d."
+msgstr ""
+
+msgid "The quantity cannot be lowered that far: a unit that would be removed has a booking that has not ended. Move or cancel the booking first."
+msgstr ""
+
+msgid "At least one item must stay active."
+msgstr ""
+
+msgid "Enter at least one purpose, one per line, or choose another purpose setting."
+msgstr ""
+
+msgid "The shortest booking cannot be longer than the longest booking."
+msgstr ""
+
+msgid "The item could not be saved."
+msgstr ""
+
+msgid "Item not found."
+msgstr ""
+
+msgid "That time is in a blocked period. Remove or change the blocked period first."
+msgstr ""
+
+msgid "Unit changed from %1$s to %2$s because the first one was already taken."
+msgstr ""
+
+msgid "Unit changed from %1$s to %2$s."
+msgstr ""
+
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Per booking type, see Settings"
+msgstr ""
+
+msgid "(weekend %s)"
+msgstr ""
+
+msgid "Fee: %s, calculated from the price list."
+msgstr ""
+
+msgid "Item"
+msgstr ""
+
+msgid "Per booking"
+msgstr ""
+
+msgid "Per hour"
+msgstr ""
+
+msgid "Per day"
+msgstr ""
+
+msgid "Not available"
+msgstr ""
+
+msgid "ClubHouse Planner: the item in this shortcode does not exist or is not active. Check the item number under Club House → Items. Only administrators see this message."
+msgstr ""
+
+msgid "%s is already booked during the requested time."
+msgstr ""
+
+msgid "%s is not available during the requested time."
+msgstr ""
+
+msgid "Bookings must be requested at least %s before the start."
+msgstr ""
+
+msgid "The shortest booking is %s."
+msgstr ""
+
+msgid "The longest booking is %s."
+msgstr ""
+
+msgid "The club house is not available during the requested time."
+msgstr ""
+
+msgid "Unknown item."
+msgstr ""
+
+msgid "Price: %s"
+msgstr ""
+
+msgid "Add blocked period"
+msgstr ""
+
+msgid "These bookings fall inside the blocked period. They have not been changed. Deny or cancel them if needed."
+msgstr ""
+
+msgid "Times when an item cannot be booked, for example repairs or a season when it is closed. Customers see the days as \"Not available\", or the text you enter."
+msgstr ""
+
+msgid "From"
+msgstr ""
+
+msgid "To"
+msgstr ""
+
+msgid "Repeats"
+msgstr ""
+
+msgid "Public text"
+msgstr ""
+
+msgid "Reason"
+msgstr ""
+
+msgid "No blocked periods."
+msgstr ""
+
+msgid "All items"
+msgstr ""
+
+msgid "Every year"
+msgstr ""
+
+msgid "Remove this blocked period?"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Back to all blocked periods"
+msgstr ""
+
+msgid "Unit"
+msgstr ""
+
+msgid "Optional. A unit letter, for example B, to block only that unit of the item. Leave empty to block every unit."
+msgstr ""
+
+msgid "The item is available again from this time. To block whole days, end at 00:00 on the day after the last blocked day."
+msgstr ""
+
+msgid "Repeat every year"
+msgstr ""
+
+msgid "For seasonal closures, for example 1 November to 1 April. The dates above are the first time; the period then repeats on the same dates each year."
+msgstr ""
+
+msgid "Shown to customers in the calendar, for example \"Closed for the season\". Leave empty to show \"Not available\"."
+msgstr ""
+
+msgid "A note for the housekeepers. It is never shown to customers."
+msgstr ""
+
+msgid "Save blocked period"
+msgstr ""
+
+msgid "Calculated from the price list of the item. You can change it if needed."
+msgstr ""
+
+msgid "Change unit"
+msgstr ""
+
+msgid "{summary} is a table with the booking number, name, address, period, purpose, status and fee. {note} is the optional message you write when handling the booking and is left out when empty."
+msgstr ""
+
+msgid "Normal price: set per booking type under Booking types in the settings. It is the fee used for those addresses."
+msgstr ""
+
+msgid "Add item"
+msgstr ""
+
+msgid "Things that can be booked. An item with more than one unit has its units named A, B, C and so on; the letter is only shown when there is more than one unit."
+msgstr ""
+
+msgid "Units"
+msgstr ""
+
+msgid "Booking"
+msgstr ""
+
+msgid "Price"
+msgstr ""
+
+msgid "Free choice of time"
+msgstr ""
+
+msgid "Fixed booking types"
+msgstr ""
+
+msgid "Active"
+msgstr ""
+
+msgid "Inactive"
+msgstr ""
+
+msgid "Back to all items"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Number of units"
+msgstr ""
+
+msgid "How many identical copies can be booked at the same time. Units are named A, B, C and so on, and a request gets the first free unit."
+msgstr ""
+
+msgid "Fixed booking types (day, evening, whole day – set in Settings)"
+msgstr ""
+
+msgid "The customer chooses start and end"
+msgstr ""
+
+msgid "The price, weekend and length settings below are used when the customer chooses start and end."
+msgstr ""
+
+msgid "Fixed booking types use the types, times and prices set under Settings, shared with the club house."
+msgstr ""
+
+msgid "Choose \"The customer chooses start and end\" for any other item that needs its own price."
+msgstr ""
+
+msgid "Price is"
+msgstr ""
+
+msgid "A booking of 24 hours or less counts as one day, also when it crosses midnight. Longer bookings are counted in blocks of 24 hours."
+msgstr ""
+
+msgid "Weekend price"
+msgstr ""
+
+msgid "Optional. Leave empty to use the same price every day. For a price per booking, a booking longer than 24 hours gets the weekend price if it includes a weekend day."
+msgstr ""
+
+msgid "Weekend days"
+msgstr ""
+
+msgid "Monday"
+msgstr ""
+
+msgid "Tuesday"
+msgstr ""
+
+msgid "Wednesday"
+msgstr ""
+
+msgid "Thursday"
+msgstr ""
+
+msgid "Friday"
+msgstr ""
+
+msgid "Saturday"
+msgstr ""
+
+msgid "Sunday"
+msgstr ""
+
+msgid "The days that get the weekend price."
+msgstr ""
+
+msgid "Shortest booking"
+msgstr ""
+
+msgid "Longest booking"
+msgstr ""
+
+msgid "hours"
+msgstr ""
+
+msgid "days"
+msgstr ""
+
+msgid "Optional. Leave empty for no limit."
+msgstr ""
+
+msgid "Notice needed"
+msgstr ""
+
+msgid "hours before the start"
+msgstr ""
+
+msgid "Optional. How long before the start a request can be made."
+msgstr ""
+
+msgid "Ask for street and street number"
+msgstr ""
+
+msgid "Uses the street list under Settings. For fixed booking types the address decides whether the standard fee applies. For items where the customer chooses start and end, the price is calculated from the price list for everyone, and the address is only recorded."
+msgstr ""
+
+msgid "Purpose field"
+msgstr ""
+
+msgid "Not asked"
+msgstr ""
+
+msgid "Choose from a list"
+msgstr ""
+
+msgid "Free text"
+msgstr ""
+
+msgid "What the booking form asks about the purpose of the booking."
+msgstr ""
+
+msgid "Purpose list"
+msgstr ""
+
+msgid "One purpose per line. Used when the purpose field is a list."
+msgstr ""
+
+msgid "Optional. Replaces the general key box code in the Confirmed email for this item. Leave empty to use the general one."
+msgstr ""
+
+msgid "Order"
+msgstr ""
+
+msgid "Lower numbers come first. The first active item is the one used when no item is chosen."
+msgstr ""
+
+msgid "The item can be booked"
+msgstr ""
+
+msgid "Inactive items cannot be booked. Their existing bookings are kept."
+msgstr ""
+
+msgid "Save item"
+msgstr ""
+
+msgid "Shortcodes for this item"
+msgstr ""
+
+msgid "Paste these into a page. The number is the item number shown in the item list."
+msgstr ""
+
+msgid "Booking form"
+msgstr ""
+
+msgid "Calendar"
 msgstr ""

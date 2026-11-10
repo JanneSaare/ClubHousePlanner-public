@@ -164,9 +164,6 @@ msgstr "Namn"
 msgid "Period"
 msgstr "Period"
 
-msgid "Guests"
-msgstr "Gäster"
-
 msgid "Purpose"
 msgstr "Syfte"
 
@@ -290,12 +287,6 @@ msgstr "Offentlig kalender"
 
 msgid "Show unhandled requests as preliminary"
 msgstr "Visa obehandlade förfrågningar som preliminära"
-
-msgid "Number of guests"
-msgstr "Antal gäster"
-
-msgid "Purpose (e.g. birthday party, meeting)"
-msgstr "Syfte (t.ex. födelsedagsfest, möte)"
 
 msgid "Send booking request"
 msgstr "Skicka bokningsförfrågan"
@@ -442,9 +433,6 @@ msgstr "Ogiltig tid för %s. Den tidigare tiden behölls."
 
 msgid "At least one booking type must be enabled."
 msgstr "Minst en bokningstyp måste vara aktiv."
-
-msgid "Maximum number of guests"
-msgstr "Högsta antal gäster"
 
 #. translators: %d: number of days
 msgid "Upcoming and last %d days"
@@ -624,9 +612,6 @@ msgstr "E-postmeddelandena skickas som HTML. Använd editorn för att formatera 
 msgid "Placeholders in curly brackets, for example {name}, are replaced with the real values when the email is sent. The available placeholders are listed under the editor and differ between the emails."
 msgstr "Platshållare inom klammerparenteser, till exempel {name}, ersätts med de riktiga värdena när e-postmeddelandet skickas. De tillgängliga platshållarna visas under editorn och skiljer sig mellan meddelandena."
 
-msgid "{summary} is a table with the booking number, name, address, period, guests, purpose, status and fee. {note} is the optional message you write when handling the booking and is left out when empty."
-msgstr "{summary} är en tabell med bokningsnummer, namn, adress, period, gäster, syfte, status och avgift. {note} är det valfria meddelande du skriver när du hanterar bokningen och utelämnas när det är tomt."
-
 msgid "\"Reset to default\" restores the original subject and text of the email shown. Nothing is saved until you press Save changes."
 msgstr "\"Återställ standard\" återställer ursprungligt ämne och ursprunglig text för det visade e-postmeddelandet. Inget sparas förrän du klickar på Spara ändringar."
 
@@ -712,9 +697,6 @@ msgstr "Gator med standardavgift: ett gatunamn per rad. Varje adress som börjar
 msgid "Standard-fee addresses: one full address per line, for single houses on other streets, for example \"Parkvägen 12B\". Capital letters and spaces do not matter, so \"parkvägen 12 b\" is the same address."
 msgstr "Adresser med standardavgift: en fullständig adress per rad, för enstaka hus på andra gator, till exempel \"Parkvägen 12B\". Versaler och mellanslag spelar ingen roll, så \"parkvägen 12 b\" är samma adress."
 
-msgid "Standard fee: the amount in SEK that is used for those addresses."
-msgstr "Standardavgift: beloppet i kronor som gäller för dessa adresser."
-
 msgid "When you approve a request"
 msgstr "När du godkänner en förfrågan"
 
@@ -732,9 +714,6 @@ msgstr "Vem som får e-postmeddelandet om nya förfrågningar, utöver användar
 
 msgid "The whole day, day and evening bookings. Each type can be switched off, and its start and end time changed. An end time that is not after the start time means the next day, so 00:00 is midnight. At least one type must be enabled. Changed times apply to new requests only; existing bookings keep their times."
 msgstr "Hela dagen, dag och kväll. Varje typ kan stängas av och dess start- och sluttid ändras. En sluttid som inte är efter starttiden betyder nästa dag, så 00:00 är midnatt. Minst en typ måste vara aktiverad. Ändrade tider gäller bara nya förfrågningar; befintliga bokningar behåller sina tider."
-
-msgid "The highest number of guests the requester can enter in the form."
-msgstr "Det högsta antal gäster som den som bokar kan ange i formuläret."
 
 msgid "If enabled, requests that nobody has handled yet are shown as preliminary. Approved and confirmed bookings are always shown as booked. No personal data is shown in the calendar."
 msgstr "Om det är aktiverat visas förfrågningar som ingen har hanterat än som preliminära. Godkända och bekräftade bokningar visas alltid som bokade. Inga personuppgifter visas i kalendern."
@@ -927,3 +906,399 @@ msgstr "Rubrik"
 
 msgid "The caption is the name shown together with the hours, e.g. \"Whole day 11:00–11:00\". Leave it empty to use the default name."
 msgstr "Rubriken är namnet som visas tillsammans med tiderna, t.ex. \"Heldag 11:00–11:00\". Lämna tomt för att använda standardnamnet."
+
+msgid "Blocked periods"
+msgstr "Spärrade perioder"
+
+msgid "Items"
+msgstr "Objekt"
+
+msgid "This period is in a blocked period, so the booking cannot be approved. Deny the request or remove the blocked period first."
+msgstr "Perioden ligger i en spärrad period, så bokningen kan inte godkännas. Avslå förfrågan eller ta bort den spärrade perioden först."
+
+msgid "The unit was changed."
+msgstr "Enheten har ändrats."
+
+msgid "That unit is already booked during this period."
+msgstr "Den enheten är redan bokad under den här perioden."
+
+msgid "The blocked period was saved."
+msgstr "Den spärrade perioden har sparats."
+
+msgid "The blocked period was removed."
+msgstr "Den spärrade perioden har tagits bort."
+
+msgid "Choose an item from the list."
+msgstr "Välj ett objekt i listan."
+
+msgid "That unit does not exist for the chosen item."
+msgstr "Den enheten finns inte för det valda objektet."
+
+msgid "Enter a valid start and end date and time."
+msgstr "Ange en giltig start- och sluttid (datum och klockslag)."
+
+msgid "The end must be after the start."
+msgstr "Sluttiden måste vara efter starttiden."
+
+msgid "A period that repeats every year must be shorter than one year."
+msgstr "En period som upprepas varje år måste vara kortare än ett år."
+
+msgid "The blocked period could not be saved."
+msgstr "Den spärrade perioden kunde inte sparas."
+
+msgid "Blocked period not found."
+msgstr "Spärrad period hittades inte."
+
+msgid "The item was saved."
+msgstr "Objektet har sparats."
+
+msgid "Enter a name for the item."
+msgstr "Ange ett namn på objektet."
+
+msgid "The quantity must be a whole number from 1 to %d."
+msgstr "Antalet måste vara ett heltal från 1 till %d."
+
+msgid "The quantity cannot be lowered that far: a unit that would be removed has a booking that has not ended. Move or cancel the booking first."
+msgstr "Antalet kan inte sänkas så mycket: en enhet som skulle tas bort har en bokning som inte har avslutats. Flytta eller avboka bokningen först."
+
+msgid "At least one item must stay active."
+msgstr "Minst ett objekt måste vara aktivt."
+
+msgid "Enter at least one purpose, one per line, or choose another purpose setting."
+msgstr "Ange minst ett syfte, ett per rad, eller välj en annan inställning för syfte."
+
+msgid "The shortest booking cannot be longer than the longest booking."
+msgstr "Den kortaste bokningen kan inte vara längre än den längsta bokningen."
+
+msgid "The item could not be saved."
+msgstr "Objektet kunde inte sparas."
+
+msgid "Item not found."
+msgstr "Objektet hittades inte."
+
+msgid "That time is in a blocked period. Remove or change the blocked period first."
+msgstr "Den tiden ligger i en spärrad period. Ta bort eller ändra den spärrade perioden först."
+
+msgid "Unit changed from %1$s to %2$s because the first one was already taken."
+msgstr "Enhet ändrad från %1$s till %2$s eftersom den första redan var upptagen."
+
+msgid "Unit changed from %1$s to %2$s."
+msgstr "Enhet ändrad från %1$s till %2$s."
+
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d dag"
+msgstr[1] "%d dagar"
+
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d timme"
+msgstr[1] "%d timmar"
+
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d minut"
+msgstr[1] "%d minuter"
+
+msgid "Per booking type, see Settings"
+msgstr "Per bokningstyp, se Inställningar"
+
+msgid "(weekend %s)"
+msgstr "(helg %s)"
+
+msgid "Fee: %s, calculated from the price list."
+msgstr "Avgift: %s, beräknad från prislistan."
+
+msgid "Item"
+msgstr "Objekt"
+
+msgid "Per booking"
+msgstr "Per bokning"
+
+msgid "Per hour"
+msgstr "Per timme"
+
+msgid "Per day"
+msgstr "Per dag"
+
+msgid "Not available"
+msgstr "Ej tillgänglig"
+
+msgid "ClubHouse Planner: the item in this shortcode does not exist or is not active. Check the item number under Club House → Items. Only administrators see this message."
+msgstr "ClubHouse Planner: objektet i den här kortkoden finns inte eller är inte aktivt. Kontrollera objektnumret under Stugan → Objekt. Bara administratörer ser det här meddelandet."
+
+msgid "%s is already booked during the requested time."
+msgstr "%s är redan bokad under den begärda tiden."
+
+msgid "%s is not available during the requested time."
+msgstr "%s är inte tillgänglig under den begärda tiden."
+
+msgid "Bookings must be requested at least %s before the start."
+msgstr "Bokningar måste begäras minst %s före starttiden."
+
+msgid "The shortest booking is %s."
+msgstr "Den kortaste bokningen är %s."
+
+msgid "The longest booking is %s."
+msgstr "Den längsta bokningen är %s."
+
+msgid "The club house is not available during the requested time."
+msgstr "Stugan är inte tillgänglig under den begärda tiden."
+
+msgid "Unknown item."
+msgstr "Okänt objekt."
+
+msgid "Price: %s"
+msgstr "Pris: %s"
+
+msgid "Add blocked period"
+msgstr "Lägg till spärrad period"
+
+msgid "These bookings fall inside the blocked period. They have not been changed. Deny or cancel them if needed."
+msgstr "De här bokningarna ligger inom den spärrade perioden. De har inte ändrats. Avslå eller avboka dem vid behov."
+
+msgid "Times when an item cannot be booked, for example repairs or a season when it is closed. Customers see the days as \"Not available\", or the text you enter."
+msgstr "Tider då ett objekt inte kan bokas, till exempel vid reparationer eller en säsong då det är stängt. Kunderna ser dagarna som \"Ej tillgänglig\", eller den text du anger."
+
+msgid "From"
+msgstr "Från"
+
+msgid "To"
+msgstr "Till"
+
+msgid "Repeats"
+msgstr "Upprepas"
+
+msgid "Public text"
+msgstr "Offentlig text"
+
+msgid "Reason"
+msgstr "Orsak"
+
+msgid "No blocked periods."
+msgstr "Inga spärrade perioder."
+
+msgid "All items"
+msgstr "Alla objekt"
+
+msgid "Every year"
+msgstr "Varje år"
+
+msgid "Remove this blocked period?"
+msgstr "Ta bort den här spärrade perioden?"
+
+msgid "Remove"
+msgstr "Ta bort"
+
+msgid "Back to all blocked periods"
+msgstr "Tillbaka till alla spärrade perioder"
+
+msgid "Unit"
+msgstr "Enhet"
+
+msgid "Optional. A unit letter, for example B, to block only that unit of the item. Leave empty to block every unit."
+msgstr "Valfritt. En enhetsbokstav, till exempel B, för att bara spärra den enheten av objektet. Lämna tomt för att spärra alla enheter."
+
+msgid "The item is available again from this time. To block whole days, end at 00:00 on the day after the last blocked day."
+msgstr "Objektet är tillgängligt igen från den här tiden. För att spärra hela dagar, sluta kl. 00:00 dagen efter den sista spärrade dagen."
+
+msgid "Repeat every year"
+msgstr "Upprepa varje år"
+
+msgid "For seasonal closures, for example 1 November to 1 April. The dates above are the first time; the period then repeats on the same dates each year."
+msgstr "För säsongsstängning, till exempel 1 november till 1 april. Datumen ovan gäller första gången; perioden upprepas sedan på samma datum varje år."
+
+msgid "Shown to customers in the calendar, for example \"Closed for the season\". Leave empty to show \"Not available\"."
+msgstr "Visas för kunderna i kalendern, till exempel \"Stängt för säsongen\". Lämna tomt för att visa \"Ej tillgänglig\"."
+
+msgid "A note for the housekeepers. It is never shown to customers."
+msgstr "En anteckning till stugvärdarna. Den visas aldrig för kunderna."
+
+msgid "Save blocked period"
+msgstr "Spara spärrad period"
+
+msgid "Calculated from the price list of the item. You can change it if needed."
+msgstr "Beräknad från objektets prislista. Du kan ändra den vid behov."
+
+msgid "Change unit"
+msgstr "Byt enhet"
+
+msgid "{summary} is a table with the booking number, name, address, period, purpose, status and fee. {note} is the optional message you write when handling the booking and is left out when empty."
+msgstr "{summary} är en tabell med bokningsnummer, namn, adress, period, syfte, status och avgift. {note} är det valfria meddelande du skriver när du hanterar bokningen och utelämnas när det är tomt."
+
+msgid "Normal price: set per booking type under Booking types in the settings. It is the fee used for those addresses."
+msgstr "Normalpris: anges per bokningstyp under Bokningstyper i inställningarna. Det är avgiften för dessa adresser."
+
+msgid "Add item"
+msgstr "Lägg till objekt"
+
+msgid "Things that can be booked. An item with more than one unit has its units named A, B, C and so on; the letter is only shown when there is more than one unit."
+msgstr "Saker som kan bokas. Ett objekt med fler än en enhet har enheter som heter A, B, C och så vidare; bokstaven visas bara när det finns fler än en enhet."
+
+msgid "Units"
+msgstr "Enheter"
+
+msgid "Booking"
+msgstr "Bokning"
+
+msgid "Price"
+msgstr "Pris"
+
+msgid "Free choice of time"
+msgstr "Fritt val av tid"
+
+msgid "Fixed booking types"
+msgstr "Fasta bokningstyper"
+
+msgid "Active"
+msgstr "Aktiv"
+
+msgid "Inactive"
+msgstr "Inaktiv"
+
+msgid "Back to all items"
+msgstr "Tillbaka till alla objekt"
+
+msgid "Description"
+msgstr "Beskrivning"
+
+msgid "Number of units"
+msgstr "Antal enheter"
+
+msgid "How many identical copies can be booked at the same time. Units are named A, B, C and so on, and a request gets the first free unit."
+msgstr "Hur många identiska exemplar som kan bokas samtidigt. Enheterna heter A, B, C och så vidare, och en förfrågan får den första lediga enheten."
+
+msgid "Fixed booking types (day, evening, whole day – set in Settings)"
+msgstr "Fasta bokningstyper (dag, kväll, heldag – anges under Inställningar)"
+
+msgid "The customer chooses start and end"
+msgstr "Kunden väljer start och slut"
+
+msgid "The price, weekend and length settings below are used when the customer chooses start and end."
+msgstr "Priset samt inställningarna för helg och längd nedan används när kunden väljer start och slut."
+
+msgid "Fixed booking types use the types, times and prices set under Settings, shared with the club house."
+msgstr "Fasta bokningstyper använder de typer, tider och priser som anges under Inställningar, gemensamt med stugan."
+
+msgid "Choose \"The customer chooses start and end\" for any other item that needs its own price."
+msgstr "Välj \"Kunden väljer start och slut\" för alla andra objekt som behöver ett eget pris."
+
+msgid "Price is"
+msgstr "Priset avser"
+
+msgid "A booking of 24 hours or less counts as one day, also when it crosses midnight. Longer bookings are counted in blocks of 24 hours."
+msgstr "En bokning på 24 timmar eller mindre räknas som en dag, även när den passerar midnatt. Längre bokningar räknas i block om 24 timmar."
+
+msgid "Weekend price"
+msgstr "Helgpris"
+
+msgid "Optional. Leave empty to use the same price every day. For a price per booking, a booking longer than 24 hours gets the weekend price if it includes a weekend day."
+msgstr "Valfritt. Lämna tomt för att använda samma pris varje dag. Vid pris per bokning får en bokning som är längre än 24 timmar helgpriset om den omfattar en dag som räknas som helg."
+
+msgid "Weekend days"
+msgstr "Dagar som räknas som helg"
+
+msgid "Monday"
+msgstr "Måndag"
+
+msgid "Tuesday"
+msgstr "Tisdag"
+
+msgid "Wednesday"
+msgstr "Onsdag"
+
+msgid "Thursday"
+msgstr "Torsdag"
+
+msgid "Friday"
+msgstr "Fredag"
+
+msgid "Saturday"
+msgstr "Lördag"
+
+msgid "Sunday"
+msgstr "Söndag"
+
+msgid "The days that get the weekend price."
+msgstr "De dagar som får helgpriset."
+
+msgid "Shortest booking"
+msgstr "Kortaste bokning"
+
+msgid "Longest booking"
+msgstr "Längsta bokning"
+
+msgid "hours"
+msgstr "timmar"
+
+msgid "days"
+msgstr "dagar"
+
+msgid "Optional. Leave empty for no limit."
+msgstr "Valfritt. Lämna tomt för ingen gräns."
+
+msgid "Notice needed"
+msgstr "Varsel krävs"
+
+msgid "hours before the start"
+msgstr "timmar före starten"
+
+msgid "Optional. How long before the start a request can be made."
+msgstr "Valfritt. Hur lång tid före starten en förfrågan kan göras."
+
+msgid "Ask for street and street number"
+msgstr "Fråga efter gata och gatunummer"
+
+msgid "Uses the street list under Settings. For fixed booking types the address decides whether the standard fee applies. For items where the customer chooses start and end, the price is calculated from the price list for everyone, and the address is only recorded."
+msgstr "Använder gatulistan under Inställningar. För fasta bokningstyper avgör adressen om standardavgiften gäller. För objekt där kunden väljer start och slut beräknas priset från prislistan för alla, och adressen sparas bara."
+
+msgid "Purpose field"
+msgstr "Fält för syfte"
+
+msgid "Not asked"
+msgstr "Frågas inte"
+
+msgid "Choose from a list"
+msgstr "Välj i en lista"
+
+msgid "Free text"
+msgstr "Fri text"
+
+msgid "What the booking form asks about the purpose of the booking."
+msgstr "Vad bokningsformuläret frågar om bokningens syfte."
+
+msgid "Purpose list"
+msgstr "Lista över syften"
+
+msgid "One purpose per line. Used when the purpose field is a list."
+msgstr "Ett syfte per rad. Används när syftesfältet är en lista."
+
+msgid "Optional. Replaces the general key box code in the Confirmed email for this item. Leave empty to use the general one."
+msgstr "Valfritt. Ersätter den allmänna nyckelboxkoden i mejlet Bekräftad för det här objektet. Lämna tomt för att använda den allmänna."
+
+msgid "Order"
+msgstr "Ordning"
+
+msgid "Lower numbers come first. The first active item is the one used when no item is chosen."
+msgstr "Lägre nummer kommer först. Det första aktiva objektet är det som används när inget objekt är valt."
+
+msgid "The item can be booked"
+msgstr "Objektet kan bokas"
+
+msgid "Inactive items cannot be booked. Their existing bookings are kept."
+msgstr "Inaktiva objekt kan inte bokas. Deras befintliga bokningar behålls."
+
+msgid "Save item"
+msgstr "Spara objekt"
+
+msgid "Shortcodes for this item"
+msgstr "Kortkoder för det här objektet"
+
+msgid "Paste these into a page. The number is the item number shown in the item list."
+msgstr "Klistra in dessa på en sida. Numret är objektnumret som visas i objektlistan."
+
+msgid "Booking form"
+msgstr "Bokningsformulär"
+
+msgid "Calendar"
+msgstr "Kalender"
