@@ -15,6 +15,9 @@
 .chp-cal__event--day, .chp-legend__item--day::before { background: #f0b849; color: #1d2327; }
 .chp-cal__event--evening, .chp-legend__item--evening::before { background: #2271b1; color: #fff; }
 .chp-cal__event--full, .chp-legend__item--full::before { background: #2f8577; color: #fff; }
+.chp-cal__event--free, .chp-legend__item--free::before { background: #2f8577; color: #fff; }
+.chp-price { font-weight: 600; min-height: 1.5em; }
+.chp-price--error { color: #d63638; }
 /* Preliminary = not yet confirmed: same slot color but striped and faded. */
 .chp-cal__event--preliminary, .chp-legend__item--preliminary::before { opacity: .7; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.5) 0 3px, transparent 3px 7px); }
 .chp-legend__item--preliminary::before { background-color: #8c8f94; }

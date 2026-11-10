@@ -262,6 +262,7 @@ class CHP_Admin {
 			'quantity_in_use' => array( 'error', __( 'The quantity cannot be lowered that far: a unit that would be removed has a booking that has not ended. Move or cancel the booking first.', 'clubhouse-planner' ) ),
 			'last_active'     => array( 'error', __( 'At least one item must stay active.', 'clubhouse-planner' ) ),
 			'purposes'        => array( 'error', __( 'Enter at least one purpose, one per line, or choose another purpose setting.', 'clubhouse-planner' ) ),
+			'duration'        => array( 'error', __( 'The shortest booking cannot be longer than the longest booking.', 'clubhouse-planner' ) ),
 			'failed'          => array( 'error', __( 'The item could not be saved.', 'clubhouse-planner' ) ),
 		);
 	}
@@ -288,6 +289,14 @@ class CHP_Admin {
 				'purpose_mode' => 'none',
 				'purposes'     => null,
 				'key_box_code' => null,
+				'booking_mode' => CHP_Items::MODE_FREE,
+				'fee_unit'     => CHP_Pricing::FEE_DAY,
+				'fee_weekday'  => 0,
+				'fee_weekend'  => null,
+				'weekend_days' => '6,7',
+				'min_duration' => null,
+				'max_duration' => null,
+				'min_notice'   => null,
 			);
 		} elseif ( '' !== $edit ) {
 			$item = CHP_Items::get( absint( $edit ) );
@@ -453,10 +462,15 @@ class CHP_Admin {
 		} elseif ( CHP_Bookings::AWAITING_PAYMENT === $to ) {
 			$fee_input = isset( $_POST['fee'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['fee'] ) ) ) : '';
 			if ( '' === $fee_input ) {
-				if ( ! CHP_Bookings::is_local( $booking ) ) {
+				$calculated = CHP_Pricing::for_booking( $booking );
+				if ( null !== $calculated ) {
+					// Free-time items are priced from their price list, whatever the address.
+					$fee_input = (string) ( null !== $booking->fee ? (int) $booking->fee : $calculated );
+				} elseif ( ! CHP_Bookings::is_local( $booking ) ) {
 					$this->redirect( $url, 'fee' );
+				} else {
+					$fee_input = (string) CHP_Settings::standard_fee( (string) $booking->slot );
 				}
-				$fee_input = (string) CHP_Settings::standard_fee( (string) $booking->slot );
 			}
 			if ( ! CHP_Bookings::set_fee( $id, absint( $fee_input ) ) ) {
 				$this->redirect( $url, 'failed' );

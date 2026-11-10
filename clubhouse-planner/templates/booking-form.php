@@ -1,8 +1,12 @@
 <?php
 defined( 'ABSPATH' ) || exit;
 
-/** @var string $result */
-$messages = CHP_Public::form_messages();
+/**
+ * @var string $result
+ * @var object $item   The item this form books.
+ */
+$messages = CHP_Public::form_messages( $item );
+$free     = CHP_Pricing::is_priced( $item );
 ?>
 <div class="chp-form-wrap" id="chp-booking-form" style="max-width: <?php echo (int) CHP_Settings::get( 'form_width' ); ?>%;">
 	<?php if ( $result && isset( $messages[ $result ] ) ) : ?>
@@ -13,9 +17,17 @@ $messages = CHP_Public::form_messages();
 
 	<form class="chp-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 		<input type="hidden" name="action" value="chp_submit_booking">
+		<input type="hidden" name="chp_item" value="<?php echo (int) $item->id; ?>">
 		<?php wp_nonce_field( 'chp_submit_booking', 'chp_nonce' ); ?>
 
 		<input type="hidden" name="chp_ts" value="<?php echo esc_attr( CHP_Public::form_timestamp() ); ?>">
+
+		<?php if ( CHP_Items::has_multiple() ) : ?>
+			<h3 class="chp-form__item"><?php echo esc_html( $item->name ); ?></h3>
+		<?php endif; ?>
+		<?php if ( '' !== trim( (string) $item->description ) ) : ?>
+			<p class="chp-form__description"><?php echo nl2br( esc_html( $item->description ) ); ?></p>
+		<?php endif; ?>
 
 		<p class="chp-hp" aria-hidden="true">
 			<label>Website <input type="text" name="chp_website" tabindex="-1" autocomplete="off"></label>
@@ -38,6 +50,7 @@ $messages = CHP_Public::form_messages();
 				</p>
 			</div>
 			<?php $streets = CHP_Settings::local_streets(); ?>
+			<?php if ( ! $free ) : ?>
 			<div class="chp-row">
 				<?php if ( $streets ) : ?>
 					<p class="chp-grow">
@@ -60,8 +73,33 @@ $messages = CHP_Public::form_messages();
 					<input type="text" id="chp_street_no" name="chp_street_no" maxlength="8" pattern="\d{1,5}\s?[A-Za-zÅÄÖåäö]?" title="<?php esc_attr_e( 'For example 6 or 6a', 'clubhouse-planner' ); ?>" required>
 				</p>
 			</div>
+			<?php endif; ?>
 		</fieldset>
 
+		<?php if ( $free ) : ?>
+		<fieldset class="chp-fieldset">
+			<legend><?php esc_html_e( 'Date and time', 'clubhouse-planner' ); ?></legend>
+			<div class="chp-row">
+				<p>
+					<label for="chp_start"><?php esc_html_e( 'From', 'clubhouse-planner' ); ?> *</label>
+					<input type="datetime-local" id="chp_start" name="chp_start" min="<?php echo esc_attr( wp_date( 'Y-m-d\TH:i' ) ); ?>" required>
+				</p>
+				<p>
+					<label for="chp_end"><?php esc_html_e( 'To', 'clubhouse-planner' ); ?> *</label>
+					<input type="datetime-local" id="chp_end" name="chp_end" min="<?php echo esc_attr( wp_date( 'Y-m-d\TH:i' ) ); ?>" required>
+				</p>
+			</div>
+			<?php if ( $item->max_duration ) : ?>
+				<p class="chp-help">
+					<?php
+					/* translators: %s: length, e.g. 2 days */
+					echo esc_html( sprintf( __( 'The longest booking is %s.', 'clubhouse-planner' ), CHP_Items::format_minutes( (int) $item->max_duration ) ) );
+					?>
+				</p>
+			<?php endif; ?>
+			<p class="chp-price" id="chp-price" aria-live="polite"></p>
+		</fieldset>
+		<?php else : ?>
 		<fieldset class="chp-fieldset">
 			<legend><?php esc_html_e( 'Date and time', 'clubhouse-planner' ); ?></legend>
 			<div class="chp-row">
@@ -85,18 +123,26 @@ $messages = CHP_Public::form_messages();
 				</div>
 			</div>
 		</fieldset>
+		<?php endif; ?>
 
 		<fieldset class="chp-fieldset">
 			<legend><?php esc_html_e( 'Additional information', 'clubhouse-planner' ); ?></legend>
+			<?php if ( 'list' === $item->purpose_mode ) : ?>
 			<p>
 				<label for="chp_purpose"><?php esc_html_e( 'Purpose', 'clubhouse-planner' ); ?> *</label>
 				<select id="chp_purpose" name="chp_purpose" required>
 					<option value=""><?php esc_html_e( 'Choose purpose', 'clubhouse-planner' ); ?></option>
-					<?php foreach ( CHP_Bookings::purposes() as $purpose_option ) : ?>
+					<?php foreach ( CHP_Items::purpose_options( $item ) as $purpose_option ) : ?>
 						<option value="<?php echo esc_attr( $purpose_option ); ?>"><?php echo esc_html( $purpose_option ); ?></option>
 					<?php endforeach; ?>
 				</select>
 			</p>
+			<?php elseif ( 'text' === $item->purpose_mode ) : ?>
+			<p>
+				<label for="chp_purpose"><?php esc_html_e( 'Purpose', 'clubhouse-planner' ); ?></label>
+				<input type="text" id="chp_purpose" name="chp_purpose" maxlength="190">
+			</p>
+			<?php endif; ?>
 			<p>
 				<label for="chp_message"><?php esc_html_e( 'Message', 'clubhouse-planner' ); ?></label>
 				<textarea id="chp_message" name="chp_message" rows="4"></textarea>

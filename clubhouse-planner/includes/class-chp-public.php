@@ -32,6 +32,7 @@ class CHP_Public {
 				'addresses'   => CHP_Settings::local_addresses(),
 				'contact'     => __( 'Contact the housekeeper', 'clubhouse-planner' ),
 				'rulesUrl'    => esc_url_raw( rest_url( self::REST_NS . '/house-rules' ) ),
+				'priceUrl'    => esc_url_raw( rest_url( self::REST_NS . '/price' ) ),
 				'i18n'        => array(
 					'loading'   => __( 'Loading…', 'clubhouse-planner' ),
 					'close'     => __( 'Close', 'clubhouse-planner' ),
@@ -67,19 +68,34 @@ class CHP_Public {
 		);
 	}
 
-	public function render_calendar(): string {
+	/**
+	 * The item a shortcode shows: the one given by item="ID" if it exists and is active, otherwise the default item.
+	 */
+	private function shortcode_item( mixed $atts, string $tag ): ?object {
+		$atts = shortcode_atts( array( 'item' => 0 ), is_array( $atts ) ? $atts : array(), $tag );
+		$item = absint( $atts['item'] ) ? CHP_Items::get( absint( $atts['item'] ) ) : null;
+		if ( ! $item || ! (int) $item->active ) {
+			$item = CHP_Items::get( CHP_Items::default_id() );
+		}
+		return $item;
+	}
+
+	public function render_calendar( mixed $atts = array() ): string {
 		wp_enqueue_style( 'chp-public' );
 		wp_enqueue_script( 'chp-calendar' );
+
+		$item = $this->shortcode_item( $atts, 'clubhouse_calendar' );
 
 		ob_start();
 		include CHP_DIR . 'templates/calendar.php';
 		return (string) ob_get_clean();
 	}
 
-	public function render_form(): string {
+	public function render_form( mixed $atts = array() ): string {
 		wp_enqueue_style( 'chp-public' );
 		wp_enqueue_script( 'chp-booking-form' );
 
+		$item   = $this->shortcode_item( $atts, 'clubhouse_booking_form' );
 		$result = isset( $_GET['chp_result'] ) ? sanitize_key( wp_unslash( $_GET['chp_result'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		ob_start();
@@ -87,7 +103,30 @@ class CHP_Public {
 		return (string) ob_get_clean();
 	}
 
-	public static function form_messages(): array {
+	/**
+	 * Messages for the booking form result codes. Pass the item to get texts that fit a free-time item.
+	 */
+	public static function form_messages( ?object $item = null ): array {
+		$messages = self::base_messages();
+		if ( ! CHP_Pricing::is_priced( $item ) ) {
+			return $messages;
+		}
+
+		/* translators: %s: item name */
+		$messages['taken'] = sprintf( __( '%s is already booked during the requested time.', 'clubhouse-planner' ), $item->name );
+		/* translators: %s: item name */
+		$messages['blocked'] = sprintf( __( '%s is not available during the requested time.', 'clubhouse-planner' ), $item->name );
+		$messages['order']   = __( 'The end must be after the start.', 'clubhouse-planner' );
+		/* translators: %d: number of hours */
+		$messages['notice'] = sprintf( __( 'Bookings must be requested at least %s before the start.', 'clubhouse-planner' ), CHP_Items::format_minutes( (int) $item->min_notice * 60 ) );
+		/* translators: %s: length, e.g. 2 hours */
+		$messages['min'] = sprintf( __( 'The shortest booking is %s.', 'clubhouse-planner' ), CHP_Items::format_minutes( (int) $item->min_duration ) );
+		/* translators: %s: length, e.g. 2 days */
+		$messages['max'] = sprintf( __( 'The longest booking is %s.', 'clubhouse-planner' ), CHP_Items::format_minutes( (int) $item->max_duration ) );
+		return $messages;
+	}
+
+	private static function base_messages(): array {
 		return array(
 			'success' => __( 'Thank you! Your booking request has been received. A confirmation has been sent to your email.', 'clubhouse-planner' ),
 			'invalid' => __( 'The form has expired. Please reload the page and try again.', 'clubhouse-planner' ),
@@ -128,7 +167,83 @@ class CHP_Public {
 						'required'          => true,
 						'validate_callback' => array( $this, 'is_date' ),
 					),
+					'item'  => array(
+						'required'          => false,
+						'sanitize_callback' => 'absint',
+					),
 				),
+			)
+		);
+		register_rest_route(
+			self::REST_NS,
+			'/price',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'permission_callback' => '__return_true',
+				'callback'            => array( $this, 'rest_price' ),
+				'args'                => array(
+					'item'  => array(
+						'required'          => true,
+						'sanitize_callback' => 'absint',
+					),
+					'start' => array( 'required' => true ),
+					'end'   => array( 'required' => true ),
+				),
+			)
+		);
+	}
+
+	/** Parses a datetime-local value (Y-m-dTH:i) as site time. */
+	public static function parse_local( string $value ): ?DateTimeImmutable {
+		$date = DateTimeImmutable::createFromFormat( '!Y-m-d\TH:i', $value, wp_timezone() );
+		return $date && $date->format( 'Y-m-d\TH:i' ) === $value ? $date : null;
+	}
+
+	/**
+	 * Price and availability message for the booking form of a free-time item. The same checks are repeated on submit.
+	 */
+	public function rest_price( WP_REST_Request $request ): WP_REST_Response|WP_Error {
+		$item = CHP_Items::get( (int) $request['item'] );
+		if ( ! CHP_Pricing::is_priced( $item ) || ! (int) $item->active ) {
+			return new WP_Error( 'chp_item', __( 'Unknown item.', 'clubhouse-planner' ), array( 'status' => 404 ) );
+		}
+
+		$start = self::parse_local( sanitize_text_field( (string) $request['start'] ) );
+		$end   = self::parse_local( sanitize_text_field( (string) $request['end'] ) );
+		if ( ! $start || ! $end ) {
+			return rest_ensure_response(
+				array(
+					'ok'      => false,
+					'message' => '',
+				)
+			);
+		}
+
+		$error = CHP_Items::period_error( $item, $start, $end );
+		if ( ! $error ) {
+			$start_at = $start->format( 'Y-m-d H:i:s' );
+			$end_at   = $end->format( 'Y-m-d H:i:s' );
+			if ( CHP_Blackouts::blocks_item( (int) $item->id, $start_at, $end_at ) ) {
+				$error = 'blocked';
+			} elseif ( ! CHP_Bookings::free_units( (int) $item->id, $start_at, $end_at ) ) {
+				$error = 'taken';
+			}
+		}
+		if ( $error ) {
+			$messages = self::form_messages( $item );
+			return rest_ensure_response(
+				array(
+					'ok'      => false,
+					'message' => $messages[ $error ] ?? '',
+				)
+			);
+		}
+
+		return rest_ensure_response(
+			array(
+				'ok'      => true,
+				/* translators: %s: price, e.g. 150 kr */
+				'message' => sprintf( __( 'Price: %s', 'clubhouse-planner' ), CHP_Bookings::format_fee( CHP_Pricing::calculate( $item, $start, $end ) ) ),
 			)
 		);
 	}
@@ -169,7 +284,11 @@ class CHP_Public {
 			$statuses[] = CHP_Bookings::PENDING;
 		}
 
-		$item_id = CHP_Items::default_id();
+		$item = absint( $request['item'] ) ? CHP_Items::get( absint( $request['item'] ) ) : null;
+		if ( ! $item ) {
+			$item = CHP_Items::get( CHP_Items::default_id() );
+		}
+		$item_id = (int) $item->id;
 		$rows    = CHP_Bookings::in_range( $start, $end, $statuses, $item_id );
 
 		// Blocked days come first; the script shows them as "Not available" or the administrator's text.
@@ -185,6 +304,11 @@ class CHP_Public {
 			CHP_Blackouts::calendar_days( $item_id, $start, $end )
 		);
 
+		// Free-time bookings can span several days, so they are listed on every day they cover.
+		if ( CHP_Pricing::is_priced( $item ) ) {
+			return rest_ensure_response( array_merge( $blocked, $this->free_entries( $rows, $start, $end ) ) );
+		}
+
 		return rest_ensure_response(
 			array_merge( $blocked, array_map(
 				function ( object $b ): array {
@@ -199,6 +323,42 @@ class CHP_Public {
 				$rows
 			) )
 		);
+	}
+
+	/**
+	 * Calendar entries for free-time bookings: one per day covered, with the times falling on that day.
+	 *
+	 * @param object[] $rows  Bookings overlapping the range.
+	 * @param string   $start Range start (Y-m-d H:i:s).
+	 * @param string   $end   Range end (Y-m-d H:i:s).
+	 */
+	private function free_entries( array $rows, string $start, string $end ): array {
+		$tz         = wp_timezone();
+		$range_from = new DateTimeImmutable( $start, $tz );
+		$range_to   = new DateTimeImmutable( $end, $tz );
+		$entries    = array();
+
+		foreach ( $rows as $b ) {
+			$from   = new DateTimeImmutable( $b->start_at, $tz );
+			$to     = new DateTimeImmutable( $b->end_at, $tz );
+			$day    = max( $from->setTime( 0, 0 ), $range_from->setTime( 0, 0 ) );
+			$status = CHP_Bookings::CONFIRMED === $b->status ? 'booked' : 'preliminary';
+
+			for ( $i = 0; $i < CHP_Blackouts::MAX_CALENDAR_DAYS && $day < $to && $day <= $range_to; $i++ ) {
+				$next      = $day->modify( '+1 day' );
+				$day_start = max( $from, $day );
+				$day_end   = min( $to, $next );
+				$entries[] = array(
+					'date'   => $day->format( 'Y-m-d' ),
+					'slot'   => 'free',
+					'start'  => $day_start->format( 'H:i' ),
+					'end'    => $day_end >= $next ? '24:00' : $day_end->format( 'H:i' ),
+					'status' => $status,
+				);
+				$day = $next;
+			}
+		}
+		return $entries;
 	}
 
 	public function handle_submit(): void {
@@ -223,17 +383,47 @@ class CHP_Public {
 		$name    = sanitize_text_field( $post['chp_name'] ?? '' );
 		$email   = sanitize_email( $post['chp_email'] ?? '' );
 		$phone   = sanitize_text_field( $post['chp_phone'] ?? '' );
-		$address = $this->build_address( $post );
+
+		// The item comes from the shortcode's hidden field; without one the default item is used.
+		$wanted = absint( $post['chp_item'] ?? 0 );
+		$item   = CHP_Items::get( $wanted ? $wanted : CHP_Items::default_id() );
+		if ( ! $item || ! (int) $item->active ) {
+			$this->back( $redirect, 'error' );
+		}
+		$item_id = (int) $item->id;
+		$free    = CHP_Pricing::is_priced( $item );
+
+		// Free-time items do not ask for an address.
+		$address = $free ? '' : $this->build_address( $post );
 
 		if ( CHP_Settings::house_rules_page() && empty( $post['chp_rules'] ) ) {
 			$this->back( $redirect, 'rules' );
 		}
-		$purpose = sanitize_text_field( $post['chp_purpose'] ?? '' );
 		$message = sanitize_textarea_field( $post['chp_message'] ?? '' );
-		$slot    = sanitize_key( $post['chp_slot'] ?? '' );
-		$period  = CHP_Bookings::slot_period( sanitize_text_field( $post['chp_date'] ?? '' ), $slot );
 
-		if ( '' === $name || ! is_email( $email ) || ! $period || ! in_array( $purpose, CHP_Bookings::purposes(), true ) ) {
+		// The purpose field depends on the item: a list, free text, or not asked (then the item name is used).
+		$purpose = sanitize_text_field( $post['chp_purpose'] ?? '' );
+		$purpose_ok = true;
+		if ( 'list' === $item->purpose_mode ) {
+			$purpose_ok = in_array( $purpose, CHP_Items::purpose_options( $item ), true );
+		} elseif ( 'text' !== $item->purpose_mode ) {
+			$purpose = $item->name;
+		}
+
+		$slot = '';
+		if ( $free ) {
+			$start = self::parse_local( sanitize_text_field( $post['chp_start'] ?? '' ) );
+			$end   = self::parse_local( sanitize_text_field( $post['chp_end'] ?? '' ) );
+			if ( ! $start || ! $end ) {
+				$this->back( $redirect, 'missing' );
+			}
+			$period = array( $start, $end );
+		} else {
+			$slot   = sanitize_key( $post['chp_slot'] ?? '' );
+			$period = CHP_Bookings::slot_period( sanitize_text_field( $post['chp_date'] ?? '' ), $slot );
+		}
+
+		if ( '' === $name || ! is_email( $email ) || ! $period || ! $purpose_ok ) {
 			$this->back( $redirect, 'missing' );
 		}
 		if ( null === $address ) {
@@ -241,14 +431,18 @@ class CHP_Public {
 		}
 
 		[ $start, $end ] = $period;
-		if ( $start < new DateTimeImmutable( 'now', wp_timezone() ) ) {
+		if ( $free ) {
+			$error = CHP_Items::period_error( $item, $start, $end );
+			if ( $error ) {
+				$this->back( $redirect, $error );
+			}
+		} elseif ( $start < new DateTimeImmutable( 'now', wp_timezone() ) ) {
 			$this->back( $redirect, 'past' );
 		}
 
 		$start_at = $start->format( 'Y-m-d H:i:s' );
 		$end_at   = $end->format( 'Y-m-d H:i:s' );
 
-		$item_id = CHP_Items::default_id();
 		if ( CHP_Blackouts::blocks_item( $item_id, $start_at, $end_at ) ) {
 			$this->back( $redirect, 'blocked' );
 		}
@@ -260,20 +454,23 @@ class CHP_Public {
 			$this->back( $redirect, 'limit' );
 		}
 
-		$id = CHP_Bookings::create(
-			array(
-				'item_id'  => $item_id,
-				'name'     => mb_substr( $name, 0, 190 ),
-				'email'    => $email,
-				'phone'    => mb_substr( $phone, 0, 50 ),
-				'address'  => mb_substr( $address, 0, 190 ),
-				'slot'     => $slot,
-				'start_at' => $start_at,
-				'end_at'   => $end_at,
-				'purpose'  => mb_substr( $purpose, 0, 190 ),
-				'message'  => $message,
-			)
+		$booking = array(
+			'item_id'  => $item_id,
+			'name'     => mb_substr( $name, 0, 190 ),
+			'email'    => $email,
+			'phone'    => mb_substr( $phone, 0, 50 ),
+			'address'  => mb_substr( $address, 0, 190 ),
+			'slot'     => $slot,
+			'start_at' => $start_at,
+			'end_at'   => $end_at,
+			'purpose'  => mb_substr( $purpose, 0, 190 ),
+			'message'  => $message,
 		);
+		if ( $free ) {
+			// The price is known from the start, so the requester sees it in the first email.
+			$booking['fee'] = CHP_Pricing::calculate( $item, $start, $end );
+		}
+		$id = CHP_Bookings::create( $booking );
 
 		if ( ! $id ) {
 			$this->back( $redirect, 'error' );

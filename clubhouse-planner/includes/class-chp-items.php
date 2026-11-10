@@ -190,6 +190,77 @@ class CHP_Items {
 		return $units ? max( array_map( array( self::class, 'unit_index' ), $units ) ) : -1;
 	}
 
+	/**
+	 * A length from the form as minutes: fields "{$key}_value" and "{$key}_unit" (hours or days). Null when empty.
+	 */
+	private static function parse_duration( array $input, string $key ): ?int {
+		$value = str_replace( ',', '.', trim( (string) ( $input[ $key . '_value' ] ?? '' ) ) );
+		if ( '' === $value || ! is_numeric( $value ) || (float) $value <= 0 ) {
+			return null;
+		}
+		$minutes = 'days' === ( $input[ $key . '_unit' ] ?? 'hours' ) ? 1440 : 60;
+		return (int) min( 5 * 366 * 1440, round( (float) $value * $minutes ) );
+	}
+
+	/** A length in minutes as text, e.g. "2 days", "3 hours" or "90 minutes". */
+	public static function format_minutes( int $minutes ): string {
+		if ( 0 === $minutes % 1440 ) {
+			/* translators: %d: number of days */
+			return sprintf( _n( '%d day', '%d days', intdiv( $minutes, 1440 ), 'clubhouse-planner' ), intdiv( $minutes, 1440 ) );
+		}
+		if ( 0 === $minutes % 60 ) {
+			/* translators: %d: number of hours */
+			return sprintf( _n( '%d hour', '%d hours', intdiv( $minutes, 60 ), 'clubhouse-planner' ), intdiv( $minutes, 60 ) );
+		}
+		/* translators: %d: number of minutes */
+		return sprintf( _n( '%d minute', '%d minutes', $minutes, 'clubhouse-planner' ), $minutes );
+	}
+
+	/**
+	 * Why a requested period is not allowed for a free-time item, or null if it is fine.
+	 * Codes are keys of CHP_Public::form_messages().
+	 */
+	public static function period_error( object $item, DateTimeImmutable $start, DateTimeImmutable $end ): ?string {
+		$now = new DateTimeImmutable( 'now', wp_timezone() );
+		if ( $end <= $start ) {
+			return 'order';
+		}
+		if ( $start < $now ) {
+			return 'past';
+		}
+		if ( $item->min_notice && $start < $now->modify( '+' . (int) $item->min_notice . ' hours' ) ) {
+			return 'notice';
+		}
+		$minutes = intdiv( $end->getTimestamp() - $start->getTimestamp(), 60 );
+		if ( $item->min_duration && $minutes < (int) $item->min_duration ) {
+			return 'min';
+		}
+		if ( $item->max_duration && $minutes > (int) $item->max_duration ) {
+			return 'max';
+		}
+		return null;
+	}
+
+	/** Purpose choices for an item that uses a list; the club house default list until one is saved. */
+	public static function purpose_options( object $item ): array {
+		$list = self::purposes( $item );
+		return ! $list && 'list' === $item->purpose_mode ? CHP_Bookings::purposes() : $list;
+	}
+
+	/** Short price description for the item list, e.g. "100 kr per day (weekend 150 kr)". */
+	public static function fee_summary( object $item ): string {
+		if ( self::MODE_FREE !== $item->booking_mode ) {
+			return __( 'Per booking type, see Settings', 'clubhouse-planner' );
+		}
+		$unit = CHP_Pricing::fee_units()[ $item->fee_unit ] ?? '';
+		$text = CHP_Bookings::format_fee( (int) $item->fee_weekday ) . ', ' . mb_strtolower( $unit );
+		if ( null !== $item->fee_weekend ) {
+			/* translators: %s: weekend price */
+			$text .= ' ' . sprintf( __( '(weekend %s)', 'clubhouse-planner' ), CHP_Bookings::format_fee( (int) $item->fee_weekend ) );
+		}
+		return $text;
+	}
+
 	/** Dropdown values for an item with a purpose list. */
 	public static function purposes( object $item ): array {
 		$list = json_decode( (string) $item->purposes, true );
@@ -235,7 +306,32 @@ class CHP_Items {
 
 		$key_box = mb_substr( sanitize_text_field( $input['key_box_code'] ?? '' ), 0, 100 );
 
+		$booking_mode = self::MODE_FREE === ( $input['booking_mode'] ?? '' ) ? self::MODE_FREE : self::MODE_SLOTS;
+		$fee_unit     = (string) ( $input['fee_unit'] ?? CHP_Pricing::FEE_BOOKING );
+		if ( ! isset( CHP_Pricing::fee_units()[ $fee_unit ] ) ) {
+			$fee_unit = CHP_Pricing::FEE_BOOKING;
+		}
+		$fee_weekend = trim( (string) ( $input['fee_weekend'] ?? '' ) );
+
+		$weekend_days = array_unique( array_filter( array_map( 'absint', (array) ( $input['weekend_days'] ?? array() ) ), static fn( int $d ): bool => $d >= 1 && $d <= 7 ) );
+		sort( $weekend_days );
+
+		$min_duration = self::parse_duration( $input, 'min_duration' );
+		$max_duration = self::parse_duration( $input, 'max_duration' );
+		if ( null !== $min_duration && null !== $max_duration && $min_duration > $max_duration ) {
+			return new WP_Error( 'duration' );
+		}
+		$notice = absint( $input['min_notice'] ?? 0 );
+
 		return array(
+			'booking_mode' => $booking_mode,
+			'fee_unit'     => $fee_unit,
+			'fee_weekday'  => absint( $input['fee_weekday'] ?? 0 ),
+			'fee_weekend'  => '' === $fee_weekend ? null : absint( $fee_weekend ),
+			'weekend_days' => implode( ',', $weekend_days ),
+			'min_duration' => $min_duration,
+			'max_duration' => $max_duration,
+			'min_notice'   => $notice > 0 ? $notice : null,
 			'name'         => $name,
 			'description'  => sanitize_textarea_field( $input['description'] ?? '' ),
 			'active'       => $active,
@@ -261,7 +357,6 @@ class CHP_Items {
 			$ok = false !== $wpdb->update( self::table(), $data, array( 'id' => $id ) );
 		} else {
 			$data['created_at'] = $data['updated_at'];
-			$data['booking_mode'] = self::MODE_SLOTS;
 			$ok = (bool) $wpdb->insert( self::table(), $data );
 			$id = (int) $wpdb->insert_id;
 		}

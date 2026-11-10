@@ -19,8 +19,10 @@ foreach ( $neighbours as $rows ) {
 	}
 }
 $badge = CHP_Admin::slot_badge( $booking, 'large' );
-$local = CHP_Bookings::is_local( $booking );
-$item  = CHP_Items::get( (int) $booking->item_id );
+$item   = CHP_Items::get( (int) $booking->item_id );
+$priced = CHP_Pricing::is_priced( $item );
+// A priced item has a calculated price, so the address does not decide the fee.
+$local = CHP_Bookings::is_local( $booking ) || $priced;
 ?>
 <div class="wrap">
 	<h1>
@@ -80,6 +82,7 @@ $item  = CHP_Items::get( (int) $booking->item_id );
 				<tr><th><?php esc_html_e( 'Name', 'clubhouse-planner' ); ?></th><td><?php echo esc_html( $booking->name ); ?></td></tr>
 				<tr><th><?php esc_html_e( 'Email', 'clubhouse-planner' ); ?></th><td><?php if ( '' !== (string) $booking->email ) : ?><a href="<?php echo esc_url( 'mailto:' . $booking->email ); ?>"><?php echo esc_html( $booking->email ); ?></a><?php endif; ?></td></tr>
 				<tr><th><?php esc_html_e( 'Phone', 'clubhouse-planner' ); ?></th><td><?php echo esc_html( $booking->phone ); ?></td></tr>
+				<?php if ( ! $priced ) : ?>
 				<tr>
 					<th><?php esc_html_e( 'Address', 'clubhouse-planner' ); ?></th>
 					<td>
@@ -89,9 +92,10 @@ $item  = CHP_Items::get( (int) $booking->item_id );
 						<?php else : ?>
 							<span class="chp-fee-tag chp-fee-tag--other"><?php esc_html_e( 'Other address', 'clubhouse-planner' ); ?></span>
 						<?php endif; ?>
-					</td>
-				</tr>
-				<?php if ( null !== $booking->fee ) : ?>
+						/td>
+						/tr>
+						?php endif; ?>
+						?php if ( null !== $booking->fee ) : ?>
 					<tr><th><?php esc_html_e( 'Fee', 'clubhouse-planner' ); ?></th><td><strong><?php echo esc_html( CHP_Bookings::format_fee( (int) $booking->fee ) ); ?></strong></td></tr>
 				<?php endif; ?>
 				<tr><th><?php esc_html_e( 'Purpose', 'clubhouse-planner' ); ?></th><td><?php echo esc_html( $booking->purpose ); ?></td></tr>
@@ -131,7 +135,9 @@ $item  = CHP_Items::get( (int) $booking->item_id );
 							<input type="number" id="chp-fee" name="fee" min="0" step="1" class="small-text" value="<?php echo esc_attr( $fee_value ); ?>"<?php echo $local ? '' : ' required'; ?>> kr
 							<label class="chp-free-label"><input type="checkbox" id="chp-free" name="free" value="1"> <?php esc_html_e( 'Free of charge', 'clubhouse-planner' ); ?></label>
 							<span class="description">
-								<?php if ( $local ) : ?>
+								<?php if ( $priced ) : ?>
+									<?php esc_html_e( 'Calculated from the price list of the item. You can change it if needed.', 'clubhouse-planner' ); ?>
+								<?php elseif ( $local ) : ?>
 									<?php esc_html_e( 'Standard fee for the listed streets and addresses. You can change it if needed.', 'clubhouse-planner' ); ?>
 								<?php else : ?>
 									<?php esc_html_e( 'The address is not on the standard-fee lists. Enter the agreed fee.', 'clubhouse-planner' ); ?>

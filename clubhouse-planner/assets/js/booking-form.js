@@ -224,4 +224,43 @@
 		}
 	});
 	updateFees();
+
+	// Free-time items: show the price (or why the time cannot be booked) as soon as both times are filled in.
+	var startField = document.getElementById('chp_start');
+	var endField = document.getElementById('chp_end');
+	var priceBox = document.getElementById('chp-price');
+	var itemField = form && form.elements.chp_item;
+	var priceTimer = null;
+	var priceRequest = 0;
+
+	function updatePrice() {
+		if (!startField || !endField || !priceBox || !itemField || !cfg.priceUrl) return;
+		priceBox.textContent = '';
+		priceBox.classList.remove('chp-price--error');
+		if (!startField.value || !endField.value) return;
+
+		var url = new URL(cfg.priceUrl, window.location.href);
+		url.searchParams.set('item', itemField.value);
+		url.searchParams.set('start', startField.value);
+		url.searchParams.set('end', endField.value);
+		var request = ++priceRequest;
+		fetch(url.toString(), { credentials: 'same-origin' })
+			.then(function (res) { if (!res.ok) throw new Error(res.status); return res.json(); })
+			.then(function (data) {
+				if (request !== priceRequest) return; // A newer request is on its way.
+				priceBox.textContent = data.message || '';
+				priceBox.classList.toggle('chp-price--error', !data.ok);
+			})
+			.catch(function () { /* The price is only a hint; the server checks again on submit. */ });
+	}
+
+	[startField, endField].forEach(function (el) {
+		if (!el) return;
+		['input', 'change'].forEach(function (type) {
+			el.addEventListener(type, function () {
+				clearTimeout(priceTimer);
+				priceTimer = setTimeout(updatePrice, 250);
+			});
+		});
+	});
 })();

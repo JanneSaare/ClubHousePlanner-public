@@ -23,10 +23,11 @@
 		return node;
 	}
 
-	function fetchBookings(from, to) {
+	function fetchBookings(from, to, item) {
 		var url = new URL(cfg.restUrl, window.location.href);
 		url.searchParams.set('start', ymd(from));
 		url.searchParams.set('end', ymd(to));
+		if (item) url.searchParams.set('item', item);
 		return fetch(url.toString(), { credentials: 'same-origin' }).then(function (res) {
 			if (!res.ok) throw new Error('HTTP ' + res.status);
 			return res.json();
@@ -36,7 +37,16 @@
 	// Pre-fill the booking form (if present on the page) when a future day is clicked.
 	function selectDay(date) {
 		var input = document.getElementById('chp_date');
-		if (!input) return;
+		if (!input) {
+			// Free-time form: set the date and keep a time that was already chosen.
+			input = document.getElementById('chp_start');
+			if (!input) return;
+			input.value = ymd(date) + 'T' + (input.value.slice(11, 16) || '10:00');
+			input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			input.focus();
+			input.dispatchEvent(new Event('change', { bubbles: true }));
+			return;
+		}
 		input.value = ymd(date);
 		input.scrollIntoView({ behavior: 'smooth', block: 'center' });
 		input.focus();
@@ -80,7 +90,7 @@
 			title.textContent = first.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
 			status.textContent = '';
 
-			fetchBookings(first, last)
+			fetchBookings(first, last, root.dataset.item)
 				.then(function (bookings) {
 					draw(bookings);
 				})
@@ -134,10 +144,11 @@
 							cell.append(blocked);
 							return;
 						}
-						var slot = slots[b.slot] || { label: b.slot };
+						// Free-time bookings have no booking type; they show their hours instead.
+						var slot = b.slot === 'free' ? { label: b.start + '–' + b.end } : (slots[b.slot] || { label: b.slot });
 						var statusLabel = b.status === 'booked' ? i18n.booked : i18n.preliminary;
 						var tag = el('span', 'chp-cal__event chp-cal__event--' + b.slot + ' chp-cal__event--' + b.status, slot.label);
-						tag.title = slot.label + ' ' + b.start + '–' + b.end + ' (' + statusLabel + ')';
+						tag.title = slot.label + ' (' + statusLabel + ')';
 						cell.append(tag);
 					});
 

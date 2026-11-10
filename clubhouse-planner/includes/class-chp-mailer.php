@@ -146,7 +146,10 @@ class CHP_Mailer {
 			$key_box = trim( (string) CHP_Settings::get( 'key_box_code' ) );
 		}
 
-		if ( CHP_Bookings::is_local( $booking ) ) {
+		if ( CHP_Pricing::is_priced( $item ) ) {
+			/* translators: %s: formatted fee */
+			$fee_info = sprintf( __( 'Fee: %s, calculated from the price list.', 'clubhouse-planner' ), $fee );
+		} elseif ( CHP_Bookings::is_local( $booking ) ) {
 			/* translators: %s: formatted fee */
 			$fee_info = sprintf( __( 'Fee: standard fee (%s).', 'clubhouse-planner' ), CHP_Bookings::format_fee( CHP_Settings::standard_fee( (string) $booking->slot ) ) );
 		} else {
