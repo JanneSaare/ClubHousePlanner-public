@@ -3,7 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 class CHP_Activator {
 
-	const DB_VERSION = '5';
+	const DB_VERSION = '6';
 	const ROLE       = 'chp_housekeeper';
 	const ROLE_NAME  = 'Club House Housekeeper';
 	const CAP        = 'manage_clubhouse_bookings';
@@ -25,8 +25,9 @@ class CHP_Activator {
 
 		$charset  = $wpdb->get_charset_collate();
 		$items    = CHP_Items::table();
+		$blackouts = CHP_Blackouts::table();
 		$bookings = CHP_Bookings::table();
-		$log     = CHP_Bookings::log_table();
+		$log    = CHP_Bookings::log_table();
 
 		$sql = "CREATE TABLE $items (
 			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -51,6 +52,19 @@ class CHP_Activator {
 			created_at datetime NOT NULL,
 			updated_at datetime NOT NULL,
 			PRIMARY KEY  (id)
+		) $charset;
+		CREATE TABLE $blackouts (
+			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			item_id bigint(20) unsigned NULL,
+			unit varchar(3) NULL,
+			start_at datetime NOT NULL,
+			end_at datetime NOT NULL,
+			yearly tinyint(1) NOT NULL DEFAULT 0,
+			reason varchar(190) NOT NULL DEFAULT '',
+			public_text varchar(190) NULL,
+			created_at datetime NOT NULL,
+			PRIMARY KEY  (id),
+			KEY item_period (item_id,start_at,end_at)
 		) $charset;
 		CREATE TABLE $bookings (
 			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,

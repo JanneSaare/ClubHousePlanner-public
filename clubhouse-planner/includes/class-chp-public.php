@@ -60,6 +60,7 @@ class CHP_Public {
 					'next'        => __( 'Next month', 'clubhouse-planner' ),
 					'booked'      => __( 'Booked', 'clubhouse-planner' ),
 					'preliminary' => __( 'Preliminary', 'clubhouse-planner' ),
+					'unavailable' => __( 'Not available', 'clubhouse-planner' ),
 					'loadError'   => __( 'Could not load the calendar.', 'clubhouse-planner' ),
 				),
 			)
@@ -94,6 +95,7 @@ class CHP_Public {
 			'address' => __( 'Please enter a street and a valid street number (for example 6 or 6a).', 'clubhouse-planner' ),
 			'past'    => __( 'The requested time has already passed.', 'clubhouse-planner' ),
 			'taken'   => __( 'The club house is already booked during the requested time.', 'clubhouse-planner' ),
+			'blocked' => __( 'The club house is not available during the requested time.', 'clubhouse-planner' ),
 			'rules'   => __( 'Please confirm that you have read and understood the house rules.', 'clubhouse-planner' ),
 			'limit'   => __( 'Too many booking requests. Please try again later.', 'clubhouse-planner' ),
 			'error'   => __( 'Something went wrong. Please try again later.', 'clubhouse-planner' ),
@@ -167,10 +169,24 @@ class CHP_Public {
 			$statuses[] = CHP_Bookings::PENDING;
 		}
 
-		$rows = CHP_Bookings::in_range( $start, $end, $statuses, CHP_Items::default_id() );
+		$item_id = CHP_Items::default_id();
+		$rows    = CHP_Bookings::in_range( $start, $end, $statuses, $item_id );
+
+		// Blocked days come first; the script shows them as "Not available" or the administrator's text.
+		$blocked = array_map(
+			static fn( array $day ): array => array(
+				'date'   => $day['date'],
+				'slot'   => 'unavailable',
+				'start'  => '',
+				'end'    => '',
+				'status' => 'unavailable',
+				'text'   => $day['text'],
+			),
+			CHP_Blackouts::calendar_days( $item_id, $start, $end )
+		);
 
 		return rest_ensure_response(
-			array_map(
+			array_merge( $blocked, array_map(
 				function ( object $b ): array {
 					return array(
 						'date'   => substr( $b->start_at, 0, 10 ),
@@ -181,7 +197,7 @@ class CHP_Public {
 					);
 				},
 				$rows
-			)
+			) )
 		);
 	}
 
@@ -233,6 +249,9 @@ class CHP_Public {
 		$end_at   = $end->format( 'Y-m-d H:i:s' );
 
 		$item_id = CHP_Items::default_id();
+		if ( CHP_Blackouts::blocks_item( $item_id, $start_at, $end_at ) ) {
+			$this->back( $redirect, 'blocked' );
+		}
 		if ( ! CHP_Bookings::free_units( $item_id, $start_at, $end_at ) ) {
 			$this->back( $redirect, 'taken' );
 		}

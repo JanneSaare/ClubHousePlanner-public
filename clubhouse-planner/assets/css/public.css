@@ -18,6 +18,9 @@
 /* Preliminary = not yet confirmed: same slot color but striped and faded. */
 .chp-cal__event--preliminary, .chp-legend__item--preliminary::before { opacity: .7; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.5) 0 3px, transparent 3px 7px); }
 .chp-legend__item--preliminary::before { background-color: #8c8f94; }
+/* Blocked day: the whole day is shaded and cannot be booked. */
+.chp-cal__day--unavailable { background: #f0f0f1; }
+.chp-cal__event--unavailable { background: #646970; color: #fff; }
 .chp-cal__status { color: #d63638; }
 .chp-legend { display: flex; flex-wrap: wrap; gap: .4em 1.2em; font-size: .85em; }
 .chp-legend__item::before { content: ""; display: inline-block; width: .9em; height: .9em; margin-right: .35em; vertical-align: middle; border-radius: 2px; }

@@ -96,6 +96,10 @@
 				});
 				Object.keys(byDate).forEach(function (d) {
 					byDate[d].sort(function (a, b) {
+						// Blocked days are listed first.
+						if (a.status === 'unavailable' || b.status === 'unavailable') {
+							return (b.status === 'unavailable') - (a.status === 'unavailable');
+						}
 						return slotOrder.indexOf(a.slot) - slotOrder.indexOf(b.slot);
 					});
 				});
@@ -122,6 +126,14 @@
 					if (dayStart.getTime() === today.getTime()) cell.classList.add('chp-cal__day--today');
 
 					(byDate[ymd(dayStart)] || []).forEach(function (b) {
+						if (b.status === 'unavailable') {
+							var text = b.text || i18n.unavailable || 'Not available';
+							var blocked = el('span', 'chp-cal__event chp-cal__event--unavailable', text);
+							blocked.title = text;
+							cell.classList.add('chp-cal__day--unavailable');
+							cell.append(blocked);
+							return;
+						}
 						var slot = slots[b.slot] || { label: b.slot };
 						var statusLabel = b.status === 'booked' ? i18n.booked : i18n.preliminary;
 						var tag = el('span', 'chp-cal__event chp-cal__event--' + b.slot + ' chp-cal__event--' + b.status, slot.label);

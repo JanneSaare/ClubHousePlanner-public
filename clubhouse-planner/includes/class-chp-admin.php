@@ -17,6 +17,8 @@ class CHP_Admin {
 		add_action( 'admin_post_chp_resend_payment', array( $this, 'handle_resend_payment' ) );
 		add_action( 'admin_post_chp_reassign_unit', array( $this, 'handle_reassign_unit' ) );
 		add_action( 'admin_post_chp_save_item', array( $this, 'handle_save_item' ) );
+		add_action( 'admin_post_chp_save_blackout', array( $this, 'handle_save_blackout' ) );
+		add_action( 'admin_post_chp_delete_blackout', array( $this, 'handle_delete_blackout' ) );
 		add_filter( 'gettext_with_context_default', array( $this, 'translate_role_name' ), 10, 3 );
 	}
 
@@ -46,6 +48,7 @@ class CHP_Admin {
 		);
 		add_submenu_page( 'chp-bookings', __( 'Bookings', 'clubhouse-planner' ), __( 'Bookings', 'clubhouse-planner' ), self::CAP, 'chp-bookings', array( $this, 'render_bookings' ) );
 		add_submenu_page( 'chp-bookings', __( 'Add booking', 'clubhouse-planner' ), __( 'Add booking', 'clubhouse-planner' ), self::CAP, 'chp-add-booking', array( $this, 'render_add_booking' ) );
+		add_submenu_page( 'chp-bookings', __( 'Blocked periods', 'clubhouse-planner' ), __( 'Blocked periods', 'clubhouse-planner' ), self::CAP, 'chp-blackouts', array( $this, 'render_blackouts' ) );
 		add_submenu_page( 'chp-bookings', __( 'Items', 'clubhouse-planner' ), __( 'Items', 'clubhouse-planner' ), 'manage_options', 'chp-items', array( $this, 'render_items' ) );
 		add_submenu_page( 'chp-bookings', __( 'Instructions', 'clubhouse-planner' ), __( 'Instructions', 'clubhouse-planner' ), self::CAP, 'chp-help', array( $this, 'render_help' ) );
 		add_submenu_page( 'chp-bookings', __( 'Settings', 'clubhouse-planner' ), __( 'Settings', 'clubhouse-planner' ), 'manage_options', 'chp-settings', array( $this, 'render_settings' ) );
@@ -148,9 +151,105 @@ class CHP_Admin {
 			'failed'  => array( 'error', __( 'The booking could not be updated.', 'clubhouse-planner' ) ),
 			'added'   => array( 'success', __( 'Booking added. No email was sent.', 'clubhouse-planner' ) ),
 			'fee'     => array( 'error', __( 'Enter the fee before approving a booking from an address that is not on the standard-fee list.', 'clubhouse-planner' ) ),
+			'blocked' => array( 'error', __( 'This period is in a blocked period, so the booking cannot be approved. Deny the request or remove the blocked period first.', 'clubhouse-planner' ) ),
 			'unit'    => array( 'success', __( 'The unit was changed.', 'clubhouse-planner' ) ),
 			'unit_taken' => array( 'error', __( 'That unit is already booked during this period.', 'clubhouse-planner' ) ),
 		);
+	}
+
+	/** Messages for the blocked periods page, keyed by notice or error code. */
+	public static function blackout_notices(): array {
+		return array(
+			'saved'   => array( 'success', __( 'The blocked period was saved.', 'clubhouse-planner' ) ),
+			'deleted' => array( 'success', __( 'The blocked period was removed.', 'clubhouse-planner' ) ),
+			'item'    => array( 'error', __( 'Choose an item from the list.', 'clubhouse-planner' ) ),
+			'unit'    => array( 'error', __( 'That unit does not exist for the chosen item.', 'clubhouse-planner' ) ),
+			'dates'   => array( 'error', __( 'Enter a valid start and end date and time.', 'clubhouse-planner' ) ),
+			'range'   => array( 'error', __( 'The end must be after the start.', 'clubhouse-planner' ) ),
+			'span'    => array( 'error', __( 'A period that repeats every year must be shorter than one year.', 'clubhouse-planner' ) ),
+			'failed'  => array( 'error', __( 'The blocked period could not be saved.', 'clubhouse-planner' ) ),
+		);
+	}
+
+	public function render_blackouts(): void {
+		if ( ! current_user_can( self::CAP ) ) {
+			wp_die( esc_html__( 'You are not allowed to access this page.', 'clubhouse-planner' ), 403 );
+		}
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- read-only view parameters.
+		$notice  = isset( $_GET['chp_notice'] ) ? sanitize_key( wp_unslash( $_GET['chp_notice'] ) ) : '';
+		$edit    = isset( $_GET['blackout'] ) ? sanitize_key( wp_unslash( $_GET['blackout'] ) ) : '';
+		$checked = isset( $_GET['checked'] ) ? absint( $_GET['checked'] ) : 0;
+		// phpcs:enable
+
+		$blackout = null;
+		if ( 'new' === $edit ) {
+			$blackout = (object) array(
+				'id'          => 0,
+				'item_id'     => null,
+				'unit'        => null,
+				'start_at'    => '',
+				'end_at'      => '',
+				'yearly'      => 0,
+				'reason'      => '',
+				'public_text' => null,
+			);
+		} elseif ( '' !== $edit ) {
+			$blackout = CHP_Blackouts::get( absint( $edit ) );
+			if ( ! $blackout ) {
+				wp_die( esc_html__( 'Blocked period not found.', 'clubhouse-planner' ), 404 );
+			}
+		}
+
+		// Right after saving: bookings that fall inside the period are listed so the housekeeper can handle them.
+		$conflicts = array();
+		if ( $checked ) {
+			$saved = CHP_Blackouts::get( $checked );
+			if ( $saved ) {
+				$conflicts = CHP_Blackouts::conflicting_bookings( $saved );
+			}
+		}
+
+		$blackouts = CHP_Blackouts::all();
+		$items     = CHP_Items::all();
+		include CHP_DIR . 'templates/admin/blackouts.php';
+	}
+
+	public function handle_save_blackout(): void {
+		if ( ! current_user_can( self::CAP ) ) {
+			wp_die( esc_html__( 'You are not allowed to do this.', 'clubhouse-planner' ), 403 );
+		}
+
+		$id = isset( $_POST['blackout_id'] ) ? absint( $_POST['blackout_id'] ) : 0;
+		check_admin_referer( 'chp_save_blackout_' . $id );
+
+		$base = admin_url( 'admin.php?page=chp-blackouts' );
+		$data = CHP_Blackouts::sanitize( wp_unslash( $_POST ) );
+		if ( is_wp_error( $data ) ) {
+			wp_safe_redirect( add_query_arg( array( 'blackout' => $id ? $id : 'new', 'chp_notice' => $data->get_error_code() ), $base ) );
+			exit;
+		}
+
+		$saved = CHP_Blackouts::save( $data, $id );
+		if ( ! $saved ) {
+			wp_safe_redirect( add_query_arg( array( 'blackout' => $id ? $id : 'new', 'chp_notice' => 'failed' ), $base ) );
+			exit;
+		}
+		wp_safe_redirect( add_query_arg( array( 'chp_notice' => 'saved', 'checked' => $saved ), $base ) );
+		exit;
+	}
+
+	public function handle_delete_blackout(): void {
+		if ( ! current_user_can( self::CAP ) ) {
+			wp_die( esc_html__( 'You are not allowed to do this.', 'clubhouse-planner' ), 403 );
+		}
+
+		$id = isset( $_POST['blackout_id'] ) ? absint( $_POST['blackout_id'] ) : 0;
+		check_admin_referer( 'chp_delete_blackout_' . $id );
+
+		CHP_Blackouts::delete( $id );
+		wp_safe_redirect( add_query_arg( 'chp_notice', 'deleted', admin_url( 'admin.php?page=chp-blackouts' ) ) );
+		exit;
 	}
 
 	/** Messages for the items page, keyed by notice or error code. */
@@ -286,6 +385,7 @@ class CHP_Admin {
 			'missing' => __( 'Enter a name and choose a valid date and booking type.', 'clubhouse-planner' ),
 			'email'   => __( 'The email address is not valid.', 'clubhouse-planner' ),
 			'taken'   => __( 'The club house is already booked during that time.', 'clubhouse-planner' ),
+			'blocked' => __( 'That time is in a blocked period. Remove or change the blocked period first.', 'clubhouse-planner' ),
 			'failed'  => __( 'The booking could not be saved.', 'clubhouse-planner' ),
 		);
 	}
@@ -336,7 +436,8 @@ class CHP_Admin {
 		}
 
 		if ( CHP_Bookings::AWAITING_PAYMENT === $to && ! CHP_Bookings::claim_unit( $booking ) ) {
-			$this->redirect( $url, 'overlap' );
+			$blocked = CHP_Blackouts::blocks_item( (int) $booking->item_id, $booking->start_at, $booking->end_at );
+			$this->redirect( $url, $blocked ? 'blocked' : 'overlap' );
 		}
 
 		// Free of charge: no payment step, so the booking is confirmed straight away.
@@ -427,6 +528,9 @@ class CHP_Admin {
 		$start_at        = $start->format( 'Y-m-d H:i:s' );
 		$end_at          = $end->format( 'Y-m-d H:i:s' );
 		$item_id = CHP_Items::default_id();
+		if ( CHP_Blackouts::blocks_item( $item_id, $start_at, $end_at ) ) {
+			$back( 'blocked' );
+		}
 		if ( ! CHP_Bookings::free_units( $item_id, $start_at, $end_at ) ) {
 			$back( 'taken' );
 		}

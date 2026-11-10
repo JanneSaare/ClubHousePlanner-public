@@ -383,7 +383,7 @@ class CHP_Bookings {
 	}
 
 	/**
-	 * Units of an item that are free for [$start, $end): not held by a blocking booking.
+	 * Units of an item that are free for [$start, $end): not held by a blocking booking and not in a blocked period.
 	 *
 	 * @param int $exclude_id A booking to ignore (the one being approved or moved).
 	 * @return string[] Unit letters in order; empty when the item is fully booked or does not exist.
@@ -409,7 +409,9 @@ class CHP_Bookings {
 			)
 		);
 
-		return array_values( array_diff( CHP_Items::unit_labels( (int) $item->quantity ), $taken ) );
+		// Units held by a booking or blocked by an unavailable period are not free.
+		$unavailable = array_merge( $taken, CHP_Blackouts::blocked_units( $item_id, $start, $end ) );
+		return array_values( array_diff( CHP_Items::unit_labels( (int) $item->quantity ), $unavailable ) );
 	}
 
 	/**
