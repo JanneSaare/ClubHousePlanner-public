@@ -12,6 +12,7 @@ class CHP_Public {
 
 	public function __construct() {
 		add_shortcode( 'clubhouse_calendar', array( $this, 'render_calendar' ) );
+		add_shortcode( 'clubhouse_calendars', array( $this, 'render_calendars' ) );
 		add_shortcode( 'clubhouse_booking_form', array( $this, 'render_form' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
@@ -103,6 +104,44 @@ class CHP_Public {
 		ob_start();
 		include CHP_DIR . 'templates/calendar.php';
 		return (string) ob_get_clean();
+	}
+
+	/**
+	 * Calendars of several items side by side: [clubhouse_calendars] for all active items or items="1,2" for chosen ones.
+	 */
+	public function render_calendars( mixed $atts = array() ): string {
+		$atts = shortcode_atts( array( 'items' => '' ), is_array( $atts ) ? $atts : array(), 'clubhouse_calendars' );
+		$ids  = array_values( array_unique( array_filter( array_map( 'absint', explode( ',', (string) $atts['items'] ) ) ) ) );
+
+		$items   = array();
+		$missing = false;
+		if ( $ids ) {
+			foreach ( $ids as $id ) {
+				$found = CHP_Items::get( $id );
+				if ( $found && (int) $found->active ) {
+					$items[] = $found;
+				} else {
+					$missing = true;
+				}
+			}
+		} else {
+			$items = CHP_Items::all( true );
+		}
+		if ( ! $items ) {
+			return $this->missing_item_notice();
+		}
+
+		wp_enqueue_style( 'chp-public' );
+		wp_enqueue_script( 'chp-calendar' );
+
+		$grouped = true;
+		ob_start();
+		echo '<div class="chp-calendars">';
+		foreach ( $items as $item ) {
+			include CHP_DIR . 'templates/calendar.php';
+		}
+		echo '</div>';
+		return ( $missing ? $this->missing_item_notice() : '' ) . (string) ob_get_clean();
 	}
 
 	public function render_form( mixed $atts = array() ): string {

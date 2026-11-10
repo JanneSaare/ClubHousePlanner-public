@@ -11,6 +11,8 @@ Copy (or symlink) the `clubhouse-planner` folder to `wp-content/plugins/` and ac
 ## Usage
 - `[clubhouse_calendar]` – public month calendar with booked/preliminary periods (no personal data is exposed).
 - `[clubhouse_booking_form]` – booking request form. Clicking a day in the calendar pre-fills the form date.
+- `[clubhouse_calendar item="2"]` and `[clubhouse_booking_form item="2"]` – the calendar and form of another item (the item number is shown under **Club House → Items**). Without `item` the first item is used.
+- `[clubhouse_calendars]` – the calendars of all active items side by side (they stack on narrow screens). Use `items="1,2"` to choose which. Put it above the booking forms so a picked date is visible in the form.
 - Admin: **Club House → Bookings** to handle requests, **Club House → Settings** for notification emails and payment instructions.
 - Give housekeepers the **Club House Housekeeper** role. They can log in and handle bookings and are notified on new requests.
 

@@ -1,10 +1,17 @@
 <?php
 defined( 'ABSPATH' ) || exit;
 
-/** @var object $item The item shown by this calendar. */
-$free = CHP_Pricing::is_priced( $item );
+/**
+ * @var object $item    The item shown by this calendar.
+ * @var bool   $grouped True when shown with other calendars by [clubhouse_calendars].
+ */
+$grouped = ! empty( $grouped );
+$free    = CHP_Pricing::is_priced( $item );
 ?>
-<div class="chp-calendar-wrap" style="max-width: <?php echo (int) CHP_Settings::get( 'calendar_width' ); ?>%;">
+<div class="chp-calendar-wrap"<?php echo $grouped ? '' : ' style="max-width: ' . (int) CHP_Settings::get( 'calendar_width' ) . '%;"'; ?>>
+	<?php if ( $grouped ) : ?>
+		<h3 class="chp-calendar-title"><?php echo esc_html( $item->name ); ?></h3>
+	<?php endif; ?>
 	<div class="chp-calendar" data-item="<?php echo (int) $item->id; ?>" aria-live="polite"></div>
 	<p class="chp-legend">
 		<?php if ( $free ) : ?>

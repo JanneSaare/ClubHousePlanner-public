@@ -58,3 +58,12 @@
 .chp-modal::backdrop { background: rgba(0, 0, 0, .55); }
 .chp-modal__title { margin: 0 2em .6em 0; }
 .chp-modal__close { position: absolute; top: .4em; right: .6em; border: 0; background: none; font-size: 2em; line-height: 1; cursor: pointer; }
+
+/* Several calendars side by side ([clubhouse_calendars]); they stack on narrow screens. */
+.chp-calendars { display: flex; flex-wrap: wrap; gap: 1em 1.5em; justify-content: center; margin: 1.5em auto; }
+.chp-calendars > .chp-calendar-wrap { flex: 1 1 19em; min-width: 0; max-width: 30em; margin: 0; }
+.chp-calendar-title { margin: 0 0 .4em; font-size: 1.1em; text-align: center; }
+.chp-calendars .chp-cal__day { min-height: 3.4em; font-size: .8em; }
+.chp-calendars .chp-cal__title { font-size: 1em; }
+.chp-flash { animation: chp-flash 1.4s ease-out; }
+@keyframes chp-flash { from { box-shadow: 0 0 0 3px #2271b1; } to { box-shadow: 0 0 0 3px transparent; } }

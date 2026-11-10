@@ -48,8 +48,14 @@
 			input.value = ymd(date) + 'T' + (input.value.slice(11, 16) || '10:00');
 			input.dispatchEvent(new Event('change', { bubbles: true }));
 		}
-		input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-		input.focus();
+		// Keep the calendar where it is: only scroll if the field is not on screen.
+		var box = input.getBoundingClientRect();
+		var visible = box.top >= 0 && box.bottom <= (window.innerHeight || document.documentElement.clientHeight);
+		if (!visible) input.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+		input.focus({ preventScroll: true });
+		input.classList.remove('chp-flash');
+		void input.offsetWidth; // Restart the highlight if it is still running.
+		input.classList.add('chp-flash');
 	}
 
 	function init(root) {
