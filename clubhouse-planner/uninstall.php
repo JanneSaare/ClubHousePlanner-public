@@ -5,6 +5,7 @@ global $wpdb;
 
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}chp_booking_log" );
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}chp_bookings" );
+$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}chp_items" );
 
 wp_clear_scheduled_hook( 'chp_daily_reminders' );
 

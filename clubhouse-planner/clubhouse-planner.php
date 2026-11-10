@@ -19,6 +19,7 @@ define( 'CHP_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CHP_URL', plugin_dir_url( __FILE__ ) );
 
 require_once CHP_DIR . 'includes/class-chp-settings.php';
+require_once CHP_DIR . 'includes/class-chp-items.php';
 require_once CHP_DIR . 'includes/class-chp-bookings.php';
 require_once CHP_DIR . 'includes/class-chp-mailer.php';
 require_once CHP_DIR . 'includes/class-chp-reminders.php';

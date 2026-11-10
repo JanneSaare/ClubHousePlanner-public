@@ -167,7 +167,7 @@ class CHP_Public {
 			$statuses[] = CHP_Bookings::PENDING;
 		}
 
-		$rows = CHP_Bookings::in_range( $start, $end, $statuses );
+		$rows = CHP_Bookings::in_range( $start, $end, $statuses, CHP_Items::default_id() );
 
 		return rest_ensure_response(
 			array_map(
@@ -232,7 +232,8 @@ class CHP_Public {
 		$start_at = $start->format( 'Y-m-d H:i:s' );
 		$end_at   = $end->format( 'Y-m-d H:i:s' );
 
-		if ( CHP_Bookings::has_overlap( $start_at, $end_at ) ) {
+		$item_id = CHP_Items::default_id();
+		if ( ! CHP_Bookings::free_units( $item_id, $start_at, $end_at ) ) {
 			$this->back( $redirect, 'taken' );
 		}
 
@@ -242,6 +243,7 @@ class CHP_Public {
 
 		$id = CHP_Bookings::create(
 			array(
+				'item_id'  => $item_id,
 				'name'     => mb_substr( $name, 0, 190 ),
 				'email'    => $email,
 				'phone'    => mb_substr( $phone, 0, 50 ),

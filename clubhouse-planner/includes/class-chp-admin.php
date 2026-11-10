@@ -243,7 +243,7 @@ class CHP_Admin {
 			$this->redirect( $url, 'invalid' );
 		}
 
-		if ( CHP_Bookings::AWAITING_PAYMENT === $to && CHP_Bookings::has_overlap( $booking->start_at, $booking->end_at, $id ) ) {
+		if ( CHP_Bookings::AWAITING_PAYMENT === $to && ! CHP_Bookings::claim_unit( $booking ) ) {
 			$this->redirect( $url, 'overlap' );
 		}
 
@@ -334,12 +334,14 @@ class CHP_Admin {
 		[ $start, $end ] = $period;
 		$start_at        = $start->format( 'Y-m-d H:i:s' );
 		$end_at          = $end->format( 'Y-m-d H:i:s' );
-		if ( CHP_Bookings::has_overlap( $start_at, $end_at ) ) {
+		$item_id = CHP_Items::default_id();
+		if ( ! CHP_Bookings::free_units( $item_id, $start_at, $end_at ) ) {
 			$back( 'taken' );
 		}
 
 		$id = CHP_Bookings::create(
 			array(
+				'item_id'  => $item_id,
 				'status'   => CHP_Bookings::CONFIRMED,
 				'name'     => mb_substr( $name, 0, 190 ),
 				'email'    => $email,

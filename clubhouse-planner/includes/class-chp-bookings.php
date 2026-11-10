@@ -201,15 +201,38 @@ class CHP_Bookings {
 
 	/**
 	 * @param array $data name, email, phone, address, slot, start_at, end_at (Y-m-d H:i:s, site time), purpose, message.
-	 *                    Optional, for bookings added by a housekeeper: status (default pending), fee, log (history note), user_id.
-	 * @return int Booking id or 0 on failure.
+	 *                    Optional: item_id (default item), unit (first free unit), and for bookings added by a housekeeper:
+	 *                    status (default pending), fee, log (history note), user_id.
+	 * @return int Booking id, or 0 on failure or when a booking that blocks the period finds no free unit.
 	 */
 	public static function create( array $data ): int {
 		global $wpdb;
 
-		$now    = current_time( 'mysql' );
-		$status = $data['status'] ?? self::PENDING;
-		$row    = array(
+		$now     = current_time( 'mysql' );
+		$status  = $data['status'] ?? self::PENDING;
+		$item_id = (int) ( $data['item_id'] ?? 0 );
+		if ( $item_id <= 0 ) {
+			$item_id = CHP_Items::default_id();
+		}
+		$unit = (string) ( $data['unit'] ?? '' );
+
+		// The item row is locked so two simultaneous requests cannot be given the same unit.
+		$wpdb->query( 'START TRANSACTION' );
+		self::lock_item( $item_id );
+
+		$free = self::free_units( $item_id, $data['start_at'], $data['end_at'] );
+		if ( '' === $unit ) {
+			// A request that does not block can share a unit; it is sorted out when it is approved.
+			$unit = $free[0] ?? 'A';
+		}
+		if ( in_array( $status, self::blocking_statuses(), true ) && ! in_array( $unit, $free, true ) ) {
+			$wpdb->query( 'ROLLBACK' );
+			return 0;
+		}
+
+		$row     = array(
+			'item_id'    => $item_id,
+			'unit'       => $unit,
 			'status'     => $status,
 			'slot'       => $data['slot'],
 			'name'       => $data['name'],
@@ -223,18 +246,19 @@ class CHP_Bookings {
 			'created_at' => $now,
 			'updated_at' => $now,
 		);
-		$formats = array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s' );
 		if ( isset( $data['fee'] ) ) {
 			$row['fee'] = (int) $data['fee'];
-			$formats[]  = '%d';
 		}
+		$formats = array_map( static fn( string $key ): string => in_array( $key, array( 'item_id', 'fee' ), true ) ? '%d' : '%s', array_keys( $row ) );
 
 		if ( ! $wpdb->insert( self::table(), $row, $formats ) ) {
+			$wpdb->query( 'ROLLBACK' );
 			return 0;
 		}
 
 		$id = (int) $wpdb->insert_id;
 		self::log( $id, $status, $data['log'] ?? __( 'Booking request submitted.', 'clubhouse-planner' ), (int) ( $data['user_id'] ?? 0 ) );
+		$wpdb->query( 'COMMIT' );
 		return $id;
 	}
 
@@ -331,7 +355,7 @@ class CHP_Bookings {
 	/**
 	 * Bookings overlapping [$start, $end) with the given statuses.
 	 */
-	public static function in_range( string $start, string $end, array $statuses ): array {
+	public static function in_range( string $start, string $end, array $statuses, int $item_id = 0 ): array {
 		global $wpdb;
 
 		if ( empty( $statuses ) ) {
@@ -341,32 +365,90 @@ class CHP_Bookings {
 		$table        = self::table();
 		$placeholders = implode( ',', array_fill( 0, count( $statuses ), '%s' ) );
 		$params       = array_merge( $statuses, array( $end, $start ) );
+		$item_sql     = '';
+		if ( $item_id > 0 ) {
+			$item_sql = ' AND item_id = %d';
+			$params[] = $item_id;
+		}
 
 		return (array) $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT id, status, slot, start_at, end_at FROM $table
-				 WHERE status IN ($placeholders) AND start_at < %s AND end_at > %s
+				"SELECT id, item_id, unit, status, slot, start_at, end_at FROM $table
+				 WHERE status IN ($placeholders) AND start_at < %s AND end_at > %s$item_sql
 				 ORDER BY start_at ASC",
 				$params
 			)
 		);
 	}
 
-	public static function has_overlap( string $start, string $end, int $exclude_id = 0 ): bool {
+	/**
+	 * Units of an item that are free for [$start, $end): not held by a blocking booking.
+	 *
+	 * @param int $exclude_id A booking to ignore (the one being approved or moved).
+	 * @return string[] Unit letters in order; empty when the item is fully booked or does not exist.
+	 */
+	public static function free_units( int $item_id, string $start, string $end, int $exclude_id = 0 ): array {
 		global $wpdb;
+
+		$item = CHP_Items::get( $item_id );
+		if ( ! $item ) {
+			return array();
+		}
 
 		$statuses     = self::blocking_statuses();
 		$table        = self::table();
 		$placeholders = implode( ',', array_fill( 0, count( $statuses ), '%s' ) );
-		$params       = array_merge( $statuses, array( $end, $start, $exclude_id ) );
+		$params       = array_merge( array( $item_id ), $statuses, array( $end, $start, $exclude_id ) );
 
-		return (int) $wpdb->get_var(
+		$taken = (array) $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT COUNT(*) FROM $table
-				 WHERE status IN ($placeholders) AND start_at < %s AND end_at > %s AND id <> %d",
+				"SELECT DISTINCT unit FROM $table
+				 WHERE item_id = %d AND status IN ($placeholders) AND start_at < %s AND end_at > %s AND id <> %d",
 				$params
 			)
-		) > 0;
+		);
+
+		return array_values( array_diff( CHP_Items::unit_labels( (int) $item->quantity ), $taken ) );
+	}
+
+	/**
+	 * Make sure a booking holds a unit that is free for its period, moving it to another free unit if its own was taken.
+	 * Used when a request is approved, because pending requests do not block and may share a unit.
+	 *
+	 * @return bool False when no unit is free.
+	 */
+	public static function claim_unit( object $booking ): bool {
+		global $wpdb;
+
+		$wpdb->query( 'START TRANSACTION' );
+		self::lock_item( (int) $booking->item_id );
+
+		$free = self::free_units( (int) $booking->item_id, $booking->start_at, $booking->end_at, (int) $booking->id );
+		if ( ! $free ) {
+			$wpdb->query( 'ROLLBACK' );
+			return false;
+		}
+
+		if ( ! in_array( $booking->unit, $free, true ) ) {
+			$wpdb->update( self::table(), array( 'unit' => $free[0] ), array( 'id' => (int) $booking->id ), array( '%s' ), array( '%d' ) );
+			self::log(
+				(int) $booking->id,
+				$booking->status,
+				/* translators: 1: previous unit letter, 2: new unit letter */
+				sprintf( __( 'Unit changed from %1$s to %2$s because the first one was already taken.', 'clubhouse-planner' ), $booking->unit, $free[0] ),
+				get_current_user_id()
+			);
+		}
+
+		$wpdb->query( 'COMMIT' );
+		return true;
+	}
+
+	/** Serialise unit assignment per item. Must be called inside a transaction. */
+	private static function lock_item( int $item_id ): void {
+		global $wpdb;
+		$items = CHP_Items::table();
+		$wpdb->get_var( $wpdb->prepare( "SELECT id FROM $items WHERE id = %d FOR UPDATE", $item_id ) );
 	}
 
 	public static function set_status( int $id, string $status, string $note = '' ): bool {
