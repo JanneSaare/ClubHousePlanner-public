@@ -100,7 +100,7 @@ $free     = CHP_Pricing::is_priced( $item );
 			</div>
 			<?php $streets = CHP_Settings::local_streets(); ?>
 			<?php if ( CHP_Items::asks_address( $item ) ) : ?>
-			<div class="chp-row">
+			<div class="chp-row chp-row--street">
 				<?php if ( $streets ) : ?>
 					<p class="chp-grow">
 						<label for="chp_street"><?php esc_html_e( 'Street', 'clubhouse-planner' ); ?> *</label>

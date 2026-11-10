@@ -79,3 +79,13 @@
 	.chp-row--times > p { flex-basis: 100%; }
 }
 .chp-row--times > p { margin-bottom: .4em; }
+
+/* Street and street number on one line: the street takes the space, the number stays narrow. */
+.chp-row--street { flex-wrap: nowrap; }
+.chp-row--street > p { min-width: 0; }
+.chp-row--street > .chp-grow { flex: 1 1 0; }
+.chp-row--street > p:not(.chp-grow) { flex: 0 0 9em; }
+@media (max-width: 30em) {
+	.chp-row--street { flex-wrap: wrap; }
+	.chp-row--street > p, .chp-row--street > .chp-grow, .chp-row--street > p:not(.chp-grow) { flex: 1 1 100%; }
+}
