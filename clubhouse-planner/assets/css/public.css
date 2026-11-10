@@ -67,3 +67,12 @@
 .chp-calendars .chp-cal__title { font-size: 1em; }
 .chp-flash { animation: chp-flash 1.4s ease-out; }
 @keyframes chp-flash { from { box-shadow: 0 0 0 3px #2271b1; } to { box-shadow: 0 0 0 3px transparent; } }
+
+/* From / To: always side by side; the inputs may shrink instead of wrapping. Stacked only on small screens. */
+.chp-row--times { flex-wrap: nowrap; }
+.chp-row--times > p { flex: 1 1 0; min-width: 0; }
+.chp-row--times input { min-width: 0; }
+@media (max-width: 30em) {
+	.chp-row--times { flex-wrap: wrap; }
+	.chp-row--times > p { flex-basis: 100%; }
+}

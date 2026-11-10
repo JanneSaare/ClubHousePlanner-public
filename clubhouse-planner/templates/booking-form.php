@@ -79,9 +79,9 @@ $free     = CHP_Pricing::is_priced( $item );
 		<?php if ( $free ) : ?>
 		<fieldset class="chp-fieldset">
 			<legend><?php esc_html_e( 'Date and time', 'clubhouse-planner' ); ?></legend>
-			<div class="chp-row">
-				<p>
-					<label for="chp_start"><?php esc_html_e( 'From', 'clubhouse-planner' ); ?> *</label>
+			<div class="chp-row chp-row--times">
+			<p>
+			<label for="chp_start"><?php esc_html_e( 'From', 'clubhouse-planner' ); ?> *</label>
 					<input type="datetime-local" id="chp_start" name="chp_start" min="<?php echo esc_attr( wp_date( 'Y-m-d\TH:i' ) ); ?>" required>
 				</p>
 				<p>
