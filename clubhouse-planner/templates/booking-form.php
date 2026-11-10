@@ -33,49 +33,6 @@ $free     = CHP_Pricing::is_priced( $item );
 			<label>Website <input type="text" name="chp_website" tabindex="-1" autocomplete="off"></label>
 		</p>
 
-		<fieldset class="chp-fieldset">
-			<legend><?php esc_html_e( 'Contact details', 'clubhouse-planner' ); ?></legend>
-			<div class="chp-row">
-				<p>
-					<label for="chp_name"><?php esc_html_e( 'Name', 'clubhouse-planner' ); ?> *</label>
-					<input type="text" id="chp_name" name="chp_name" maxlength="190" autocomplete="name" required>
-				</p>
-				<p>
-					<label for="chp_email"><?php esc_html_e( 'Email', 'clubhouse-planner' ); ?> *</label>
-					<input type="email" id="chp_email" name="chp_email" maxlength="190" autocomplete="email" required>
-				</p>
-				<p>
-					<label for="chp_phone"><?php esc_html_e( 'Phone', 'clubhouse-planner' ); ?></label>
-					<input type="tel" id="chp_phone" name="chp_phone" maxlength="50" autocomplete="tel">
-				</p>
-			</div>
-			<?php $streets = CHP_Settings::local_streets(); ?>
-			<?php if ( CHP_Items::asks_address( $item ) ) : ?>
-			<div class="chp-row">
-				<?php if ( $streets ) : ?>
-					<p class="chp-grow">
-						<label for="chp_street"><?php esc_html_e( 'Street', 'clubhouse-planner' ); ?> *</label>
-						<select id="chp_street" name="chp_street" required>
-							<option value=""><?php esc_html_e( '— Choose street —', 'clubhouse-planner' ); ?></option>
-							<?php foreach ( $streets as $street ) : ?>
-								<option value="<?php echo esc_attr( $street ); ?>"><?php echo esc_html( $street ); ?></option>
-							<?php endforeach; ?>
-							<option value="<?php echo esc_attr( CHP_Public::OTHER_STREET ); ?>"><?php esc_html_e( 'Other street', 'clubhouse-planner' ); ?></option>
-						</select>
-					</p>
-				<?php endif; ?>
-				<p class="chp-grow chp-street-other">
-					<label for="chp_street_other"><?php echo esc_html( $streets ? __( 'Other street', 'clubhouse-planner' ) : __( 'Street', 'clubhouse-planner' ) ); ?> *</label>
-					<input type="text" id="chp_street_other" name="chp_street_other" maxlength="150" autocomplete="address-line1"<?php echo $streets ? '' : ' required'; ?>>
-				</p>
-				<p>
-					<label for="chp_street_no"><?php esc_html_e( 'Street number', 'clubhouse-planner' ); ?> *</label>
-					<input type="text" id="chp_street_no" name="chp_street_no" maxlength="8" pattern="\d{1,5}\s?[A-Za-zÅÄÖåäö]?" title="<?php esc_attr_e( 'For example 6 or 6a', 'clubhouse-planner' ); ?>" required>
-				</p>
-			</div>
-			<?php endif; ?>
-		</fieldset>
-
 		<?php if ( $free ) : ?>
 		<fieldset class="chp-fieldset">
 			<legend><?php esc_html_e( 'Date and time', 'clubhouse-planner' ); ?></legend>
@@ -124,6 +81,49 @@ $free     = CHP_Pricing::is_priced( $item );
 			</div>
 		</fieldset>
 		<?php endif; ?>
+
+		<fieldset class="chp-fieldset">
+			<legend><?php esc_html_e( 'Contact details', 'clubhouse-planner' ); ?></legend>
+			<div class="chp-row">
+				<p>
+					<label for="chp_name"><?php esc_html_e( 'Name', 'clubhouse-planner' ); ?> *</label>
+					<input type="text" id="chp_name" name="chp_name" maxlength="190" autocomplete="name" required>
+				</p>
+				<p>
+					<label for="chp_email"><?php esc_html_e( 'Email', 'clubhouse-planner' ); ?> *</label>
+					<input type="email" id="chp_email" name="chp_email" maxlength="190" autocomplete="email" required>
+				</p>
+				<p>
+					<label for="chp_phone"><?php esc_html_e( 'Phone', 'clubhouse-planner' ); ?></label>
+					<input type="tel" id="chp_phone" name="chp_phone" maxlength="50" autocomplete="tel">
+				</p>
+			</div>
+			<?php $streets = CHP_Settings::local_streets(); ?>
+			<?php if ( CHP_Items::asks_address( $item ) ) : ?>
+			<div class="chp-row">
+				<?php if ( $streets ) : ?>
+					<p class="chp-grow">
+						<label for="chp_street"><?php esc_html_e( 'Street', 'clubhouse-planner' ); ?> *</label>
+						<select id="chp_street" name="chp_street" required>
+							<option value=""><?php esc_html_e( '— Choose street —', 'clubhouse-planner' ); ?></option>
+							<?php foreach ( $streets as $street ) : ?>
+								<option value="<?php echo esc_attr( $street ); ?>"><?php echo esc_html( $street ); ?></option>
+							<?php endforeach; ?>
+							<option value="<?php echo esc_attr( CHP_Public::OTHER_STREET ); ?>"><?php esc_html_e( 'Other street', 'clubhouse-planner' ); ?></option>
+						</select>
+					</p>
+				<?php endif; ?>
+				<p class="chp-grow chp-street-other">
+					<label for="chp_street_other"><?php echo esc_html( $streets ? __( 'Other street', 'clubhouse-planner' ) : __( 'Street', 'clubhouse-planner' ) ); ?> *</label>
+					<input type="text" id="chp_street_other" name="chp_street_other" maxlength="150" autocomplete="address-line1"<?php echo $streets ? '' : ' required'; ?>>
+				</p>
+				<p>
+					<label for="chp_street_no"><?php esc_html_e( 'Street number', 'clubhouse-planner' ); ?> *</label>
+					<input type="text" id="chp_street_no" name="chp_street_no" maxlength="8" pattern="\d{1,5}\s?[A-Za-zÅÄÖåäö]?" title="<?php esc_attr_e( 'For example 6 or 6a', 'clubhouse-planner' ); ?>" required>
+				</p>
+			</div>
+			<?php endif; ?>
+		</fieldset>
 
 		<fieldset class="chp-fieldset">
 			<legend><?php esc_html_e( 'Additional information', 'clubhouse-planner' ); ?></legend>
