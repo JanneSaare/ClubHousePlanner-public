@@ -410,8 +410,8 @@ class CHP_Public {
 		$item_id = (int) $item->id;
 		$free    = CHP_Pricing::is_priced( $item );
 
-		// Free-time items do not ask for an address.
-		$address = $free ? '' : $this->build_address( $post );
+		// The address (street list and standard fee) is asked per item.
+		$address = CHP_Items::asks_address( $item ) ? $this->build_address( $post ) : '';
 
 		if ( CHP_Settings::house_rules_page() && empty( $post['chp_rules'] ) ) {
 			$this->back( $redirect, 'rules' );

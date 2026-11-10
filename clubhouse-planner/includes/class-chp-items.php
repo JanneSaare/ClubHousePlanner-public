@@ -47,6 +47,19 @@ class CHP_Items {
 		return $labels;
 	}
 
+	/** Whether the booking form asks for a street address (with the standard-fee street list). */
+	public static function asks_address( object $item ): bool {
+		return ! isset( $item->ask_address ) || (bool) (int) $item->ask_address;
+	}
+
+	/** Like get(), but remembers the item for the rest of the request. */
+	public static function find( int $id ): ?object {
+		if ( ! array_key_exists( $id, self::$cache ) ) {
+			self::$cache[ $id ] = self::get( $id );
+		}
+		return self::$cache[ $id ];
+	}
+
 	/** Unit letters are only shown when an item has more than one unit. */
 	public static function show_unit( object $item ): bool {
 		return (int) $item->quantity > 1;
@@ -153,11 +166,8 @@ class CHP_Items {
 
 	/** Item and unit of a booking as text; empty when the item no longer exists. */
 	public static function booking_label( object $booking ): string {
-		$id = (int) ( $booking->item_id ?? 0 );
-		if ( ! isset( self::$cache[ $id ] ) ) {
-			self::$cache[ $id ] = self::get( $id );
-		}
-		return self::$cache[ $id ] ? self::label( self::$cache[ $id ], (string) ( $booking->unit ?? '' ) ) : '';
+		$item = self::find( (int) ( $booking->item_id ?? 0 ) );
+		return $item ? self::label( $item, (string) ( $booking->unit ?? '' ) ) : '';
 	}
 
 	/** Zero-based index of a unit letter: A = 0, Z = 25, AA = 26. */
@@ -340,6 +350,7 @@ class CHP_Items {
 			'purpose_mode' => $mode,
 			'purposes'     => $purposes ? wp_json_encode( array_map( fn( string $p ): string => mb_substr( $p, 0, 190 ), $purposes ) ) : null,
 			'key_box_code' => '' === $key_box ? null : $key_box,
+			'ask_address'  => empty( $input['ask_address'] ) ? 0 : 1,
 		);
 	}
 

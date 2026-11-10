@@ -82,20 +82,22 @@ $local = CHP_Bookings::is_local( $booking ) || $priced;
 				<tr><th><?php esc_html_e( 'Name', 'clubhouse-planner' ); ?></th><td><?php echo esc_html( $booking->name ); ?></td></tr>
 				<tr><th><?php esc_html_e( 'Email', 'clubhouse-planner' ); ?></th><td><?php if ( '' !== (string) $booking->email ) : ?><a href="<?php echo esc_url( 'mailto:' . $booking->email ); ?>"><?php echo esc_html( $booking->email ); ?></a><?php endif; ?></td></tr>
 				<tr><th><?php esc_html_e( 'Phone', 'clubhouse-planner' ); ?></th><td><?php echo esc_html( $booking->phone ); ?></td></tr>
-				<?php if ( ! $priced ) : ?>
+				<?php if ( '' !== (string) $booking->address || ! $priced ) : ?>
 				<tr>
 					<th><?php esc_html_e( 'Address', 'clubhouse-planner' ); ?></th>
 					<td>
 						<?php echo esc_html( (string) $booking->address ); ?>
-						<?php if ( $local ) : ?>
-							<span class="chp-fee-tag chp-fee-tag--standard"><?php esc_html_e( 'Standard fee', 'clubhouse-planner' ); ?></span>
-						<?php else : ?>
-							<span class="chp-fee-tag chp-fee-tag--other"><?php esc_html_e( 'Other address', 'clubhouse-planner' ); ?></span>
+						<?php if ( ! $priced ) : ?>
+							<?php if ( $local ) : ?>
+								<span class="chp-fee-tag chp-fee-tag--standard"><?php esc_html_e( 'Standard fee', 'clubhouse-planner' ); ?></span>
+							<?php else : ?>
+								<span class="chp-fee-tag chp-fee-tag--other"><?php esc_html_e( 'Other address', 'clubhouse-planner' ); ?></span>
+							<?php endif; ?>
 						<?php endif; ?>
-						/td>
-						/tr>
-						?php endif; ?>
-						?php if ( null !== $booking->fee ) : ?>
+					</td>
+				</tr>
+				<?php endif; ?>
+				<?php if ( null !== $booking->fee ) : ?>
 					<tr><th><?php esc_html_e( 'Fee', 'clubhouse-planner' ); ?></th><td><strong><?php echo esc_html( CHP_Bookings::format_fee( (int) $booking->fee ) ); ?></strong></td></tr>
 				<?php endif; ?>
 				<tr><th><?php esc_html_e( 'Purpose', 'clubhouse-planner' ); ?></th><td><?php echo esc_html( $booking->purpose ); ?></td></tr>

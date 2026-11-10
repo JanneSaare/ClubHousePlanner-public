@@ -50,7 +50,7 @@ $free     = CHP_Pricing::is_priced( $item );
 				</p>
 			</div>
 			<?php $streets = CHP_Settings::local_streets(); ?>
-			<?php if ( ! $free ) : ?>
+			<?php if ( CHP_Items::asks_address( $item ) ) : ?>
 			<div class="chp-row">
 				<?php if ( $streets ) : ?>
 					<p class="chp-grow">

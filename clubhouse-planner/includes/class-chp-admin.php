@@ -289,6 +289,7 @@ class CHP_Admin {
 				'purpose_mode' => 'none',
 				'purposes'     => null,
 				'key_box_code' => null,
+				'ask_address'  => 1,
 				'booking_mode' => CHP_Items::MODE_FREE,
 				'fee_unit'     => CHP_Pricing::FEE_DAY,
 				'fee_weekday'  => 0,

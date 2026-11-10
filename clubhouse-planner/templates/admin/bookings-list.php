@@ -83,7 +83,7 @@ $period_url = $status ? add_query_arg( 'status', $status, $base_url ) : $base_ur
 						<?php echo esc_html( $b->email ); ?>
 						<?php if ( '' !== (string) $b->address ) : ?>
 							<br><?php echo esc_html( $b->address ); ?>
-							<?php if ( ! CHP_Bookings::is_local( $b ) ) : ?>
+							<?php if ( ! CHP_Pricing::is_priced( CHP_Items::find( (int) $b->item_id ) ) && ! CHP_Bookings::is_local( $b ) ) : ?>
 								<span class="chp-fee-tag chp-fee-tag--other"><?php esc_html_e( 'Other address', 'clubhouse-planner' ); ?></span>
 							<?php endif; ?>
 						<?php endif; ?>

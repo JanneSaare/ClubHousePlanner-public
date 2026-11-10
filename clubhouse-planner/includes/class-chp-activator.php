@@ -3,7 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 class CHP_Activator {
 
-	const DB_VERSION = '6';
+	const DB_VERSION = '7';
 	const ROLE       = 'chp_housekeeper';
 	const ROLE_NAME  = 'Club House Housekeeper';
 	const CAP        = 'manage_clubhouse_bookings';
@@ -49,6 +49,7 @@ class CHP_Activator {
 			max_duration int(10) unsigned NULL,
 			min_notice int(10) unsigned NULL,
 			key_box_code varchar(100) NULL,
+			ask_address tinyint(1) NOT NULL DEFAULT 1,
 			created_at datetime NOT NULL,
 			updated_at datetime NOT NULL,
 			PRIMARY KEY  (id)

@@ -159,6 +159,13 @@ $base_url = admin_url( 'admin.php?page=chp-items' );
 					</td>
 				</tr>
 				<tr>
+					<th scope="row"><?php esc_html_e( 'Address', 'clubhouse-planner' ); ?></th>
+					<td>
+						<label><input type="checkbox" name="ask_address" value="1" <?php checked( CHP_Items::asks_address( $item ) ); ?>> <?php esc_html_e( 'Ask for street and street number', 'clubhouse-planner' ); ?></label>
+						<p class="description"><?php esc_html_e( 'Uses the street list under Settings. For fixed booking types the address decides whether the standard fee applies. For items where the customer chooses start and end, the price is calculated from the price list for everyone, and the address is only recorded.', 'clubhouse-planner' ); ?></p>
+					</td>
+				</tr>
+				<tr>
 					<th scope="row"><label for="chp-item-purpose-mode"><?php esc_html_e( 'Purpose field', 'clubhouse-planner' ); ?></label></th>
 					<td>
 						<select id="chp-item-purpose-mode" name="purpose_mode">
