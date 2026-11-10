@@ -793,9 +793,6 @@ msgstr "Använd detta för att registrera en bokning själv. Den bekräftas dire
 msgid "Optional. Nothing is sent to this address."
 msgstr "Valfritt. Inget skickas till den här adressen."
 
-msgid "0 means free of charge."
-msgstr "0 betyder kostnadsfritt."
-
 msgid "Adding a booking yourself"
 msgstr "Lägga till en bokning själv"
 
@@ -1302,3 +1299,9 @@ msgstr "Bokningsformulär"
 
 msgid "Calendar"
 msgstr "Kalender"
+
+msgid "Leave empty for free of charge, or for the price from the price list on items where the customer chooses start and end."
+msgstr "Lämna tomt för kostnadsfritt, eller för priset från prislistan för objekt där kunden väljer start och slut."
+
+msgid "Automatic (first free unit)"
+msgstr "Automatiskt (första lediga enhet)"

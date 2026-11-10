@@ -261,7 +261,6 @@ return array(
 		'Booking added by a housekeeper. No email was sent.' => 'Bokningen lades till av en stugvärd. Inget e-postmeddelande skickades.',
 		'Use this to register a booking yourself. It is confirmed immediately and no email is sent to anyone.' => 'Använd detta för att registrera en bokning själv. Den bekräftas direkt och inget e-postmeddelande skickas till någon.',
 		'Optional. Nothing is sent to this address.' => 'Valfritt. Inget skickas till den här adressen.',
-		'0 means free of charge.' => '0 betyder kostnadsfritt.',
 		'Adding a booking yourself' => 'Lägga till en bokning själv',
 		'Use this when the booking was agreed outside the website, for example by phone or in person, or to block the house for your own use. Nothing is sent to anyone.' => 'Använd detta när bokningen har avtalats utanför webbplatsen, till exempel per telefon eller på plats, eller för att blockera stugan för eget bruk. Inget skickas till någon.',
 		'Press "Add booking" on the bookings page, or choose Club House → Add booking in the menu.' => 'Tryck på "Lägg till bokning" på bokningssidan, eller välj Stugan → Lägg till bokning i menyn.',
@@ -429,5 +428,7 @@ return array(
 		'Paste these into a page. The number is the item number shown in the item list.' => 'Klistra in dessa på en sida. Numret är objektnumret som visas i objektlistan.',
 		'Booking form' => 'Bokningsformulär',
 		'Calendar' => 'Kalender',
+		'Leave empty for free of charge, or for the price from the price list on items where the customer chooses start and end.' => 'Lämna tomt för kostnadsfritt, eller för priset från prislistan för objekt där kunden väljer start och slut.',
+		'Automatic (first free unit)' => 'Automatiskt (första lediga enhet)',
 	),
 );

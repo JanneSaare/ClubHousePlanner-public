@@ -792,9 +792,6 @@ msgstr ""
 msgid "Optional. Nothing is sent to this address."
 msgstr ""
 
-msgid "0 means free of charge."
-msgstr ""
-
 msgid "Adding a booking yourself"
 msgstr ""
 
@@ -1300,4 +1297,10 @@ msgid "Booking form"
 msgstr ""
 
 msgid "Calendar"
+msgstr ""
+
+msgid "Leave empty for free of charge, or for the price from the price list on items where the customer chooses start and end."
+msgstr ""
+
+msgid "Automatic (first free unit)"
 msgstr ""

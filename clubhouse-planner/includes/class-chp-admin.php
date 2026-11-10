@@ -396,6 +396,9 @@ class CHP_Admin {
 			'email'   => __( 'The email address is not valid.', 'clubhouse-planner' ),
 			'taken'   => __( 'The club house is already booked during that time.', 'clubhouse-planner' ),
 			'blocked' => __( 'That time is in a blocked period. Remove or change the blocked period first.', 'clubhouse-planner' ),
+			'item'    => __( 'Choose an item from the list.', 'clubhouse-planner' ),
+			'unit'    => __( 'That unit does not exist for the chosen item.', 'clubhouse-planner' ),
+			'order'   => __( 'The end must be after the start.', 'clubhouse-planner' ),
 			'failed'  => __( 'The booking could not be saved.', 'clubhouse-planner' ),
 		);
 	}
@@ -524,13 +527,33 @@ class CHP_Admin {
 			exit;
 		};
 
-		$post    = wp_unslash( $_POST );
-		$name    = sanitize_text_field( $post['name'] ?? '' );
-		$email   = sanitize_email( $post['email'] ?? '' );
-		$slot    = sanitize_key( $post['slot'] ?? '' );
-		$period  = CHP_Bookings::slot_period( sanitize_text_field( $post['date'] ?? '' ), $slot );
-		$fee_in  = trim( sanitize_text_field( $post['fee'] ?? '' ) );
-		$purpose = sanitize_text_field( $post['purpose'] ?? '' );
+		$post   = wp_unslash( $_POST );
+		$wanted = absint( $post['item_id'] ?? 0 );
+		$item   = CHP_Items::get( $wanted ? $wanted : CHP_Items::default_id() );
+		if ( ! $item || ! (int) $item->active ) {
+			$back( 'item' );
+		}
+		$item_id = (int) $item->id;
+
+		$name   = sanitize_text_field( $post['name'] ?? '' );
+		$email  = sanitize_email( $post['email'] ?? '' );
+		$fee_in = trim( sanitize_text_field( $post['fee'] ?? '' ) );
+
+		// Fixed booking types: a date and a type. Free choice: a start and an end. The housekeeper is not held to
+		// the customer rules (notice, shortest/longest booking, dates in the past).
+		$slot = '';
+		$free = CHP_Pricing::is_priced( $item );
+		if ( $free ) {
+			$start = CHP_Public::parse_local( sanitize_text_field( $post['from'] ?? '' ) );
+			$end   = CHP_Public::parse_local( sanitize_text_field( $post['to'] ?? '' ) );
+			if ( $start && $end && $end <= $start ) {
+				$back( 'order' );
+			}
+			$period = $start && $end ? array( $start, $end ) : null;
+		} else {
+			$slot   = sanitize_key( $post['slot'] ?? '' );
+			$period = CHP_Bookings::slot_period( sanitize_text_field( $post['date'] ?? '' ), $slot );
+		}
 
 		if ( '' === $name || ! $period ) {
 			$back( 'missing' );
@@ -539,20 +562,45 @@ class CHP_Admin {
 			$back( 'email' );
 		}
 
+		// What the item asks for as purpose: a list, free text, or nothing (then the item name is used).
+		$purpose = sanitize_text_field( $post['purpose'] ?? '' );
+		if ( 'list' !== $item->purpose_mode && 'text' !== $item->purpose_mode ) {
+			$purpose = $item->name;
+		}
+
 		[ $start, $end ] = $period;
 		$start_at        = $start->format( 'Y-m-d H:i:s' );
 		$end_at          = $end->format( 'Y-m-d H:i:s' );
-		$item_id = CHP_Items::default_id();
 		if ( CHP_Blackouts::blocks_item( $item_id, $start_at, $end_at ) ) {
 			$back( 'blocked' );
 		}
-		if ( ! CHP_Bookings::free_units( $item_id, $start_at, $end_at ) ) {
+		$free_units = CHP_Bookings::free_units( $item_id, $start_at, $end_at );
+		if ( ! $free_units ) {
 			$back( 'taken' );
+		}
+
+		// A chosen unit must exist and be free; empty means the first free unit.
+		$unit = strtoupper( sanitize_text_field( $post['unit'] ?? '' ) );
+		if ( '' !== $unit ) {
+			if ( ! in_array( $unit, CHP_Items::unit_labels( (int) $item->quantity ), true ) ) {
+				$back( 'unit' );
+			}
+			if ( ! in_array( $unit, $free_units, true ) ) {
+				$back( 'taken' );
+			}
+		}
+
+		// Empty fee: free of charge, or the calculated price for an item the customer books by start and end.
+		if ( '' !== $fee_in ) {
+			$fee = absint( $fee_in );
+		} else {
+			$fee = $free ? CHP_Pricing::calculate( $item, $start, $end ) : 0;
 		}
 
 		$id = CHP_Bookings::create(
 			array(
 				'item_id'  => $item_id,
+				'unit'     => $unit,
 				'status'   => CHP_Bookings::CONFIRMED,
 				'name'     => mb_substr( $name, 0, 190 ),
 				'email'    => $email,
@@ -563,7 +611,7 @@ class CHP_Admin {
 				'end_at'   => $end_at,
 				'purpose'  => mb_substr( $purpose, 0, 190 ),
 				'message'  => sanitize_textarea_field( $post['message'] ?? '' ),
-				'fee'      => '' === $fee_in ? 0 : absint( $fee_in ),
+				'fee'      => $fee,
 				'log'      => __( 'Booking added by a housekeeper. No email was sent.', 'clubhouse-planner' ),
 				'user_id'  => get_current_user_id(),
 			)
